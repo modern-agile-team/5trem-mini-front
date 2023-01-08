@@ -57,3 +57,24 @@
   font-family: "GmarketSansMedium";
   src: url(../public/font/GmarketSansMedium.woff) format("woff");
 }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+}
+
+#root {
+  height: 100vh;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+
+  background-color: #f2f3f7;
+}
