@@ -21,7 +21,6 @@ function Login() {
     };
 
     const navigate = useNavigate();
-
     function signUp() {
         navigate('/signUp')
     }
