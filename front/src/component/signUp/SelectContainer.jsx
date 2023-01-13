@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import arrowimg from '../../assets/arrow.png'
 
-function SelectContainer({ width, height, name, onChangeAccount }) {
+function SelectContainer({ width, height, name, onChange }) {
 
     const [selectState, setSelectState] = useState(false);
     const openSelect = () => {
@@ -21,7 +21,7 @@ function SelectContainer({ width, height, name, onChangeAccount }) {
             <ImgSort>
                 <ArrowImg style={{ position: 'absolute', zIndex: 99 }} trun={selectState} />
             </ImgSort>
-            <Select onClick={openSelect} width={width} height={height} name={name} onChange={onChangeAccount}>
+            <Select onClick={openSelect} width={width} height={height} name={name} onChange={onChange}>
                 <option value="">이메일 선택 </option>
                 <option value="naver">naver.com</option>
                 <option value="gmail">gmail.com</option>

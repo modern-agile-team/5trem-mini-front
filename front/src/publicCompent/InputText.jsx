@@ -11,7 +11,6 @@ const InputText = styled.input`
     width: ${({ width }) => width}px;
     height: ${({ height }) => height}px;
 
-
     background: linear-gradient(95deg, #E8EBF2 0%, #E8EBF2 0%, #F2F3F7 100%);
     box-shadow: 5px 5px 20px #0F296B33;
     border: 0.2px solid #FFFFFF;

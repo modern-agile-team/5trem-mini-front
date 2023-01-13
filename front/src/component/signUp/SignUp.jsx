@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import BackGround from '../../publicCompent/BackGround';
 import LightContainer from "../../publicCompent/LightContainer";
@@ -35,10 +36,7 @@ export default function SignUp() {
         if (checkListALLTrue) {
             setCheck({
                 fullAgreement: true,
-                termsOfUse: true,
-                privacy: true,
-                sms: true,
-                email: true,
+                ...checkList,
             })
         }
         else {
@@ -47,10 +45,6 @@ export default function SignUp() {
             })
         }
     };
-
-    useEffect(() => {
-        console.log(checkList)
-    }, [checkList]);
 
     const [userInfo, setUserInfo] = useState({
         id: "",
@@ -69,6 +63,20 @@ export default function SignUp() {
             return { ...user, [e.target.name]: e.target.value };
         });
     };
+    // 
+    const stringFilterChangeAccount = (e) => {
+        let inputText = e.target.value.replace(/[^-0-9]/g, '');
+        e.target.value = inputText
+        if (inputText.length > 4) {
+            inputText = inputText.substr(0, 4);
+            e.target.value = inputText
+        }
+        setUserInfo((user) => {
+            return { ...user, [e.target.name]: inputText };
+        });
+    };
+
+    useEffect(() => { console.log(userInfo) }, [userInfo])
 
     const [idCheck, idText] = overlap.idCheck(userInfo.id);
     const [nickNameCheck, nickNameText] = overlap.nickNameCheck(userInfo.nickName)
@@ -92,6 +100,26 @@ export default function SignUp() {
     //     const [passwordCheck, passwordText] = overlap.passwordCheck(userInfo.password, userInfo.checkPassword);
     // }, [userInfo.checkPassword]);
 
+    const navigate = useNavigate();
+    function signUp() {
+        const checkUserInfo = Object.values(userInfo).indexOf('');
+        const userInfoBlankList = ['아이디', '비밀번호', '비밀번호 확인', '이름', '닉네임', '핸드폰', '핸드폰', '이메일', '이메일'];
+        const termsAgree = Object.values(checkList);
+
+        if (checkUserInfo !== -1) {
+            return alert(`${userInfoBlankList[checkUserInfo]} 입력칸 확인 부탁드립니다.`);
+        } else if (idCheck) {
+            return alert('이미 사용중인 아이디 입니다.');
+        } else if (passwordCheck) {
+            return alert('비밀번호가 일치하지 않습니다.');
+        } else if (nickNameCheck) {
+            return alert('이미 사용중인 닉네임 입니다.');
+        } else if (!(termsAgree[1] && termsAgree[2])) {
+            return alert('필수 약관에 동의하셔야 회원가입이 가능 합니다.')
+        }
+        else alert('회원가입 완료')
+    }
+
     return (
         <BackGround>
             <StyleHeader>회원가입</StyleHeader>
@@ -100,7 +128,7 @@ export default function SignUp() {
                 <DoubleCheckText Check={idCheck}>{idText}</DoubleCheckText>
             </div>
             <div style={{ height: '77px' }}>
-                <LightContainer tag={<InputText width={621} height={60} name='id' onChange={onChangeAccount} />} />
+                <LightContainer tag={<InputText width={621} height={60} maxLength='20' name='id' onChange={onChangeAccount} />} />
             </div>
 
             <MediumText style={{ width: '621px' }} >비밀번호</MediumText>
@@ -109,7 +137,7 @@ export default function SignUp() {
             </div>
 
             <div style={{ width: '621px', display: 'flex', justifyContent: 'space-between' }}>
-                <MediumText>비밀번호 확인</MediumText>
+                <MediumText>비밀번호 재확인</MediumText>
                 <DoubleCheckText Check={passwordCheck}>{passwordText}</DoubleCheckText>
             </div>
 
@@ -119,7 +147,7 @@ export default function SignUp() {
 
             <MediumText style={{ width: '621px' }} >이름</MediumText>
             <div style={{ height: '77px' }}>
-                <LightContainer tag={<InputText width={621} height={60} name='name' onChange={onChangeAccount} />} />
+                <LightContainer tag={<InputText width={621} height={60} maxLength='20' name='name' onChange={onChangeAccount} />} />
             </div>
 
             <div style={{ width: '621px', display: 'flex', justifyContent: 'space-between' }}>
@@ -128,7 +156,7 @@ export default function SignUp() {
             </div>
 
             <div style={{ height: '77px' }}>
-                <LightContainer tag={<InputText width={621} height={60} name='nickName' onChange={onChangeAccount} />} />
+                <LightContainer tag={<InputText width={621} height={60} maxLength='20' name='nickName' onChange={onChangeAccount} />} />
             </div>
 
             <MediumText style={{ width: '621px' }} >핸드폰</MediumText>
@@ -140,12 +168,12 @@ export default function SignUp() {
                     -
                 </MediumText>
                 <div style={{ marginRight: '30px' }}>
-                    <LightContainer tag={<InputText width={215} height={60} name='senterPhoneNum' onChange={onChangeAccount} />} />
+                    <LightContainer tag={<InputText width={215} height={60} name='senterPhoneNum' onChange={stringFilterChangeAccount} />} />
                 </div>
                 <MediumText style={{ marginRight: '30px' }} lineHeight={60}>
                     -
                 </MediumText>
-                <LightContainer tag={<InputText width={215} height={60} name='lastPhoneNum' onChange={onChangeAccount} />} />
+                <LightContainer tag={<InputText width={215} height={60} name='lastPhoneNum' onChange={stringFilterChangeAccount} />} />
             </div>
 
             <MediumText style={{ width: '621px' }} >이메일</MediumText>
@@ -173,7 +201,7 @@ export default function SignUp() {
             })}
             <div style={{ height: '80px' }}></div>
             <div style={{ height: '207px' }}>
-                <LightContainer tag={<StyleBtn width={400} height={80} ><div style={{ margin: '12px' }}>회원가입</div></StyleBtn>} />
+                <LightContainer tag={<StyleBtn width={400} height={80} onClick={signUp}><div style={{ margin: '12px' }}>회원가입</div></StyleBtn>} />
             </div>
 
         </BackGround >
