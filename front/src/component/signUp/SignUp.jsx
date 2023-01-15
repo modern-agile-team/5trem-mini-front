@@ -63,7 +63,7 @@ export default function SignUp() {
             return { ...user, [e.target.name]: e.target.value };
         });
     };
-    // 
+
     const stringFilterChangeAccount = (e) => {
         let inputText = e.target.value.replace(/[^-0-9]/g, '');
         e.target.value = inputText
@@ -76,8 +76,6 @@ export default function SignUp() {
         });
     };
 
-    useEffect(() => { console.log(userInfo) }, [userInfo])
-
     const [idCheck, idText] = overlap.idCheck(userInfo.id);
     const [nickNameCheck, nickNameText] = overlap.nickNameCheck(userInfo.nickName)
     const [passwordCheck, passwordText] = overlap.passwordCheck(userInfo.password, userInfo.checkPassword);
@@ -88,17 +86,6 @@ export default function SignUp() {
         { id: 'sms', description: "이용약관에 동의 하십니까?", isRequired: false },
         { id: 'email', description: "이용약관에 동의 하십니까?", isRequired: false }
     ];
-    // useEffect(() => {
-    //     const [idCheck, idText] = overlap.idCheck(userInfo.id);
-    // }, [userInfo.id]);
-
-    // useEffect(() => {
-    //     const [nickNameCheck, nickNameText] = overlap.nickNameCheck(userInfo.nickName);
-    // }, [userInfo.nickName]);
-
-    // useEffect(() => {
-    //     const [passwordCheck, passwordText] = overlap.passwordCheck(userInfo.password, userInfo.checkPassword);
-    // }, [userInfo.checkPassword]);
 
     const navigate = useNavigate();
     function signUp() {
