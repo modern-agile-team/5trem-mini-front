@@ -79,6 +79,7 @@ export default function SignUp() {
     const [idCheck, idText] = overlap.idCheck(userInfo.id);
     const [nickNameCheck, nickNameText] = overlap.nickNameCheck(userInfo.nickName)
     const [passwordCheck, passwordText] = overlap.passwordCheck(userInfo.password, userInfo.checkPassword);
+    console.log("pr 테스트 변경")
 
     const arr = [
         { id: 'termsOfUse', description: "이용약관에 동의 하십니까?", isRequired: true },
