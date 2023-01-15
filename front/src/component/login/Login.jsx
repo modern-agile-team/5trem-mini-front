@@ -21,7 +21,7 @@ function Login() {
     };
 
     const navigate = useNavigate();
-    function signUp() {
+    function login() {
         navigate('/signUp')
     }
 
@@ -38,7 +38,7 @@ function Login() {
                 <div>
                     <StyleTextBtn>아이디 찾기</StyleTextBtn>
                     <StyleTextBtn>비밀번호 찾기</StyleTextBtn>
-                    <StyleTextBtn right={true} onClick={signUp} >회원가입</StyleTextBtn>
+                    <StyleTextBtn right={true} onClick={login} >회원가입</StyleTextBtn>
                 </div>
             </div>
             <div style={{ height: '207px' }}>
