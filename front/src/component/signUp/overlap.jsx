@@ -1,19 +1,19 @@
-import React from 'react'
+import OverlapApi from '../../api/OverlapApi'
 
 const overlap = {
-    idCheck(id) {
-        const overlapList = ['lee', 'hee', 'jee'];
+    idCheck: async (id) => {
+        if (!id) return ['', ''];
 
-        const Overlap = overlapList.includes(id);
-        const text = id === '' ? '' : (Overlap ? '이미 사용중인 아이디 입니다.' : '사용가능한 아이디 입니다.');
+        const Overlap = await OverlapApi(id, "id")
+        const text = Overlap ? '이미 사용중인 아이디 입니다.' : '사용가능한 아이디 입니다.';
 
         return [Overlap, text];
     },
-    nickNameCheck(nickName) {
-        const overlapList = ['홍길동', '파이썬', '자스'];
+    nickNameCheck: async (nickName) => {
+        if (!nickName) return ['', ''];
 
-        const Overlap = overlapList.includes(nickName);
-        const text = nickName === '' ? '' : (Overlap ? '이미 사용중인 닉네임 입니다.' : '사용 가능한 닉네임 입니다');
+        const Overlap = await OverlapApi(nickName, 'nickName');
+        const text = Overlap ? '이미 사용중인 닉네임 입니다.' : '사용 가능한 닉네임 입니다';
 
         return [Overlap, text];
     },
@@ -26,3 +26,4 @@ const overlap = {
 }
 
 export default overlap;
+
