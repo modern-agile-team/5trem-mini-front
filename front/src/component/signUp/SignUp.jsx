@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
+import { debounce } from 'lodash';
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import BackGround from '../../publicCompent/BackGround';
@@ -9,8 +10,17 @@ import SelectContainer from './SelectContainer';
 import CheckBox from './CheckBox';
 import StyleBtn from '../../publicCompent/StyleBtn';
 import overlap from './overlap';
+import signUpApi from '../../api/signUpApi';
 
 export default function SignUp() {
+    const [overlapCheck, setOverlapCheck] = useState(
+        {
+            idCheck: '',
+            idText: '',
+            nickNameCheck: '',
+            nickNameText: '',
+        },
+    );
 
     const [checkList, setCheck] = useState({
         fullAgreement: false,
@@ -46,6 +56,7 @@ export default function SignUp() {
         }
     };
 
+
     const [userInfo, setUserInfo] = useState({
         id: "",
         password: "",
@@ -58,10 +69,28 @@ export default function SignUp() {
         lastEmaile: "",
     });
 
-    const onChangeAccount = (e) => {
+    const debounceOnChange = debounce(async (name, value) => {
         setUserInfo((user) => {
-            return { ...user, [e.target.name]: e.target.value };
+            return { ...user, [name]: value };
         });
+        if (name === 'id') {
+            const [idCheck, idText] = await overlap.idCheck(value);
+            console.log(idCheck)
+            setOverlapCheck((check) => {
+                return { ...check, ['idCheck']: idCheck, ['idText']: idText }
+            })
+        }
+        else if (name === 'nickName') {
+            const [nickNameCheck, nickNameText] = await overlap.nickNameCheck(value);
+            setOverlapCheck((check) => {
+                return { ...check, ['nickNameCheck']: nickNameCheck, ['nickNameText']: nickNameText }
+            })
+        }
+    }, 500);
+    const [passwordCheck, passwordText] = overlap.passwordCheck(userInfo.password, userInfo.checkPassword);
+
+    const onChangeAccount = (e) => {
+        debounceOnChange(e.target.name, e.target.value);
     };
 
     const stringFilterChangeAccount = (e) => {
@@ -71,14 +100,12 @@ export default function SignUp() {
             inputText = inputText.substr(0, 4);
             e.target.value = inputText
         }
-        setUserInfo((user) => {
-            return { ...user, [e.target.name]: inputText };
-        });
+        debounceOnChange(e.target.name, e.target.value);
     };
 
-    const [idCheck, idText] = overlap.idCheck(userInfo.id);
-    const [nickNameCheck, nickNameText] = overlap.nickNameCheck(userInfo.nickName)
-    const [passwordCheck, passwordText] = overlap.passwordCheck(userInfo.password, userInfo.checkPassword);
+    useEffect(() => {
+        console.log(userInfo)
+    }, [userInfo])
 
     const arr = [
         { id: 'termsOfUse', description: "이용약관에 동의 하십니까?", isRequired: true },
@@ -88,23 +115,23 @@ export default function SignUp() {
     ];
 
     const navigate = useNavigate();
-    function signUp() {
+    async function signUp() {
         const checkUserInfo = Object.values(userInfo).indexOf('');
         const userInfoBlankList = ['아이디', '비밀번호', '비밀번호 확인', '이름', '닉네임', '핸드폰', '핸드폰', '이메일', '이메일'];
         const termsAgree = Object.values(checkList);
 
         if (checkUserInfo !== -1) {
             return alert(`${userInfoBlankList[checkUserInfo]} 입력칸 확인 부탁드립니다.`);
-        } else if (idCheck) {
+        } else if (overlapCheck.idCheck) {
             return alert('이미 사용중인 아이디 입니다.');
         } else if (passwordCheck) {
             return alert('비밀번호가 일치하지 않습니다.');
-        } else if (nickNameCheck) {
+        } else if (overlapCheck.nickNameCheck) {
             return alert('이미 사용중인 닉네임 입니다.');
         } else if (!(termsAgree[1] && termsAgree[2])) {
-            return alert('필수 약관에 동의하셔야 회원가입이 가능 합니다.')
+            return alert('필수 약관에 동의하셔야 회원가입이 가능 합니다.');
         }
-        else alert('회원가입 완료')
+        else await signUpApi(userInfo) ? alert('회원가입 완료') : alert('회원가입 실패');
     }
 
     return (
@@ -112,7 +139,7 @@ export default function SignUp() {
             <StyleHeader>회원가입</StyleHeader>
             <div style={{ width: '621px', display: 'flex', justifyContent: 'space-between' }}>
                 <MediumText>아이디</MediumText>
-                <DoubleCheckText Check={idCheck}>{idText}</DoubleCheckText>
+                <DoubleCheckText Check={overlapCheck.idCheck}>{overlapCheck.idText}</DoubleCheckText>
             </div>
             <div style={{ height: '77px' }}>
                 <LightContainer tag={<InputText width={621} height={60} maxLength='20' name='id' onChange={onChangeAccount} />} />
@@ -139,7 +166,7 @@ export default function SignUp() {
 
             <div style={{ width: '621px', display: 'flex', justifyContent: 'space-between' }}>
                 <MediumText>닉네임</MediumText>
-                <DoubleCheckText Check={nickNameCheck}>{nickNameText}</DoubleCheckText>
+                <DoubleCheckText Check={overlapCheck.nickNameCheck}>{overlapCheck.nickNameText}</DoubleCheckText>
             </div>
 
             <div style={{ height: '77px' }}>
