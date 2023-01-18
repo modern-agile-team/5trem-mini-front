@@ -21,9 +21,9 @@ function Login() {
     };
 
     const navigate = useNavigate();
-    function login() {
-        navigate('/signUp')
-    }
+    const moveSignUp = () => { navigate('/signUp') }
+
+    const moveMainPage = () => { navigate('/mainPage') }
 
     return (
         <BackGround>
@@ -38,11 +38,11 @@ function Login() {
                 <div>
                     <StyleTextBtn>아이디 찾기</StyleTextBtn>
                     <StyleTextBtn>비밀번호 찾기</StyleTextBtn>
-                    <StyleTextBtn right={true} onClick={login} >회원가입</StyleTextBtn>
+                    <StyleTextBtn right={true} onClick={moveSignUp} >회원가입</StyleTextBtn>
                 </div>
             </div>
             <div style={{ height: '207px' }}>
-                <LightContainer tag={<StyleBtn width={400} height={80} ><div style={{ margin: '12px' }}>로그인</div></StyleBtn>} />
+                <LightContainer tag={<StyleBtn width={400} height={80} onClick={moveMainPage} ><div style={{ margin: '12px' }}>로그인</div></StyleBtn>} />
             </div>
         </BackGround>
     );

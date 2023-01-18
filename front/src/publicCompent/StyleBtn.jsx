@@ -8,6 +8,7 @@ import styled from 'styled-components';
  * @returns width와 height의 값이 적용된 button box
  */
 const StyleBtn = styled.button`
+    color: #393939;
     position: absolute;
     width: 390px;
     height: 70px;
