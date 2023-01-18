@@ -7,6 +7,7 @@ import styled from 'styled-components';
  * @param {Tag} /StyleHeader/ String /StyleHeader/
  */
 const StyleHeader = styled.div`
+    color: #393939;
     width: 300px;
     height: 70px;
     margin-top: 100px;

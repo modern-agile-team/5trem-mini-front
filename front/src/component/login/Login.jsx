@@ -6,6 +6,7 @@ import InputText from "../../publicCompent/InputText";
 import StyleHeader from "../../publicCompent/StyleHeader";
 import StyleBtn from "../../publicCompent/StyleBtn";
 import BackGround from "../../publicCompent/BackGround";
+import loginApi from "../../api/loginApi";
 
 function Login() {
 
@@ -21,9 +22,11 @@ function Login() {
     };
 
     const navigate = useNavigate();
+    const moveSignUp = () => { navigate('/signUp') }
 
-    function signUp() {
-        navigate('/signUp')
+    const moveMainPage = async () => {
+        await loginApi(userInfo) ? navigate('/mainPage') : alert(`아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.
+입력하신 내용을 다시 확인해주세요.`)
     }
 
     return (
@@ -39,11 +42,11 @@ function Login() {
                 <div>
                     <StyleTextBtn>아이디 찾기</StyleTextBtn>
                     <StyleTextBtn>비밀번호 찾기</StyleTextBtn>
-                    <StyleTextBtn right={true} onClick={signUp} >회원가입</StyleTextBtn>
+                    <StyleTextBtn right={true} onClick={moveSignUp} >회원가입</StyleTextBtn>
                 </div>
             </div>
             <div style={{ height: '207px' }}>
-                <LightContainer tag={<StyleBtn width={400} height={80} ><div style={{ margin: '12px' }}>로그인</div></StyleBtn>} />
+                <LightContainer tag={<StyleBtn width={400} height={80} onClick={moveMainPage} ><div style={{ margin: '12px' }}>로그인</div></StyleBtn>} />
             </div>
         </BackGround>
     );
