@@ -103,10 +103,6 @@ export default function SignUp() {
         debounceOnChange(e.target.name, e.target.value);
     };
 
-    useEffect(() => {
-        console.log(userInfo)
-    }, [userInfo])
-
     const arr = [
         { id: 'termsOfUse', description: "이용약관에 동의 하십니까?", isRequired: true },
         { id: 'privacy', description: "이용약관에 동의 하십니까?", isRequired: true },
@@ -131,7 +127,7 @@ export default function SignUp() {
         } else if (!(termsAgree[1] && termsAgree[2])) {
             return alert('필수 약관에 동의하셔야 회원가입이 가능 합니다.');
         }
-        else await signUpApi(userInfo) ? alert('회원가입 완료') : alert('회원가입 실패');
+        else await signUpApi(userInfo) ? navigate('/login') : alert('회원가입 실패');
     }
 
     return (
