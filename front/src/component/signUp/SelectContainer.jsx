@@ -23,9 +23,9 @@ function SelectContainer({ width, height, name, onChange }) {
             </ImgSort>
             <Select onClick={openSelect} width={width} height={height} name={name} onChange={onChange}>
                 <option value="">이메일 선택 </option>
-                <option value="naver">naver.com</option>
-                <option value="gmail">gmail.com</option>
-                <option value="daum">daum.net</option>
+                <option value="@naver.com">naver.com</option>
+                <option value="@gmail.com">gmail.com</option>
+                <option value="@daum.net">daum.net</option>
             </Select>
         </Container>
     )
