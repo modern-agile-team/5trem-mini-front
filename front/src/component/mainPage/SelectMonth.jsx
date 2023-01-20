@@ -13,7 +13,7 @@ function SelectMonth({ children }) {
 export default SelectMonth;
 
 const Month = styled.div`
-
+    user-select:none;
     font-size: 40px;
     font-family: GmarketSansMedium;
     color: #707070;

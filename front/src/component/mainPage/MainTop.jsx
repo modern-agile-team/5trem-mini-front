@@ -1,24 +1,32 @@
 import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
-import useCounter from "./useCounter";
 import SelectMonth from "./SelectMonth";
 import { ReactComponent as Arrow } from "../../assets/arrow.svg";
-import arrowHover from "../../assets/arrowHover.svg";
-import arrowActive from "../../assets/arrowActive.svg";
+import { ReactComponent as ArrowHover } from "../../assets/arrowHover.svg";
+import { ReactComponent as ArrowActive } from "../../assets/arrowActive.svg";
 
-function MainTop() {
-    const currentDate = new Date();
+function MainTop({ year, increaseYear, decreaseYear }) {
 
-    const [year, increaseYear, decreaseYear] = useCounter(currentDate.getFullYear());
-    const [Month, setMonth] = useState(1);
+    const [leftYearBtnHover, setleftYearBtnHover] = useState(false);
+    const [rightYearBtnHover, setrightYearBtnHover] = useState(false);
+    const [leftclickYearBtn, setleftClickYearBtn] = useState(false);
+    const [rightclickYearBtn, setrightClickYearBtn] = useState(false);
 
     return (
         <div style={{ display: "flex", flexDirection: 'column-reverse', width: '100%' }}>
             <div style={{ display: "flex", width: '1100px', margin: '50px auto 0', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div style={{ display: "flex", alignItems: 'center' }}>
-                    <YearBtn onClick={decreaseYear} hover={arrowHover} active={arrowActive} style={{ transform: 'rotate( 90deg )', margin: '0px 15px 0px 13px' }}></YearBtn> {/* 왼쪽 */}
-                    <Year>{year}</Year>
-                    <YearBtn onClick={increaseYear} hover={arrowHover} active={arrowActive} style={{ transform: 'rotate( -90deg )', margin: '0px 13px 0px 15px' }}></YearBtn> {/* 오른쪽 */}
+                    <div onMouseOver={() => setleftYearBtnHover(true)} onMouseOut={() => setleftYearBtnHover(false)}
+                        onClick={() => setleftClickYearBtn(true)} style={{ transform: 'rotate( 90deg )', margin: '0px 15px 0px 13px' }}>
+                        {leftYearBtnHover ? (leftclickYearBtn ? <ArrowActive onMouseOver={() => setTimeout(() => setleftClickYearBtn(false), 150)} /> : <ArrowHover onClick={decreaseYear} />) : <Arrow />}
+                    </div>
+                    <Year style={{ display: "flex", width: '165px', height: '80px' }}>
+                        {year}
+                    </Year>
+                    <div onMouseOver={() => setrightYearBtnHover(true)} onMouseOut={() => setrightYearBtnHover(false)}
+                        onClick={() => setrightClickYearBtn(true)} style={{ transform: 'rotate( -90deg )', margin: '0px 13px 0px 15px' }}>
+                        {rightYearBtnHover ? (rightclickYearBtn ? <ArrowActive onMouseOver={() => setTimeout(() => setrightClickYearBtn(false), 150)} /> : <ArrowHover onClick={increaseYear} />) : <Arrow />}
+                    </div>
                     <SelectMonth>
                         <MonthBtn><Arrow /></MonthBtn>
                     </SelectMonth>
@@ -38,6 +46,7 @@ const StyleTextBtn = styled.div`
     font-family: GmarketSansMedium;
     padding: 10px 21px;
     color: #707070;
+    user-select:none;
 `;
 
 const MonthBtn = styled.button`
@@ -48,18 +57,14 @@ const MonthBtn = styled.button`
     box-shadow: 3px 3px 10px #0F296B33;
     border: 0.20000000298023224px solid #FFFFFF;
     border-radius: 5px;
+    
 `;
 
 const Year = styled.div`
     font-size: 60px;
     font-family: GmarketSansBold;
     color: #393939;
-`;
-
-const YearBtn = styled(Arrow)`
-     &:hover {
-        content: ${({ hover }) => hover};
-     }
+    user-select:none;
 `;
 
 

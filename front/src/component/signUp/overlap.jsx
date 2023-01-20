@@ -1,4 +1,4 @@
-import overlapApi from '../../api/overlapApi'
+import overlapApi from '../../api/OverlapApi'
 
 const overlap = {
     idCheck: async (id) => {
