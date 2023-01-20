@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default function DiaryBtn() {
-    return (
-        <div>DiaryBtn</div>
-    )
+  return <div>DiaryBtn</div>;
 }
