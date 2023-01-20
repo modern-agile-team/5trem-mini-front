@@ -7,6 +7,7 @@ import styled from "styled-components";
  * @param {Number} height input 세로길이(px단위)
  * @returns width와 height의 값이 적용된 button box
  */
+
 const StyleBtn = styled.button`
   color: #393939;
   position: absolute;

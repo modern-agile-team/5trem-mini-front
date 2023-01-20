@@ -24,14 +24,16 @@ function SelectMonth({ children, month, setMonth }) {
   return (
     <div style={{ display: "flex", height: "80px", alignItems: "flex-end" }}>
       <Month>{month}</Month>
-      <SelectUl
-        selectList={selectMonthList}
-        setSelectList={setSelectMonthList}
-        value={month}
-        changeValue={setMonth}
-      >
-        {children}
-      </SelectUl>
+      <div style={{ paddingBottom: "11px" }}>
+        <SelectUl
+          selectList={selectMonthList}
+          setSelectList={setSelectMonthList}
+          month={month}
+          setMonth={setMonth}
+        >
+          {children}
+        </SelectUl>
+      </div>
     </div>
   );
 }

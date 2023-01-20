@@ -1,15 +1,21 @@
 import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import SelectMonth from "./SelectMonth";
+import { useLocation } from "react-router-dom";
 import { ReactComponent as Arrow } from "../../assets/arrow.svg";
 import { ReactComponent as ArrowHover } from "../../assets/arrowHover.svg";
 import { ReactComponent as ArrowActive } from "../../assets/arrowActive.svg";
+import SelectFriend from "./SelectFriend";
 
 function MainTop({ year, increaseYear, decreaseYear, month, setMonth }) {
   const [leftYearBtnHover, setleftYearBtnHover] = useState(false);
   const [rightYearBtnHover, setrightYearBtnHover] = useState(false);
   const [leftclickYearBtn, setleftClickYearBtn] = useState(false);
   const [rightclickYearBtn, setrightClickYearBtn] = useState(false);
+
+  const location = useLocation();
+  const moveFirend = location.pathname === "/mainPage/friend";
+  const moveMyPage = false; /* 수정 예정 */
 
   return (
     <div
@@ -79,7 +85,7 @@ function MainTop({ year, increaseYear, decreaseYear, month, setMonth }) {
             )}
           </div>
           <SelectMonth month={month} setMonth={setMonth}>
-            <MonthBtn>
+            <MonthBtn style={{ paddingTop: "5px" }}>
               <Arrow />
             </MonthBtn>
           </SelectMonth>
@@ -87,8 +93,10 @@ function MainTop({ year, increaseYear, decreaseYear, month, setMonth }) {
         <div
           style={{ display: "flex", height: "80px", alignItems: "flex-end" }}
         >
-          <StyleTextBtn>친구</StyleTextBtn>
-          <StyleTextBtn>마이페이지</StyleTextBtn>
+          <SelectFriend>
+            <StyleTextBtn movePage={moveFirend}>친구</StyleTextBtn>
+          </SelectFriend>
+          <StyleTextBtn movePage={moveMyPage}>마이페이지</StyleTextBtn>
           <StyleTextBtn>로그아웃</StyleTextBtn>
         </div>
       </div>
@@ -98,7 +106,8 @@ function MainTop({ year, increaseYear, decreaseYear, month, setMonth }) {
 
 const StyleTextBtn = styled.div`
   letter-spacing: 0px;
-  font-family: GmarketSansMedium;
+  font-family: ${({ movePage }) =>
+    movePage ? "GmarketSansBold" : "GmarketSansMedium"};
   padding: 10px 21px;
   color: #707070;
   user-select: none;
