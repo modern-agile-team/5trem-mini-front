@@ -1,17 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 
-function SelectUl({ children }) {
+function SelectUl({ children, value, changeValue, selectList, setSelectList }) {
     const [show, setShow] = useState(false);
     const toggleUl = () => { setShow(prev => !prev) };
-    let test = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '11', '12'];
+
+    const conversion = (e) => {
+        selectList = selectList.map((Element) => {
+            return Element !== e.target.textContent ? Element : value;
+        }).sort((a, b) => a - b);
+
+        setSelectList(selectList);
+        changeValue(e.target.textContent);
+    };
 
     return (
         <div style={{ paddingBottom: '10px' }}>
             <SelectBtn onClick={toggleUl}>{children}
                 {show && (<SelectList>
-                    {test.map((value, index) => <SelectItem key={index}>{value}</SelectItem>)}
+                    {selectList.map((value, index) => <SelectItem onClick={conversion} key={index}>{value}</SelectItem>)}
                     <div style={{ paddingBottom: '15px' }}></div>
                 </SelectList>)}
             </SelectBtn>
@@ -43,7 +51,7 @@ const SelectItem = styled.li`
     padding-top: 15px;
     font: 15px Gmarket Sans;
     color: #FFFFFF;
-
+    user-select:none;
 `;
 
 export default SelectUl;
