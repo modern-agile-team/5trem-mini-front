@@ -6,6 +6,7 @@ import { ReactComponent as Arrow } from "../../assets/arrow.svg";
 import { ReactComponent as ArrowHover } from "../../assets/arrowHover.svg";
 import { ReactComponent as ArrowActive } from "../../assets/arrowActive.svg";
 import SelectFriend from "./SelectFriend";
+import LightContainer from "../../publicCompent/LightContainer";
 
 function MainTop({ year, increaseYear, decreaseYear, month, setMonth }) {
   const [leftYearBtnHover, setleftYearBtnHover] = useState(false);
@@ -28,7 +29,7 @@ function MainTop({ year, increaseYear, decreaseYear, month, setMonth }) {
       <div
         style={{
           display: "flex",
-          width: "1100px",
+          width: "1300px",
           margin: "50px auto 0",
           justifyContent: "space-between",
           alignItems: "center",
@@ -85,9 +86,13 @@ function MainTop({ year, increaseYear, decreaseYear, month, setMonth }) {
             )}
           </div>
           <SelectMonth month={month} setMonth={setMonth}>
-            <MonthBtn style={{ paddingTop: "5px" }}>
-              <Arrow />
-            </MonthBtn>
+            <LightContainer
+              tag={
+                <MonthBtn style={{ paddingTop: "5px" }} width={40} height={40}>
+                  <Arrow />
+                </MonthBtn>
+              }
+            />
           </SelectMonth>
         </div>
         <div
@@ -109,6 +114,7 @@ const StyleTextBtn = styled.div`
   font-family: ${({ movePage }) =>
     movePage ? "GmarketSansBold" : "GmarketSansMedium"};
   padding: 10px 21px;
+  font-size: 25px;
   color: #707070;
   user-select: none;
 `;

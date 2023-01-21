@@ -39,7 +39,8 @@ function SelectUl({
               <ViewMore />
               {selectList.map((value, index) => (
                 <SelectItem onClick={conversion} key={index}>
-                  {value}
+                  <PersonImg src={value[0]} />
+                  {value[1]}
                 </SelectItem>
               ))}
               <div style={{ paddingBottom: "15px" }}></div>
@@ -74,13 +75,14 @@ const SelectList = styled.ul`
   display: flex;
   flex-direction: column;
   width: 81px;
-  left: ${({ firend }) => (firend ? "-3px" : "-45px")};
+  left: ${({ firend }) => (firend ? "-3px" : "-55px")};
 
   background: rgb(115 115 115 / 75%);
   box-shadow: inset 5px 5px 20px #000000a3, 7px 7px 15px #0000009e;
   backdrop-filter: blur(3px);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
+  z-index: 99;
 `;
 
 const SelectItem = styled.li`
@@ -90,6 +92,13 @@ const SelectItem = styled.li`
   font: 15px Gmarket Sans;
   color: #ffffff;
   user-select: none;
+`;
+
+const PersonImg = styled.img`
+  width: 15px;
+  height: 15px;
+  border-radius: 70%;
+  margin-right: 3px;
 `;
 
 export default SelectUl;

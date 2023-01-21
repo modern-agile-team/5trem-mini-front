@@ -22,9 +22,17 @@ function SelectMonth({ children, month, setMonth }) {
   );
 
   return (
-    <div style={{ display: "flex", height: "80px", alignItems: "flex-end" }}>
-      <Month>{month}</Month>
-      <div style={{ paddingBottom: "11px" }}>
+    <div
+      style={{
+        display: "flex",
+        height: "80px",
+        alignItems: "flex-end",
+      }}
+    >
+      <div style={{ width: "50px", height: "50px" }}>
+        <Month>{month}</Month>
+      </div>
+      <div style={{ marginLeft: "15px" }}>
         <SelectUl
           selectList={selectMonthList}
           setSelectList={setSelectMonthList}
