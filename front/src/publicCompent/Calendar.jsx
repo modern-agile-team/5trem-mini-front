@@ -2,8 +2,8 @@ import React from "react";
 import CalenderBtn from "../component/mainPage/CalenderBtn";
 import dateCalculation from "../component/mainPage/dateCalculation";
 
-function Calendar({ year, month, day }) {
-  const monthDate = dateCalculation(year, month - 1, day);
+function Calendar({ year, month }) {
+  const monthDate = dateCalculation(year, month - 1);
 
   return (
     <div style={{ width: "100%" }}>
@@ -17,7 +17,12 @@ function Calendar({ year, month, day }) {
         }}
       >
         {monthDate.map((value, index) => (
-          <CalenderBtn key={index} date={value} dayOfTheWeek={index} />
+          <CalenderBtn
+            key={index}
+            date={value}
+            dayOfTheWeek={index}
+            calendarDate={[year, month]}
+          />
         ))}
       </div>
     </div>

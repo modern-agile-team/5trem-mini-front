@@ -1,4 +1,4 @@
-function dateCalculation(year, month, day) {
+function dateCalculation(year, month) {
   const firstDay = new Date(year, month, 1).getDay();
   const lastDate = new Date(year, month + 1, 0).getDate();
 
