@@ -1,12 +1,22 @@
 import React from "react";
 import styled from "styled-components";
 import LightContainer from "../../publicCompent/LightContainer";
-function CalenderBtn({ date, dayOfTheWeek }) {
+function CalenderBtn({ date, dayOfTheWeek, calendarDate }) {
+  const today = new Date();
+  const todayYear = today.getFullYear();
+  const todayMonth = today.getMonth();
+  const todayDate = today.getDate();
+
+  const IsItToday =
+    todayYear === calendarDate[0] &&
+    todayMonth === calendarDate[1] - 1 &&
+    todayDate === date;
+
   return (
     <div style={{ margin: "30px 50px 0px 0px" }}>
       <LightContainer
         tag={
-          <Btn width={80} height={80}>
+          <Btn width={80} height={80} today={IsItToday}>
             <Font date={date} dayOfTheWeek={dayOfTheWeek}>
               {date}
             </Font>
@@ -23,11 +33,14 @@ export default CalenderBtn;
 const Btn = styled.button`
   width: 70px;
   height: 70px;
-
-  background: linear-gradient(95deg, #e8ebf2 0%, #e8ebf2 0%, #f2f3f7 100%);
-  box-shadow: 5px 5px 20px #0f296b33;
-  border: 0.2px solid #ffffff;
+  border: ${({ today }) => (today ? "none" : "0.2px solid #ffffff")};
   border-radius: 10px;
+  background: ${({ today }) =>
+    today
+      ? "linear-gradient(134deg, #E8EBF2 0%, #B8C0D1 0%, #D9DEEB 100%)"
+      : "linear-gradient(95deg, #e8ebf2 0%, #e8ebf2 0%, #f2f3f7 100%)"};
+  box-shadow: ${({ today }) =>
+    today ? "5px 5px 30px #0F296B66" : "5px 5px 20px #0f296b33"};
 `;
 
 const Font = styled.div`
