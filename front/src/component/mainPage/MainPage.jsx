@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState } from "react";
 import MainTop from "./MainTop";
 import useCounter from "./useCounter";
 import TransfromBtn from "./TransfromBtn";
