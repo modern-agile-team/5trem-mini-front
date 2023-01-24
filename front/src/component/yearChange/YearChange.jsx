@@ -2,13 +2,19 @@ import React from "react";
 import styled from "styled-components";
 import MainTop from "../mainPage/MainTop";
 import MainTopRight from "../mainPage/MainTopRight";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ReactComponent as Arrow } from "../../assets/arrowYear.svg";
 import YearCounter from "./useYearCounter";
 
 function YearChange() {
   const location = useLocation();
   const year = location.state.year;
+  const url = location.state.url;
+
+  const navigate = useNavigate();
+  const moveYearChange = (e) => {
+    navigate(`${url}`, { state: { year: e.target.textContent } });
+  };
 
   const [yearList, increaseYearList, decreaseYearList] = YearCounter(year);
 
@@ -65,7 +71,11 @@ function YearChange() {
           }}
         >
           {yearList.map((value, index) => (
-            <YearText viewingYear={value === year} key={index}>
+            <YearText
+              viewingYear={value === year}
+              key={index}
+              onClick={moveYearChange}
+            >
               {value}
             </YearText>
           ))}

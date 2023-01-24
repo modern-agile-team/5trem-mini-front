@@ -9,7 +9,7 @@ function MainPage() {
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
 
-  const [year, increaseYear, decreaseYear] = useCounter(currentYear);
+  const [year, increaseYear, decreaseYear, setYear] = useCounter(currentYear);
   const [month, setMonth] = useState(
     currentMonth >= 10 ? currentMonth : "0" + currentMonth
   );
@@ -22,6 +22,7 @@ function MainPage() {
         setMonth={setMonth}
         increaseYear={increaseYear}
         decreaseYear={decreaseYear}
+        setYear={setYear}
       />
       <TransfromBtn />
       <Calendar year={year} month={month} />

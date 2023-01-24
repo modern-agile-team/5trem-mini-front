@@ -6,17 +6,34 @@ import { ReactComponent as ArrowHover } from "../../assets/arrowHover.svg";
 import { ReactComponent as ArrowActive } from "../../assets/arrowActive.svg";
 import LightContainer from "../../publicCompent/LightContainer";
 import MainTopRight from "./MainTopRight";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-function MainTop({ year, increaseYear, decreaseYear, month, setMonth }) {
+function MainTop({
+  year,
+  increaseYear,
+  decreaseYear,
+  month,
+  setMonth,
+  setYear,
+}) {
   const [leftYearBtnHover, setleftYearBtnHover] = useState(false);
   const [rightYearBtnHover, setrightYearBtnHover] = useState(false);
   const [leftclickYearBtn, setleftClickYearBtn] = useState(false);
   const [rightclickYearBtn, setrightClickYearBtn] = useState(false);
 
+  const location = useLocation();
+  const url = location.pathname;
+
+  useEffect(() => {
+    if (location.state !== null) {
+      const yearChange = Number(location.state.year);
+      setYear(yearChange);
+    }
+  }, []);
+
   const navigate = useNavigate();
   const moveYearChange = () => {
-    navigate("/yearchange", { state: { year } });
+    navigate("/yearchange", { state: { year, url } });
   };
 
   return (
