@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import LightContainer from "../../publicCompent/LightContainer";
+
 function CalenderBtn({
   date,
   dayOfTheWeek,
@@ -8,6 +9,8 @@ function CalenderBtn({
   push,
   pushBtn,
   pullBtn,
+  setReduction,
+  reduction,
 }) {
   const today = new Date();
   const todayYear = today.getFullYear();
@@ -19,17 +22,27 @@ function CalenderBtn({
     todayMonth === calendarDate[1] - 1 &&
     todayDate === date;
 
+  const openToDoList = (dayOfTheWeek) => {
+    setReduction(true);
+    pushBtn(dayOfTheWeek, [calendarDate[0], calendarDate[1] - 1, date]);
+  };
+
+  const closeToDoList = () => {
+    setReduction(false);
+    pullBtn();
+  };
+
   return (
-    <Day date={date}>
+    <Day date={date} reduction={reduction}>
       {push ? (
         <div
           style={{
             position: "relative",
-            width: "80px",
-            height: "80px",
+            width: "70px",
+            height: "70px",
           }}
         >
-          <PushBtn today={IsItToday} onClick={pullBtn}>
+          <PushBtn today={IsItToday} onClick={closeToDoList}>
             <PushFont today={IsItToday} date={date} dayOfTheWeek={dayOfTheWeek}>
               {date}
             </PushFont>
@@ -40,15 +53,24 @@ function CalenderBtn({
         <LightContainer
           tag={
             <Btn
-              width={80}
-              height={80}
+              width={reduction ? 70 : 80}
+              height={reduction ? 70 : 80}
+              reduction={reduction}
               today={IsItToday}
-              onClick={() => pushBtn(dayOfTheWeek)}
+              onClick={() => {
+                openToDoList(dayOfTheWeek);
+              }}
             >
-              <Font date={date} dayOfTheWeek={dayOfTheWeek}>
+              <Font
+                date={date}
+                dayOfTheWeek={dayOfTheWeek}
+                reduction={reduction}
+              >
                 {date}
               </Font>
-              <ToDoCount date={date}>0</ToDoCount>
+              <ToDoCount date={date} reduction={reduction}>
+                0
+              </ToDoCount>
             </Btn>
           }
         />
@@ -59,13 +81,15 @@ function CalenderBtn({
 export default CalenderBtn;
 
 const Day = styled.div`
-  margin: 30px 50px 0px 0px;
+  margin: ${({ reduction }) =>
+    reduction ? "20px 40px 0px 0px" : "30px 50px 0px 0px"};
   pointer-events: ${({ date }) => (date ? "auto" : "none")};
+  height: 80px;
 `;
 
 const Btn = styled.button`
-  width: 70px;
-  height: 70px;
+  width: ${({ reduction }) => (reduction ? "60" : "70")}px;
+  height: ${({ reduction }) => (reduction ? "60" : "70")}px;
   border-radius: 10px;
 
   border: ${({ today }) => (today ? "none" : "0.2px solid #ffffff")};
@@ -78,8 +102,8 @@ const Btn = styled.button`
 `;
 
 const PushBtn = styled.button`
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   border-radius: 10px;
   position: absolute;
 
@@ -101,7 +125,7 @@ const Font = styled.div`
       : "#707070"};
   display: ${({ date }) => (date === 0 ? "none" : null)};
 
-  font-size: 14px;
+  font-size: ${({ reduction }) => (reduction ? "12" : "14")}px;
   font-family: SCDream5;
 `;
 
@@ -116,7 +140,7 @@ const PushFont = styled.div`
       : "#707070"};
   display: ${({ date }) => (date === 0 ? "none" : null)};
 
-  font-size: 14px;
+  font-size: 12px;
   font-family: GmarketSansBold;
 `;
 
@@ -128,6 +152,6 @@ const ToDoCount = styled.div`
   z-index: 5;
 
   color: #707070;
-  font-size: 7px;
+  font-size: ${({ reduction }) => (reduction ? "6" : "7")}px;
   font-family: GmarketSansLight;
 `;

@@ -108,4 +108,6 @@ const YearText = styled.div`
   font-family: ${({ viewingYear }) =>
     viewingYear ? "GmarketSansBold" : "GmarketSansMedium"};
   color: ${({ viewingYear }) => (viewingYear ? "#393939" : "#797979")};
+  user-select: none;
+  cursor: pointer;
 `;

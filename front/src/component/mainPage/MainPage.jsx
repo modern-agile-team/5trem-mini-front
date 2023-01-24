@@ -14,6 +14,8 @@ function MainPage() {
     currentMonth >= 10 ? currentMonth : "0" + currentMonth
   );
 
+  const [reduction, setReduction] = useState(false);
+
   return (
     <>
       <MainTop
@@ -24,8 +26,13 @@ function MainPage() {
         decreaseYear={decreaseYear}
         setYear={setYear}
       />
-      <TransfromBtn />
-      <Calendar year={year} month={month} />
+      <TransfromBtn reduction={reduction} />
+      <Calendar
+        reduction={reduction}
+        setReduction={setReduction}
+        year={year}
+        month={month}
+      />
       <div style={{ height: "100px" }} />
     </>
   );

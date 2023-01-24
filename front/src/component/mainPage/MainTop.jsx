@@ -137,6 +137,7 @@ const Year = styled.div`
   font-family: GmarketSansBold;
   color: #393939;
   user-select: none;
+  cursor: pointer;
 `;
 
 export default MainTop;

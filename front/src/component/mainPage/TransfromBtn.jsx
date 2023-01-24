@@ -1,18 +1,12 @@
 import React from "react";
 import LightContainer from "../../publicCompent/LightContainer";
 import StyleBtn from "../../publicCompent/StyleBtn";
-function TransfromBtn() {
+import styled from "styled-components";
+
+function TransfromBtn({ reduction }) {
   return (
     <div style={{ width: "100%" }}>
-      <div
-        style={{
-          display: "flex",
-          width: "1000px",
-          margin: "30px auto 0",
-          //   justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
+      <Container reduction={reduction}>
         <div style={{ display: "flex", flexDirection: "row" }}>
           <LightContainer
             tag={
@@ -22,9 +16,16 @@ function TransfromBtn() {
             }
           />
         </div>
-      </div>
+      </Container>
     </div>
   );
 }
 
 export default TransfromBtn;
+
+const Container = styled.div`
+  display: flex;
+  width: ${({ reduction }) => (reduction ? "1450" : "1000")}px;
+  margin: 30px auto 0;
+  align-items: center;
+`;
