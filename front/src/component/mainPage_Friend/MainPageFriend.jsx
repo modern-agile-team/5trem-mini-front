@@ -6,7 +6,7 @@ function MainPageFriend() {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
-  const [year, increaseYear, decreaseYear] = useCounter(currentYear);
+  const [year, increaseYear, decreaseYear, setYear] = useCounter(currentYear);
   const [month, setMonth] = useState(
     currentMonth >= 10 ? currentMonth : "0" + currentMonth
   );
@@ -18,6 +18,7 @@ function MainPageFriend() {
       setMonth={setMonth}
       increaseYear={increaseYear}
       decreaseYear={decreaseYear}
+      setYear={setYear}
     />
   );
 }

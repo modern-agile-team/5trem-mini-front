@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState } from "react";
 import MainTop from "./MainTop";
 import useCounter from "./useCounter";
 import TransfromBtn from "./TransfromBtn";
@@ -9,10 +9,12 @@ function MainPage() {
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
 
-  const [year, increaseYear, decreaseYear] = useCounter(currentYear);
+  const [year, increaseYear, decreaseYear, setYear] = useCounter(currentYear);
   const [month, setMonth] = useState(
     currentMonth >= 10 ? currentMonth : "0" + currentMonth
   );
+
+  const [reduction, setReduction] = useState(false);
 
   return (
     <>
@@ -22,9 +24,15 @@ function MainPage() {
         setMonth={setMonth}
         increaseYear={increaseYear}
         decreaseYear={decreaseYear}
+        setYear={setYear}
       />
-      <TransfromBtn />
-      <Calendar year={year} month={month} />
+      <TransfromBtn reduction={reduction} />
+      <Calendar
+        reduction={reduction}
+        setReduction={setReduction}
+        year={year}
+        month={month}
+      />
       <div style={{ height: "100px" }} />
     </>
   );

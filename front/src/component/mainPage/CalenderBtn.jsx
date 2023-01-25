@@ -1,7 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import LightContainer from "../../publicCompent/LightContainer";
-function CalenderBtn({ date, dayOfTheWeek, calendarDate }) {
+
+function CalenderBtn({
+  date,
+  dayOfTheWeek,
+  calendarDate,
+  push,
+  pushBtn,
+  pullBtn,
+  setReduction,
+  reduction,
+}) {
   const today = new Date();
   const todayYear = today.getFullYear();
   const todayMonth = today.getMonth();
@@ -12,35 +22,98 @@ function CalenderBtn({ date, dayOfTheWeek, calendarDate }) {
     todayMonth === calendarDate[1] - 1 &&
     todayDate === date;
 
+  const openToDoList = (dayOfTheWeek) => {
+    setReduction(true);
+    pushBtn(dayOfTheWeek, [calendarDate[0], calendarDate[1] - 1, date]);
+  };
+
+  const closeToDoList = () => {
+    setReduction(false);
+    pullBtn();
+  };
+
   return (
-    <div style={{ margin: "30px 50px 0px 0px" }}>
-      <LightContainer
-        tag={
-          <Btn width={80} height={80} today={IsItToday}>
-            <Font date={date} dayOfTheWeek={dayOfTheWeek}>
+    <Day date={date} reduction={reduction}>
+      {push ? (
+        <div
+          style={{
+            position: "relative",
+            width: "70px",
+            height: "70px",
+          }}
+        >
+          <PushBtn today={IsItToday} onClick={closeToDoList}>
+            <PushFont today={IsItToday} date={date} dayOfTheWeek={dayOfTheWeek}>
               {date}
-            </Font>
+            </PushFont>
             <ToDoCount date={date}>0</ToDoCount>
-          </Btn>
-        }
-      />
-    </div>
+          </PushBtn>
+        </div>
+      ) : (
+        <LightContainer
+          tag={
+            <Btn
+              width={reduction ? 70 : 80}
+              height={reduction ? 70 : 80}
+              reduction={reduction}
+              today={IsItToday}
+              onClick={() => {
+                openToDoList(dayOfTheWeek);
+              }}
+            >
+              <Font
+                date={date}
+                dayOfTheWeek={dayOfTheWeek}
+                reduction={reduction}
+              >
+                {date}
+              </Font>
+              <ToDoCount date={date} reduction={reduction}>
+                0
+              </ToDoCount>
+            </Btn>
+          }
+        />
+      )}
+    </Day>
   );
 }
-
 export default CalenderBtn;
 
+const Day = styled.div`
+  margin: ${({ reduction }) =>
+    reduction ? "20px 40px 0px 0px" : "30px 50px 0px 0px"};
+  pointer-events: ${({ date }) => (date ? "auto" : "none")};
+  height: 80px;
+`;
+
 const Btn = styled.button`
-  width: 70px;
-  height: 70px;
-  border: ${({ today }) => (today ? "none" : "0.2px solid #ffffff")};
+  width: ${({ reduction }) => (reduction ? "60" : "70")}px;
+  height: ${({ reduction }) => (reduction ? "60" : "70")}px;
   border-radius: 10px;
+
+  border: ${({ today }) => (today ? "none" : "0.2px solid #ffffff")};
   background: ${({ today }) =>
     today
       ? "linear-gradient(134deg, #E8EBF2 0%, #B8C0D1 0%, #D9DEEB 100%)"
       : "linear-gradient(95deg, #e8ebf2 0%, #e8ebf2 0%, #f2f3f7 100%)"};
   box-shadow: ${({ today }) =>
     today ? "5px 5px 30px #0F296B66" : "5px 5px 20px #0f296b33"};
+`;
+
+const PushBtn = styled.button`
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  position: absolute;
+
+  background: ${({ today }) =>
+    today
+      ? "linear-gradient(134deg, #E8EBF2 0%, #B8C0D1 0%, #D9DEEB 100%)"
+      : "linear-gradient(95deg, #e8ebf2 0%, #e8ebf2 0%, #f2f3f7 100%)"};
+  box-shadow: ${({ today }) =>
+    today ? "inset -5px -5px 10px #E8EBF2" : "inset -6px -6px 15px #FFFFFFCC"};
+  border: ${({ today }) => (today ? "none" : "0.2px solid #ffffff")};
 `;
 
 const Font = styled.div`
@@ -52,8 +125,23 @@ const Font = styled.div`
       : "#707070"};
   display: ${({ date }) => (date === 0 ? "none" : null)};
 
-  font-size: 14px;
+  font-size: ${({ reduction }) => (reduction ? "12" : "14")}px;
   font-family: SCDream5;
+`;
+
+const PushFont = styled.div`
+  color: ${({ dayOfTheWeek, today }) =>
+    dayOfTheWeek === 0 || dayOfTheWeek % 7 === 0
+      ? "red"
+      : (dayOfTheWeek + 1) % 7 === 0
+      ? "blue"
+      : today
+      ? "#393939"
+      : "#707070"};
+  display: ${({ date }) => (date === 0 ? "none" : null)};
+
+  font-size: 12px;
+  font-family: GmarketSansBold;
 `;
 
 const ToDoCount = styled.div`
@@ -64,6 +152,6 @@ const ToDoCount = styled.div`
   z-index: 5;
 
   color: #707070;
-  font-size: 7px;
+  font-size: ${({ reduction }) => (reduction ? "6" : "7")}px;
   font-family: GmarketSansLight;
 `;

@@ -1,22 +1,40 @@
 import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import SelectMonth from "./SelectMonth";
-import { useLocation } from "react-router-dom";
 import { ReactComponent as Arrow } from "../../assets/arrow.svg";
 import { ReactComponent as ArrowHover } from "../../assets/arrowHover.svg";
 import { ReactComponent as ArrowActive } from "../../assets/arrowActive.svg";
-import SelectFriend from "./SelectFriend";
 import LightContainer from "../../publicCompent/LightContainer";
+import MainTopRight from "./MainTopRight";
+import { useNavigate, useLocation } from "react-router-dom";
 
-function MainTop({ year, increaseYear, decreaseYear, month, setMonth }) {
+function MainTop({
+  year,
+  increaseYear,
+  decreaseYear,
+  month,
+  setMonth,
+  setYear,
+}) {
   const [leftYearBtnHover, setleftYearBtnHover] = useState(false);
   const [rightYearBtnHover, setrightYearBtnHover] = useState(false);
   const [leftclickYearBtn, setleftClickYearBtn] = useState(false);
   const [rightclickYearBtn, setrightClickYearBtn] = useState(false);
 
   const location = useLocation();
-  const moveFirend = location.pathname === "/mainPage/friend";
-  const moveMyPage = false; /* 수정 예정 */
+  const url = location.pathname;
+
+  useEffect(() => {
+    if (location.state !== null) {
+      const yearChange = Number(location.state.year);
+      setYear(yearChange);
+    }
+  }, []);
+
+  const navigate = useNavigate();
+  const moveYearChange = () => {
+    navigate("/yearchange", { state: { year, url } });
+  };
 
   return (
     <div
@@ -59,7 +77,10 @@ function MainTop({ year, increaseYear, decreaseYear, month, setMonth }) {
               <Arrow />
             )}
           </div>
-          <Year style={{ display: "flex", width: "165px", height: "80px" }}>
+          <Year
+            style={{ display: "flex", width: "165px", height: "80px" }}
+            onClick={moveYearChange}
+          >
             {year}
           </Year>
           <div
@@ -95,29 +116,11 @@ function MainTop({ year, increaseYear, decreaseYear, month, setMonth }) {
             />
           </SelectMonth>
         </div>
-        <div
-          style={{ display: "flex", height: "80px", alignItems: "flex-end" }}
-        >
-          <SelectFriend>
-            <StyleTextBtn movePage={moveFirend}>친구</StyleTextBtn>
-          </SelectFriend>
-          <StyleTextBtn movePage={moveMyPage}>마이페이지</StyleTextBtn>
-          <StyleTextBtn>로그아웃</StyleTextBtn>
-        </div>
+        <MainTopRight />
       </div>
     </div>
   );
 }
-
-const StyleTextBtn = styled.div`
-  letter-spacing: 0px;
-  font-family: ${({ movePage }) =>
-    movePage ? "GmarketSansBold" : "GmarketSansMedium"};
-  padding: 10px 21px;
-  font-size: 25px;
-  color: #707070;
-  user-select: none;
-`;
 
 const MonthBtn = styled.button`
   width: 30px;
@@ -134,6 +137,7 @@ const Year = styled.div`
   font-family: GmarketSansBold;
   color: #393939;
   user-select: none;
+  cursor: pointer;
 `;
 
 export default MainTop;
