@@ -6,21 +6,17 @@ const MainSub = styled.div`
   flex-direction: column;
 `;
 
-const Checkout = styled.input`
-  margin: 2px 0;
-  appearance: none;
-  width: 1.5rem;
-  height: 1.5rem;
-  border: 1.5px solid;
-  border-radius: 0.35rem;
+const Checkout = styled.div`
+  input[type="checkbox"] {
+    display: none;
+  }
 
-  &:checked {
-    border-color: transparent;
-    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
-    background-size: 100% 100%;
-    background-position: 50%;
-    background-repeat: no-repeat;
-    background-color: #868e96;
+  input[type="checkbox"] + label {
+    color: #868e96;
+  }
+
+  input[type="checkbox"]:checked + label {
+    color: black;
   }
 `;
 
@@ -37,7 +33,8 @@ const Button = styled.button`
   border: none;
   background: none;
   font-weight: bolder;
-  margin-top: 10px;
+  margin-top: 18px;
+  width: 0 20px;
 `;
 
 const Register = styled.div`
@@ -55,6 +52,7 @@ const RegisterTitle = styled.div`
 const RegisterMain = styled.div`
   font-size: 14px;
   margin-top: 8px;
+  margin-left: 3px;
 `;
 
 const StyleInput = styled.input`
@@ -82,6 +80,10 @@ const ToDoItem = ({ todoItem, todoList, setTodoList }) => {
 
   const editInputRef = useRef(null);
 
+  const handleDoubleClick = () => {
+    setEdited(true);
+  };
+
   useEffect(() => {
     if (edited) {
       editInputRef.current.focus();
@@ -108,21 +110,24 @@ const ToDoItem = ({ todoItem, todoList, setTodoList }) => {
   const onChangeEditInputs = (e) => {
     setNewTests(e.target.value);
   };
-  const onClickSubmitButton = () => {
-    const nextTodoList = todoList.map((item) => {
-      console.log(item);
-      return {
-        ...item,
-        inputs: {
-          title: item.id === todoItem.id ? newText : item.inputs.title,
-          main: item.id === todoItem.id ? newTexts : item.inputs.main,
-        },
-      };
-    });
-    setTodoList(nextTodoList);
 
-    setEdited(false);
+  const onClickSubmitButton = (e) => {
+    if (e.key === "Enter") {
+      const nextTodoList = todoList.map((item) => {
+        return {
+          ...item,
+          inputs: {
+            title: item.id === todoItem.id ? newText : item.title,
+            main: item.id === todoItem.id ? newTexts : item.main,
+          },
+        };
+      });
+      setTodoList(nextTodoList);
+
+      setEdited(false);
+    }
   };
+
   const onClickDeleteButton = () => {
     if (window.confirm("정말로 지우실건가요?")) {
       const nextTodoList = todoList.map((item) => ({
@@ -137,12 +142,17 @@ const ToDoItem = ({ todoItem, todoList, setTodoList }) => {
   return (
     <MainBox className="todoapp__item">
       <MainSub>
-        <Checkout
-          type="checkbox"
-          className="todoapp__item-checkbox"
-          checked={todoItem.checked}
-          onChange={onChangeCheckbox}
-        />
+        <Checkout>
+          <input
+            type="checkbox"
+            className="todoapp__item-checkbox"
+            checked={todoItem.checked}
+            onChange={onChangeCheckbox}
+            id="inputName"
+          />
+          <label for="inputName"> ✔</label>
+        </Checkout>
+
         <Button
           type="button"
           className="todoapp__item-delete-btn"
@@ -150,25 +160,6 @@ const ToDoItem = ({ todoItem, todoList, setTodoList }) => {
         >
           X
         </Button>
-        {!todoItem.checked ? (
-          edited ? (
-            <Button
-              type="button"
-              className="todoapp__item-edit-btn"
-              onClick={onClickSubmitButton}
-            >
-              ✔
-            </Button>
-          ) : (
-            <Button
-              type="button"
-              className="todoapp__item-edit-btn"
-              onClick={onClickEditButton}
-            >
-              ✏
-            </Button>
-          )
-        ) : null}
       </MainSub>
       {edited ? (
         <ul>
@@ -179,6 +170,7 @@ const ToDoItem = ({ todoItem, todoList, setTodoList }) => {
               value={newText}
               ref={editInputRef}
               onChange={onChangeEditInput}
+              onKeyDown={onClickSubmitButton}
             />
           </li>
           <li>
@@ -188,6 +180,7 @@ const ToDoItem = ({ todoItem, todoList, setTodoList }) => {
               value={newTexts}
               ref={editInputRef}
               onChange={onChangeEditInputs}
+              onKeyDown={onClickSubmitButton}
             />
           </li>
         </ul>
@@ -197,8 +190,8 @@ const ToDoItem = ({ todoItem, todoList, setTodoList }) => {
             todoItem.checked ? "todoapp__item-ctx-checked" : ""
           }`}
         >
-          <RegisterTitle>{todoItem.inputs.title}</RegisterTitle>
-          <RegisterMain>{todoItem.inputs.main}</RegisterMain>
+          <RegisterTitle onClick={onClickEditButton}>{newText}</RegisterTitle>
+          <RegisterMain onClick={onClickEditButton}>{newTexts}</RegisterMain>
         </Register>
       )}
     </MainBox>

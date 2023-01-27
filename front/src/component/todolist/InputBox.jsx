@@ -13,11 +13,10 @@ const StyleInputTitle = styled.input`
 const StyleInput = styled.input`
   width: 100%;
   padding: 4px 0 30px 5px;
-  background: linear-gradient(95deg, #e8ebf2 0%, #e8ebf2 0%, #f2f3f7 100%);
-  box-shadow: 5px 5px 20px #0f296b33;
-  border: 0.2px solid #ffffff;
+  background: #ffffff 0% 0%;
   border-radius: 10px;
   font-family: SCDream5;
+  border: none;
   font-size: 10px;
   letter-spacing: 0px;
   outline: none;
@@ -30,7 +29,6 @@ const StyleBtn = styled.button`
   background: transparent
     linear-gradient(100deg, #e8ebf2 0%, #b8c0d1 0%, #d9deeb 100%) 0% 0%
     no-repeat padding-box;
-  box-shadow: 5px 5px 20px #0f296b66;
   border: 0px solid #ffffff;
   border-radius: 5px;
   font-family: SCDream5;
@@ -44,6 +42,7 @@ const StyleTodo = styled.div`
   border-radius: 10px;
   padding: 40px 30px;
   position: relative;
+  box-shadow: 5px 5px 20px #0f296b33;
 `;
 
 const Button = styled.button`
