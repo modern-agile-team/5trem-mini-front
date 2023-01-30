@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import CalenderBtn from "../component/mainPage/CalenderBtn";
 import dateCalculation from "../component/mainPage/dateCalculation";
+import Diary from "../component/diary/Diary";
 
-function Calendar({ year, month, reduction, setReduction }) {
+function Calendar({ year, month, reduction, setReduction, diary }) {
   const monthDate = dateCalculation(year, month - 1);
 
   const [push, setPush] = useState(new Array(42).fill(false));
@@ -23,7 +24,13 @@ function Calendar({ year, month, reduction, setReduction }) {
 
   useEffect(() => {
     pullBtn();
-  }, [year, month]);
+  }, [year, month, diary]);
+
+  useEffect(() => {
+    if (!reduction) {
+      pullBtn();
+    }
+  }, [reduction]);
 
   return (
     <>
@@ -55,15 +62,16 @@ function Calendar({ year, month, reduction, setReduction }) {
                 push={push[index]}
                 setReduction={setReduction}
                 reduction={reduction}
+                diary={diary}
               />
             ))}
           </div>
           <div
             style={{
               width: "600px",
-              backgroundColor: "green",
             }}
           >
+            <Diary></Diary>
             {pushBthDay}
           </div>
         </div>
@@ -89,6 +97,7 @@ function Calendar({ year, month, reduction, setReduction }) {
                 push={push[index]}
                 setReduction={setReduction}
                 reduction={reduction}
+                diary={diary}
               />
             ))}
           </div>

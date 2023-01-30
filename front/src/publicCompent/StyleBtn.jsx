@@ -20,7 +20,7 @@ const StyleBtn = styled.button`
     no-repeat padding-box;
   box-shadow: 5px 5px 20px #0f296b66;
   border: 0px solid #ffffff;
-  border-radius: 10px;
+  border-radius: ${({ diary }) => (diary ? "50%" : "10px")};
   font-size: ${({ transfrom }) => (transfrom ? "15" : "40")}px;
   font-family: ${({ transfrom }) =>
     transfrom ? "GmarketSansMedium" : "GmarketSansBold"};

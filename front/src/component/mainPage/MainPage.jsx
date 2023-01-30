@@ -15,6 +15,7 @@ function MainPage() {
   );
 
   const [reduction, setReduction] = useState(false);
+  const [diary, setDiary] = useState(false);
 
   return (
     <>
@@ -26,8 +27,14 @@ function MainPage() {
         decreaseYear={decreaseYear}
         setYear={setYear}
       />
-      <TransfromBtn reduction={reduction} />
+      <TransfromBtn
+        reduction={reduction}
+        diary={diary}
+        setReduction={setReduction}
+        setDiary={setDiary}
+      />
       <Calendar
+        diary={diary}
         reduction={reduction}
         setReduction={setReduction}
         year={year}

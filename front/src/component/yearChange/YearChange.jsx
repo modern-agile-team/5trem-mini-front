@@ -64,7 +64,7 @@ function YearChange() {
           style={{
             display: "flex",
             height: "444px",
-            width: "700px",
+            width: "800px",
             justifyContent: "space-between",
             alignItems: "center",
             flexWrap: "wrap",

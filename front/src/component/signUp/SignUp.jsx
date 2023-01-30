@@ -381,7 +381,6 @@ export default function SignUp() {
         <MediumText style={{ marginLeft: "10px" }} lineHeight={45}>
           전체동의
         </MediumText>
-        {/* checked={!Object.values(checkList).includes(false)} */}
       </div>
       {arr.map((el, i) => {
         return (
