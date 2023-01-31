@@ -11,6 +11,7 @@ function CalenderBtn({
   pullBtn,
   setReduction,
   reduction,
+  diary,
 }) {
   const today = new Date();
   const todayYear = today.getFullYear();
@@ -22,12 +23,14 @@ function CalenderBtn({
     todayMonth === calendarDate[1] - 1 &&
     todayDate === date;
 
-  const openToDoList = (dayOfTheWeek) => {
+  const openSideWindow = (dayOfTheWeek) => {
     setReduction(true);
     pushBtn(dayOfTheWeek, [calendarDate[0], calendarDate[1] - 1, date]);
+    if (diary) {
+    }
   };
 
-  const closeToDoList = () => {
+  const closeSideWindow = () => {
     setReduction(false);
     pullBtn();
   };
@@ -42,23 +45,27 @@ function CalenderBtn({
             height: "70px",
           }}
         >
-          <PushBtn today={IsItToday} onClick={closeToDoList}>
+          <PushBtn today={IsItToday} onClick={closeSideWindow} diary={diary}>
             <PushFont today={IsItToday} date={date} dayOfTheWeek={dayOfTheWeek}>
               {date}
             </PushFont>
-            <ToDoCount date={date}>0</ToDoCount>
+            <ToDoCount date={date} diary={diary}>
+              0
+            </ToDoCount>
           </PushBtn>
         </div>
       ) : (
         <LightContainer
           tag={
             <Btn
+              diary={diary}
+              round={diary}
               width={reduction ? 70 : 80}
               height={reduction ? 70 : 80}
               reduction={reduction}
               today={IsItToday}
               onClick={() => {
-                openToDoList(dayOfTheWeek);
+                openSideWindow(dayOfTheWeek);
               }}
             >
               <Font
@@ -68,7 +75,7 @@ function CalenderBtn({
               >
                 {date}
               </Font>
-              <ToDoCount date={date} reduction={reduction}>
+              <ToDoCount date={date} reduction={reduction} diary={diary}>
                 0
               </ToDoCount>
             </Btn>
@@ -90,7 +97,7 @@ const Day = styled.div`
 const Btn = styled.button`
   width: ${({ reduction }) => (reduction ? "60" : "70")}px;
   height: ${({ reduction }) => (reduction ? "60" : "70")}px;
-  border-radius: 10px;
+  border-radius: ${({ diary }) => (diary ? "50%" : "10px")};
 
   border: ${({ today }) => (today ? "none" : "0.2px solid #ffffff")};
   background: ${({ today }) =>
@@ -104,7 +111,7 @@ const Btn = styled.button`
 const PushBtn = styled.button`
   width: 60px;
   height: 60px;
-  border-radius: 10px;
+  border-radius: ${({ diary }) => (diary ? "50%" : "10px")};
   position: absolute;
 
   background: ${({ today }) =>
@@ -145,7 +152,7 @@ const PushFont = styled.div`
 `;
 
 const ToDoCount = styled.div`
-  display: ${({ date }) => (date === 0 ? "none" : null)};
+  display: ${({ date, diary }) => (date === 0 || diary ? "none" : null)};
   position: absolute;
   right: 7px;
   bottom: 5px;
