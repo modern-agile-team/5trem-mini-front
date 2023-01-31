@@ -9,56 +9,95 @@ import BackGround from "../../publicCompent/BackGround";
 import loginApi from "../../api/loginApi";
 
 function Login() {
+  const [userInfo, setUserInfo] = useState({
+    id: "",
+    password: "",
+  });
 
-    const [userInfo, setUserInfo] = useState({
-        id: "",
-        password: "",
+  const onChangeAccount = (text) => {
+    setUserInfo((user) => {
+      return { ...user, [text.target.name]: text.target.value };
     });
+  };
 
-    const onChangeAccount = (text) => {
-        setUserInfo((user) => {
-            return { ...user, [text.target.name]: text.target.value };
-        });
-    };
+  const navigate = useNavigate();
+  const moveSignUp = () => {
+    navigate("/signUp");
+  };
 
-    const navigate = useNavigate();
-    const moveSignUp = () => { navigate('/signUp') }
+  const moveMainPage = async () => {
+    (await loginApi(userInfo))
+      ? navigate("/mainPage", { state: userInfo })
+      : alert(`아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.
+입력하신 내용을 다시 확인해주세요.`);
+  };
 
-    const moveMainPage = async () => {
-        await loginApi(userInfo) ? navigate('/mainPage') : alert(`아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.
-입력하신 내용을 다시 확인해주세요.`)
-    }
-
-    return (
-        <BackGround>
-            <StyleHeader>로그인</StyleHeader>
-            <div style={{ height: '90px' }}>
-                <LightContainer tag={<InputText width={621} height={60} name='id' placeholder='아이디' onChange={onChangeAccount} />} />
-            </div>
-            <div style={{ height: '70px' }}>
-                <LightContainer tag={<InputText width={621} height={60} name='password' type='password' placeholder='비밀번호' onChange={onChangeAccount} />} />
-            </div>
-            <div style={{ height: '130px', width: '645px', display: 'flex', flexDirection: 'row-reverse' }}>
-                <div>
-                    <StyleTextBtn>아이디 찾기</StyleTextBtn>
-                    <StyleTextBtn>비밀번호 찾기</StyleTextBtn>
-                    <StyleTextBtn right={true} onClick={moveSignUp} >회원가입</StyleTextBtn>
-                </div>
-            </div>
-            <div style={{ height: '207px' }}>
-                <LightContainer tag={<StyleBtn width={400} height={80} onClick={moveMainPage} ><div style={{ margin: '12px' }}>로그인</div></StyleBtn>} />
-            </div>
-        </BackGround>
-    );
+  return (
+    <BackGround>
+      <StyleHeader>로그인</StyleHeader>
+      <div style={{ height: "90px" }}>
+        <LightContainer
+          tag={
+            <InputText
+              width={621}
+              height={60}
+              name="id"
+              placeholder="아이디"
+              onChange={onChangeAccount}
+            />
+          }
+        />
+      </div>
+      <div style={{ height: "70px" }}>
+        <LightContainer
+          tag={
+            <InputText
+              width={621}
+              height={60}
+              name="password"
+              type="password"
+              placeholder="비밀번호"
+              onChange={onChangeAccount}
+            />
+          }
+        />
+      </div>
+      <div
+        style={{
+          height: "130px",
+          width: "645px",
+          display: "flex",
+          flexDirection: "row-reverse",
+        }}
+      >
+        <div>
+          <StyleTextBtn>아이디 찾기</StyleTextBtn>
+          <StyleTextBtn>비밀번호 찾기</StyleTextBtn>
+          <StyleTextBtn right={true} onClick={moveSignUp}>
+            회원가입
+          </StyleTextBtn>
+        </div>
+      </div>
+      <div style={{ height: "207px" }}>
+        <LightContainer
+          tag={
+            <StyleBtn width={400} height={80} onClick={moveMainPage}>
+              <div style={{ margin: "12px" }}>로그인</div>
+            </StyleBtn>
+          }
+        />
+      </div>
+    </BackGround>
+  );
 }
 
 const StyleTextBtn = styled.span`
-    border-right: ${({ right }) => right ? 'none' : '2px solid #b1a7a7'};
+  border-right: ${({ right }) => (right ? "none" : "2px solid #b1a7a7")};
 
-    letter-spacing: 0px;
-    font-family: GmarketSansMedium;
-    padding: 4px 8px;
-    color: #707070;
+  letter-spacing: 0px;
+  font-family: GmarketSansMedium;
+  padding: 4px 8px;
+  color: #707070;
 `;
 
 export default Login;

@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 /**
  * 좌측상단 뒤에 빛이 생기는 효과를 주는 함수형 component
  * @param {Tag} tag={<효과 받고 싶은/>} 효과를 받고 싶은 태그 props로 width, height 입력, 태그 둥근형태면 round={true} 입력
@@ -8,10 +8,14 @@ import styled from 'styled-components';
 function LightContainer({ tag }) {
   return (
     <Container width={tag.props.width} height={tag.props.height}>
-      <Light width={tag.props.width} height={tag.props.height} round={tag.props.round} />
-      <span style={{ position: 'absolute' }} >{tag}</span>
+      <Light
+        width={tag.props.width}
+        height={tag.props.height}
+        round={tag.props.round}
+      />
+      <span style={{ position: "absolute" }}>{tag}</span>
     </Container>
-  )
+  );
 }
 
 const Container = styled.div`
@@ -25,10 +29,10 @@ const Light = styled.div`
   width: ${({ width }) => width}px;
   height: ${({ height }) => height}px;
 
-  right: ${({ round }) => round ? 6 : 10}px;
-  bottom: ${({ round }) => round ? 4 : 7}px;
-  border-radius: ${({ round }) => round ? '50%' : '10px'};
-  background: #FFFFFF 0% 0% no-repeat padding-box;
+  right: ${({ round }) => (round ? 6 : 10)}px;
+  bottom: ${({ round }) => (round ? 4 : 7)}px;
+  border-radius: ${({ round }) => (round ? "50%" : "10px")};
+  background: #ffffff 0% 0% no-repeat padding-box;
   filter: blur(4px);
   background-color: white;
 `;
