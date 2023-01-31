@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CalenderBtn from "../component/mainPage/CalenderBtn";
 import dateCalculation from "../component/mainPage/dateCalculation";
 import Diary from "../component/diary/Diary";
+import importDiary from "../api/importDiary";
 
 function Calendar({ year, month, reduction, setReduction, diary }) {
   const monthDate = dateCalculation(year, month - 1);
@@ -24,6 +25,9 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
 
   useEffect(() => {
     pullBtn();
+    if (diary) {
+      importDiary(year, month);
+    }
   }, [year, month, diary]);
 
   useEffect(() => {
@@ -71,7 +75,7 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
               width: "600px",
             }}
           >
-            <Diary></Diary>
+            {diary ? <Diary /> : <div>투두리스트 입니다.</div>}
             {pushBthDay}
           </div>
         </div>

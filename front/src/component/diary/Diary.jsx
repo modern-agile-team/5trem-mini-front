@@ -1,19 +1,66 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import LightContainer from "../../publicCompent/LightContainer";
 
 function Diary(props) {
-  const test = (e) => {
-    console.log(e);
+  const [textHeight, setTextHeight] = useState("");
+  const [previewImg, setPreviewImg] = useState("");
+
+  useEffect(() => {
+    const textArea = document.querySelector("textarea");
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+        setTextHeight(height + 215);
+      }
+    });
+    observer.observe(textArea);
+  }, []);
+
+  const readImg = (e) => {
+    let fileReader = new FileReader();
+    let data = e.target;
+    fileReader.onload = function (e) {
+      let dataURL = fileReader.result;
+      // let output = document.getElementById("Img");
+      // output.src = dataURL;
+      setPreviewImg(dataURL);
+    };
+    fileReader.readAsDataURL(data.files[0]);
   };
 
   return (
     <div style={{ marginTop: "20px" }}>
       <LightContainer
         tag={
-          <Container width={567} height={247}>
+          <Container width={567} height={textHeight}>
             <Close>X</Close>
-            <Title onContentSizeChange={test}></Title>
+            <Title placeholder={"제목을 입력하세요"}></Title>
+
+            <input
+              type={"file"}
+              id={"uploadImg"}
+              style={{ display: "none" }}
+              onChange={readImg}
+            />
+            <div style={{ width: "502px", height: "60px", marginTop: "13px" }}>
+              <label htmlFor="uploadImg">
+                <UploadImg src={previewImg}></UploadImg>
+              </label>
+            </div>
+
+            <MainText placeholder={"내용을 입력하세요"}></MainText>
+            <div
+              style={{
+                width: "502px",
+                height: "30px",
+                marginTop: "10px",
+                display: "flex",
+                flexDirection: "row-reverse",
+              }}
+            >
+              <Enrollment>등록</Enrollment>
+            </div>
           </Container>
         }
       ></LightContainer>
@@ -34,16 +81,53 @@ const Container = styled.div`
 `;
 
 const Close = styled.div`
-  width: 100%;
-  max-width: 1000px;
-  height: 100%;
-  margin-top: 14px;
-
+  width: 502px;
+  height: 30px;
+  margin-top: 10px;
   display: flex;
   flex-direction: row-reverse;
 `;
 
-const Title = styled.textarea`
+const MainText = styled.textarea`
+  max-width: 502px;
+  min-width: 502px;
+  min-height: 100px;
+  max-height: 363px;
+
+  font: 12px/13px GmarketSansMedium;
+  color: #838383;
+  padding: 10px;
+  border: none;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 10px;
+  outline: none;
+`;
+
+const Title = styled.input`
   width: 502px;
   height: 40px;
+
+  padding-left: 6px;
+  font: 15px/22px GmarketSansMedium;
+  border: none;
+  border-bottom: 1px solid #838383;
+  background: transparent;
+  color: #838383;
+  outline: none;
+`;
+
+const UploadImg = styled.img`
+  width: 50px;
+  height: 50px;
+`;
+
+const Enrollment = styled.div`
+  width: 40px;
+  height: 22px;
+
+  padding-left: 7px;
+  font: 14px/25px GmarketSansMedium;
+  color: #393939;
+  background: #cbd2e0;
 `;

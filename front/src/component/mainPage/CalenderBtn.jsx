@@ -26,6 +26,8 @@ function CalenderBtn({
   const openSideWindow = (dayOfTheWeek) => {
     setReduction(true);
     pushBtn(dayOfTheWeek, [calendarDate[0], calendarDate[1] - 1, date]);
+    if (diary) {
+    }
   };
 
   const closeSideWindow = () => {

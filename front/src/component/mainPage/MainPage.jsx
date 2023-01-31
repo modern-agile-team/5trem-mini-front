@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MainTop from "./MainTop";
 import useCounter from "./useCounter";
 import TransfromBtn from "./TransfromBtn";
 import Calendar from "../../publicCompent/Calendar";
+import { useLocation } from "react-router-dom";
 
 function MainPage() {
+  const location = useLocation();
+  useEffect(() => {
+    console.log(location.state);
+  }, []);
+
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
