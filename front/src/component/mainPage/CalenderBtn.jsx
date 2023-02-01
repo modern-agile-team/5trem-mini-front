@@ -12,6 +12,8 @@ function CalenderBtn({
   setReduction,
   reduction,
   diary,
+  writtenDiaryBtn,
+  setPushDiaryBtn,
 }) {
   const today = new Date();
   const todayYear = today.getFullYear();
@@ -23,10 +25,17 @@ function CalenderBtn({
     todayMonth === calendarDate[1] - 1 &&
     todayDate === date;
 
+  const IsItWritten = writtenDiaryBtn.includes(date);
+
   const openSideWindow = (dayOfTheWeek) => {
     setReduction(true);
     pushBtn(dayOfTheWeek, [calendarDate[0], calendarDate[1] - 1, date]);
     if (diary) {
+      if (IsItWritten) {
+        setPushDiaryBtn(true);
+      } else {
+        setPushDiaryBtn(false);
+      }
     }
   };
 
@@ -46,6 +55,7 @@ function CalenderBtn({
           }}
         >
           <PushBtn today={IsItToday} onClick={closeSideWindow} diary={diary}>
+            {IsItWritten && <Check>V</Check>}
             <PushFont today={IsItToday} date={date} dayOfTheWeek={dayOfTheWeek}>
               {date}
             </PushFont>
@@ -68,6 +78,7 @@ function CalenderBtn({
                 openSideWindow(dayOfTheWeek);
               }}
             >
+              {IsItWritten && <Check>V</Check>}
               <Font
                 date={date}
                 dayOfTheWeek={dayOfTheWeek}
@@ -160,5 +171,16 @@ const ToDoCount = styled.div`
 
   color: #707070;
   font-size: ${({ reduction }) => (reduction ? "6" : "7")}px;
+  font-family: GmarketSansLight;
+`;
+
+const Check = styled.div`
+  position: absolute;
+  right: 7px;
+  bottom: 5px;
+  z-index: 999999;
+
+  color: #707070;
+  font-size: 6px;
   font-family: GmarketSansLight;
 `;

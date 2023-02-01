@@ -72,7 +72,6 @@ export default function SignUp() {
     });
     if (name === "id") {
       const [idCheck, idText] = await overlap.idCheck(value);
-      console.log(idCheck);
       setOverlapCheck((check) => {
         return { ...check, ["idCheck"]: idCheck, ["idText"]: idText };
       });

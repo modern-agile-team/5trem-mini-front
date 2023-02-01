@@ -14,6 +14,16 @@ function Login() {
     password: "",
   });
 
+  const moveMainPage = async () => {
+    if (await loginApi(userInfo)) {
+      navigate("/mainPage");
+      window.localStorage.setItem("userID", userInfo.id);
+    } else {
+      alert(`아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.
+      입력하신 내용을 다시 확인해주세요.`);
+    }
+  };
+
   const onChangeAccount = (text) => {
     setUserInfo((user) => {
       return { ...user, [text.target.name]: text.target.value };
@@ -23,13 +33,6 @@ function Login() {
   const navigate = useNavigate();
   const moveSignUp = () => {
     navigate("/signUp");
-  };
-
-  const moveMainPage = async () => {
-    (await loginApi(userInfo))
-      ? navigate("/mainPage", { state: userInfo })
-      : alert(`아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.
-입력하신 내용을 다시 확인해주세요.`);
   };
 
   return (
@@ -44,6 +47,7 @@ function Login() {
               name="id"
               placeholder="아이디"
               onChange={onChangeAccount}
+              id="userID"
             />
           }
         />

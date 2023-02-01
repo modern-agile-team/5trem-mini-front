@@ -13,7 +13,9 @@ function YearChange() {
 
   const navigate = useNavigate();
   const moveYearChange = (e) => {
-    navigate(`${url}`, { state: { year: e.target.textContent } });
+    navigate(`${url}`, {
+      state: { year: e.target.textContent },
+    });
   };
 
   const [yearList, increaseYearList, decreaseYearList] = YearCounter(year);

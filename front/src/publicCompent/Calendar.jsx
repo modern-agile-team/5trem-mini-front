@@ -2,20 +2,21 @@ import React, { useState, useEffect } from "react";
 import CalenderBtn from "../component/mainPage/CalenderBtn";
 import dateCalculation from "../component/mainPage/dateCalculation";
 import Diary from "../component/diary/Diary";
-import importDiary from "../api/importDiary";
+import diaryApi from "../api/diaryApi";
 
 function Calendar({ year, month, reduction, setReduction, diary }) {
   const monthDate = dateCalculation(year, month - 1);
 
   const [push, setPush] = useState(new Array(42).fill(false));
-  const [pushBthDay, setPushBthDay] = useState();
+  const [pushBthDay, setPushBthDay] = useState("");
+  const [writtenDiaryBtn, setWrittenDiaryBtn] = useState("");
+  const [pushDiaryBtn, setPushDiaryBtn] = useState(false);
 
   const pushBtn = (index, bthDay) => {
     const pushArr = new Array(42).fill(false);
     pushArr[index] = true;
     setPush(pushArr);
     setPushBthDay(bthDay);
-    console.log(bthDay);
   };
 
   const pullBtn = () => {
@@ -26,7 +27,9 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
   useEffect(() => {
     pullBtn();
     if (diary) {
-      importDiary(year, month);
+      (async () => {
+        setWrittenDiaryBtn(await diaryApi.checkDiary(year, month));
+      })();
     }
   }, [year, month, diary]);
 
@@ -67,6 +70,8 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
                 setReduction={setReduction}
                 reduction={reduction}
                 diary={diary}
+                writtenDiaryBtn={writtenDiaryBtn}
+                setPushDiaryBtn={setPushDiaryBtn}
               />
             ))}
           </div>
@@ -75,8 +80,11 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
               width: "600px",
             }}
           >
-            {diary ? <Diary /> : <div>투두리스트 입니다.</div>}
-            {pushBthDay}
+            {diary ? (
+              <Diary pushBthDay={pushBthDay} pushDiaryBtn={pushDiaryBtn} />
+            ) : (
+              <div>투두리스트 입니다.</div>
+            )}
           </div>
         </div>
       ) : (
@@ -102,6 +110,8 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
                 setReduction={setReduction}
                 reduction={reduction}
                 diary={diary}
+                writtenDiaryBtn={writtenDiaryBtn}
+                setPushDiaryBtn={setPushDiaryBtn}
               />
             ))}
           </div>
