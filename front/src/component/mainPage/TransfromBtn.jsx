@@ -12,10 +12,6 @@ function TransfromBtn({ reduction, diary, setDiary, setReduction }) {
       : "#E8EBF2";
   };
 
-  const onclick = () => {
-    setReduction(false);
-  };
-
   return (
     <div style={{ width: "100%" }}>
       <Container reduction={reduction}>
@@ -35,9 +31,6 @@ function TransfromBtn({ reduction, diary, setDiary, setReduction }) {
             }
           />
         </div>
-        <CloseSideWindow onClick={onclick} reduction={reduction}>
-          X
-        </CloseSideWindow>
       </Container>
     </div>
   );
@@ -51,10 +44,4 @@ const Container = styled.div`
   width: ${({ reduction }) => (reduction ? "1450" : "1000")}px;
   margin: 30px auto 0;
   align-items: center;
-`;
-
-const CloseSideWindow = styled.div`
-  margin-top: 25px;
-  margin-right: 50px;
-  display: ${({ reduction }) => (reduction ? null : "none")};
 `;

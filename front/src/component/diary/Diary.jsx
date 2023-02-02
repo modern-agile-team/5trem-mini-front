@@ -2,10 +2,29 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import LightContainer from "../../publicCompent/LightContainer";
 import diaryApi from "../../api/diaryApi";
+import { ReactComponent as CloseImg } from "../../assets/xImg.svg";
+import defaultImg from "../../assets/defaultImg.svg";
 
-function Diary({ pushDiaryBtn, pushBthDay }) {
+function Diary({
+  existDiary,
+  pushBthDay,
+  setReduction,
+  setChangeDiaryState,
+  changeDiaryState,
+}) {
   const [textHeight, setTextHeight] = useState("");
   const [previewImg, setPreviewImg] = useState("");
+  const [imgData, setImgData] = useState("");
+  const [presenceOrAbsence, setpresenceOrAbsence] = useState("");
+
+  const onclick = () => {
+    setReduction(false);
+  };
+
+  useEffect(() => {
+    setImgData("");
+    setPreviewImg("");
+  }, [pushBthDay]);
 
   useEffect(() => {
     const container = document.getElementById("container");
@@ -19,35 +38,71 @@ function Diary({ pushDiaryBtn, pushBthDay }) {
   }, []);
 
   useEffect(() => {
-    if (pushDiaryBtn) {
+    if (existDiary) {
       (async () => {
         const response = await diaryApi.importDiary(pushBthDay);
         document.getElementById("title").value = response.data.title;
         document.getElementById("content").value = response.data.content;
+        if (response.data.image) {
+          document.getElementById("img").src = response.data.image;
+          setpresenceOrAbsence(true);
+        } else {
+          document.getElementById("img").src = defaultImg;
+          setpresenceOrAbsence(false);
+        }
+        window.localStorage.setItem("diaryNum", response.data.no);
       })();
     }
-  }, [pushDiaryBtn]);
+  }, [pushBthDay]);
+
+  const enrollment = async () => {
+    const data = pushBthDay;
+    data[1] += 1;
+
+    const fromData = new FormData();
+    fromData.append("image", imgData);
+    fromData.append(
+      "content",
+      document.getElementById("enrollmentContent").value
+    );
+    fromData.append("title", document.getElementById("enrollmentTitle").value);
+    fromData.append("date", data.join("-"));
+    await diaryApi.enrollmentDiary(fromData);
+    setChangeDiaryState(!changeDiaryState);
+    setReduction(false);
+  };
+
+  const update = async () => {
+    const fromData = new FormData();
+    fromData.append("image", imgData);
+    fromData.append("content", document.getElementById("content").value);
+    fromData.append("title", document.getElementById("title").value);
+    await diaryApi.updateDiary(fromData);
+    setChangeDiaryState(!changeDiaryState);
+    setReduction(false);
+  };
 
   const readImg = (e) => {
     let fileReader = new FileReader();
     let data = e.target;
     fileReader.onload = function (e) {
       let dataURL = fileReader.result;
-      // let output = document.getElementById("Img");
-      // output.src = dataURL;
       setPreviewImg(dataURL);
     };
     fileReader.readAsDataURL(data.files[0]);
+    setImgData(data.files[0]);
   };
 
   return (
     <>
-      {pushDiaryBtn ? (
+      {existDiary ? (
         <div style={{ marginTop: "20px" }}>
           <LightContainer
             tag={
               <Container width={567} height={textHeight} id={"container"}>
-                <Close>X</Close>
+                <CloseSideWindow onClick={onclick}>
+                  <CloseImg />
+                </CloseSideWindow>
                 <TitleTransfrom
                   placeholder={"제목을 입력하세요"}
                   id={"title"}
@@ -65,7 +120,6 @@ function Diary({ pushDiaryBtn, pushBthDay }) {
                 <div
                   style={{
                     width: "502px",
-                    height: "200px",
                     marginTop: "13px",
                     display: "flex",
                     justifyContent: "center",
@@ -73,7 +127,8 @@ function Diary({ pushDiaryBtn, pushBthDay }) {
                 >
                   <label htmlFor="uploadImg">
                     <UploadImg
-                      pushDiaryBtn={pushDiaryBtn}
+                      id="img"
+                      presenceOrAbsence={presenceOrAbsence}
                       src={previewImg}
                     ></UploadImg>
                   </label>
@@ -87,7 +142,7 @@ function Diary({ pushDiaryBtn, pushBthDay }) {
                     flexDirection: "row-reverse",
                   }}
                 >
-                  <Enrollment>등록</Enrollment>
+                  <Enrollment onClick={update}>등록</Enrollment>
                 </div>
               </Container>
             }
@@ -98,24 +153,34 @@ function Diary({ pushDiaryBtn, pushBthDay }) {
           <LightContainer
             tag={
               <Container width={567} height={textHeight} id={"container"}>
-                <Close>X</Close>
-                <Title placeholder={"제목을 입력하세요"}></Title>
-
+                <CloseSideWindow onClick={onclick}>
+                  <CloseImg />
+                </CloseSideWindow>
+                <Title
+                  placeholder={"제목을 입력하세요"}
+                  id={"enrollmentTitle"}
+                ></Title>
                 <input
                   type={"file"}
                   id={"uploadImg"}
                   style={{ display: "none" }}
                   onChange={readImg}
+                  value={""}
                 />
                 <div
                   style={{ width: "502px", height: "60px", marginTop: "13px" }}
                 >
                   <label htmlFor="uploadImg">
-                    <UploadImg src={previewImg}></UploadImg>
+                    <UploadImg
+                      src={previewImg ? previewImg : defaultImg}
+                    ></UploadImg>
                   </label>
                 </div>
 
-                <MainText placeholder={"내용을 입력하세요"}></MainText>
+                <MainText
+                  placeholder={"내용을 입력하세요"}
+                  id={"enrollmentContent"}
+                ></MainText>
                 <div
                   style={{
                     width: "502px",
@@ -125,7 +190,7 @@ function Diary({ pushDiaryBtn, pushBthDay }) {
                     flexDirection: "row-reverse",
                   }}
                 >
-                  <Enrollment>등록</Enrollment>
+                  <Enrollment onClick={enrollment}>등록</Enrollment>
                 </div>
               </Container>
             }
@@ -146,14 +211,6 @@ const Container = styled.div`
   box-shadow: 5px 5px 30px #0f296b33;
   border: 0.20000000298023224px solid #ffffff;
   border-radius: 10px;
-`;
-
-const Close = styled.div`
-  width: 502px;
-  height: 30px;
-  margin-top: 10px;
-  display: flex;
-  flex-direction: row-reverse;
 `;
 
 const MainText = styled.textarea`
@@ -231,8 +288,8 @@ const TitleTransfrom = styled.input`
 `;
 
 const UploadImg = styled.img`
-  width: ${({ pushDiaryBtn }) => (pushDiaryBtn ? "500" : "50")}px;
-  height: ${({ pushDiaryBtn }) => (pushDiaryBtn ? "200" : "50")}px;
+  width: ${({ presenceOrAbsence }) => (presenceOrAbsence ? "500" : "50")}px;
+  height: ${({ presenceOrAbsence }) => (presenceOrAbsence ? "200" : "50")}px;
 `;
 
 const Enrollment = styled.div`
@@ -243,4 +300,13 @@ const Enrollment = styled.div`
   font: 14px/25px GmarketSansMedium;
   color: #393939;
   background: #cbd2e0;
+`;
+
+const CloseSideWindow = styled.div`
+  width: 502px;
+  height: 30px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
 `;

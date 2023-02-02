@@ -10,7 +10,8 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
   const [push, setPush] = useState(new Array(42).fill(false));
   const [pushBthDay, setPushBthDay] = useState("");
   const [writtenDiaryBtn, setWrittenDiaryBtn] = useState("");
-  const [pushDiaryBtn, setPushDiaryBtn] = useState(false);
+  const [existDiary, setExistDiary] = useState(false);
+  const [changeDiaryState, setChangeDiaryState] = useState(false);
 
   const pushBtn = (index, bthDay) => {
     const pushArr = new Array(42).fill(false);
@@ -31,7 +32,7 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
         setWrittenDiaryBtn(await diaryApi.checkDiary(year, month));
       })();
     }
-  }, [year, month, diary]);
+  }, [year, month, diary, changeDiaryState]);
 
   useEffect(() => {
     if (!reduction) {
@@ -71,7 +72,7 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
                 reduction={reduction}
                 diary={diary}
                 writtenDiaryBtn={writtenDiaryBtn}
-                setPushDiaryBtn={setPushDiaryBtn}
+                setExistDiary={setExistDiary}
               />
             ))}
           </div>
@@ -81,7 +82,15 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
             }}
           >
             {diary ? (
-              <Diary pushBthDay={pushBthDay} pushDiaryBtn={pushDiaryBtn} />
+              <>
+                <Diary
+                  pushBthDay={pushBthDay}
+                  existDiary={existDiary}
+                  setReduction={setReduction}
+                  setChangeDiaryState={setChangeDiaryState}
+                  changeDiaryState={changeDiaryState}
+                />
+              </>
             ) : (
               <div>투두리스트 입니다.</div>
             )}
@@ -111,7 +120,7 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
                 reduction={reduction}
                 diary={diary}
                 writtenDiaryBtn={writtenDiaryBtn}
-                setPushDiaryBtn={setPushDiaryBtn}
+                setExistDiary={setExistDiary}
               />
             ))}
           </div>

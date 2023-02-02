@@ -13,7 +13,7 @@ function CalenderBtn({
   reduction,
   diary,
   writtenDiaryBtn,
-  setPushDiaryBtn,
+  setExistDiary,
 }) {
   const today = new Date();
   const todayYear = today.getFullYear();
@@ -32,9 +32,9 @@ function CalenderBtn({
     pushBtn(dayOfTheWeek, [calendarDate[0], calendarDate[1] - 1, date]);
     if (diary) {
       if (IsItWritten) {
-        setPushDiaryBtn(true);
+        setExistDiary(true);
       } else {
-        setPushDiaryBtn(false);
+        setExistDiary(false);
       }
     }
   };
@@ -55,7 +55,6 @@ function CalenderBtn({
           }}
         >
           <PushBtn today={IsItToday} onClick={closeSideWindow} diary={diary}>
-            {IsItWritten && <Check>V</Check>}
             <PushFont today={IsItToday} date={date} dayOfTheWeek={dayOfTheWeek}>
               {date}
             </PushFont>
@@ -74,11 +73,11 @@ function CalenderBtn({
               height={reduction ? 70 : 80}
               reduction={reduction}
               today={IsItToday}
+              IsItWritten={IsItWritten}
               onClick={() => {
                 openSideWindow(dayOfTheWeek);
               }}
             >
-              {IsItWritten && <Check>V</Check>}
               <Font
                 date={date}
                 dayOfTheWeek={dayOfTheWeek}
@@ -110,7 +109,8 @@ const Btn = styled.button`
   height: ${({ reduction }) => (reduction ? "60" : "70")}px;
   border-radius: ${({ diary }) => (diary ? "50%" : "10px")};
 
-  border: ${({ today }) => (today ? "none" : "0.2px solid #ffffff")};
+  border: ${({ today, IsItWritten }) =>
+    IsItWritten ? "3px solid #A6B0C6" : today ? "none" : "0.2px solid #ffffff"};
   background: ${({ today }) =>
     today
       ? "linear-gradient(134deg, #E8EBF2 0%, #B8C0D1 0%, #D9DEEB 100%)"
@@ -171,16 +171,5 @@ const ToDoCount = styled.div`
 
   color: #707070;
   font-size: ${({ reduction }) => (reduction ? "6" : "7")}px;
-  font-family: GmarketSansLight;
-`;
-
-const Check = styled.div`
-  position: absolute;
-  right: 7px;
-  bottom: 5px;
-  z-index: 999999;
-
-  color: #707070;
-  font-size: 6px;
   font-family: GmarketSansLight;
 `;
