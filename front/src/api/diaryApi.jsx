@@ -15,20 +15,38 @@ const diaryApi = {
   },
 
   async importDiary(day) {
-    day[1] = day[1] >= 10 ? day[1] + 1 : "0" + (day[1] + 1);
     const SERVER_URL =
       "http://13.125.126.246:3000/diaries/" +
       localStorage.getItem("userID") +
       "/" +
       day[0] +
       "-" +
-      day[1] +
+      (day[1] + 1) +
       "-" +
       day[2];
 
     const response = await axios.get(SERVER_URL);
     return response;
-    // { content: response.data.content, title: response.data.title };
+  },
+
+  async enrollmentDiary(data) {
+    const SERVER_URL =
+      "http://13.125.126.246:3000/diaries/" +
+      localStorage.getItem("userID") +
+      "?directory=diary";
+
+    const response = await axios.post(SERVER_URL, data);
+  },
+
+  async updateDiary(data) {
+    const SERVER_URL =
+      "http://13.125.126.246:3000/diaries/" +
+      localStorage.getItem("userID") +
+      "/" +
+      localStorage.getItem("diaryNum");
+
+    const response = await axios.patch(SERVER_URL, data);
+    console.log(":::update:::", response);
   },
 };
 
