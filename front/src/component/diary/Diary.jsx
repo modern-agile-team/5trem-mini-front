@@ -12,7 +12,7 @@ function Diary({
   setChangeDiaryState,
   changeDiaryState,
 }) {
-  const [textHeight, setTextHeight] = useState("");
+  const [lightHeight, setLightHeight] = useState("");
   const [previewImg, setPreviewImg] = useState("");
   const [imgData, setImgData] = useState("");
   const [presenceOrAbsence, setpresenceOrAbsence] = useState("");
@@ -29,9 +29,9 @@ function Diary({
   useEffect(() => {
     const container = document.getElementById("container");
     const observer = new ResizeObserver((entries) => {
-      for (let entry of entries) {
+      for (const entry of entries) {
         const { width, height } = entry.contentRect;
-        setTextHeight(height);
+        setLightHeight(height);
       }
     });
     observer.observe(container);
@@ -44,7 +44,8 @@ function Diary({
         document.getElementById("title").value = response.data.title;
         document.getElementById("content").value = response.data.content;
         if (response.data.image) {
-          document.getElementById("img").src = response.data.image;
+          document.getElementById("img").src =
+            response.data.image + `?time=${new Date().getTime()}`;
           setpresenceOrAbsence(true);
         } else {
           document.getElementById("img").src = defaultImg;
@@ -56,8 +57,8 @@ function Diary({
   }, [pushBthDay]);
 
   const enrollment = async () => {
-    const data = pushBthDay;
-    data[1] += 1;
+    const date = pushBthDay;
+    date[1] += 1;
 
     const fromData = new FormData();
     fromData.append("image", imgData);
@@ -66,27 +67,42 @@ function Diary({
       document.getElementById("enrollmentContent").value
     );
     fromData.append("title", document.getElementById("enrollmentTitle").value);
-    fromData.append("date", data.join("-"));
-    await diaryApi.enrollmentDiary(fromData);
+    fromData.append("date", date.join("-"));
+    await diaryApi.enrollmentDiary(fromData, date.join("-"));
     setChangeDiaryState(!changeDiaryState);
     setReduction(false);
   };
 
   const update = async () => {
+    const date = pushBthDay;
+    date[1] += 1;
+
     const fromData = new FormData();
     fromData.append("image", imgData);
     fromData.append("content", document.getElementById("content").value);
     fromData.append("title", document.getElementById("title").value);
-    await diaryApi.updateDiary(fromData);
+
+    await diaryApi.updateDiary(fromData, date.join("-"));
+    setChangeDiaryState(!changeDiaryState);
+    setReduction(false);
+  };
+
+  const delet = async () => {
+    let [year, month, day] = pushBthDay;
+    month += 1;
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+
+    await diaryApi.deletDiary({ date: year + "-" + month + "-" + day });
     setChangeDiaryState(!changeDiaryState);
     setReduction(false);
   };
 
   const readImg = (e) => {
-    let fileReader = new FileReader();
-    let data = e.target;
-    fileReader.onload = function (e) {
-      let dataURL = fileReader.result;
+    const fileReader = new FileReader();
+    const data = e.target;
+    fileReader.onload = function () {
+      const dataURL = fileReader.result;
       setPreviewImg(dataURL);
     };
     fileReader.readAsDataURL(data.files[0]);
@@ -99,7 +115,7 @@ function Diary({
         <div style={{ marginTop: "20px" }}>
           <LightContainer
             tag={
-              <Container width={567} height={textHeight} id={"container"}>
+              <Container width={567} height={lightHeight} id={"container"}>
                 <CloseSideWindow onClick={onclick}>
                   <CloseImg />
                 </CloseSideWindow>
@@ -142,7 +158,12 @@ function Diary({
                     flexDirection: "row-reverse",
                   }}
                 >
-                  <Enrollment onClick={update}>등록</Enrollment>
+                  <StateBtn onClick={delet} delet={true}>
+                    삭제
+                  </StateBtn>
+                  <StateBtn onClick={update} style={{ marginRight: "20px" }}>
+                    수정
+                  </StateBtn>
                 </div>
               </Container>
             }
@@ -152,7 +173,7 @@ function Diary({
         <div style={{ marginTop: "20px" }}>
           <LightContainer
             tag={
-              <Container width={567} height={textHeight} id={"container"}>
+              <Container width={567} height={lightHeight} id={"container"}>
                 <CloseSideWindow onClick={onclick}>
                   <CloseImg />
                 </CloseSideWindow>
@@ -190,7 +211,7 @@ function Diary({
                     flexDirection: "row-reverse",
                   }}
                 >
-                  <Enrollment onClick={enrollment}>등록</Enrollment>
+                  <StateBtn onClick={enrollment}>등록</StateBtn>
                 </div>
               </Container>
             }
@@ -238,7 +259,7 @@ const MainTextTransfrom = styled.textarea`
   padding: 10px;
 
   color: #838383;
-  font: 12px/13px GmarketSansMedium;
+  font: 12px/13px SCDream4;
   background-color: transparent;
   border: none;
   outline: none;
@@ -249,7 +270,7 @@ const MainTextTransfrom = styled.textarea`
     min-height: 100px;
     max-height: 215px;
 
-    font: 12px/13px GmarketSansMedium;
+    font: 12px/13px SCDream4;
     color: #838383;
     padding: 10px;
     border: none;
@@ -292,14 +313,14 @@ const UploadImg = styled.img`
   height: ${({ presenceOrAbsence }) => (presenceOrAbsence ? "200" : "50")}px;
 `;
 
-const Enrollment = styled.div`
+const StateBtn = styled.div`
   width: 40px;
   height: 22px;
-
-  padding-left: 7px;
+  padding-left: 6px;
   font: 14px/25px GmarketSansMedium;
-  color: #393939;
-  background: #cbd2e0;
+  color: ${({ delet }) => (delet ? "#FFFFFF" : "#393939")};
+  background: ${({ delet }) => (delet ? "#717E9B" : "#cbd2e0")};
+  border-radius: 4px;
 `;
 
 const CloseSideWindow = styled.div`

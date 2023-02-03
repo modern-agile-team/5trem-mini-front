@@ -29,24 +29,38 @@ const diaryApi = {
     return response;
   },
 
-  async enrollmentDiary(data) {
+  async enrollmentDiary(data, date) {
     const SERVER_URL =
       "http://13.125.126.246:3000/diaries/" +
       localStorage.getItem("userID") +
+      "/" +
+      date +
       "?directory=diary";
 
     const response = await axios.post(SERVER_URL, data);
   },
 
-  async updateDiary(data) {
+  async updateDiary(data, date) {
+    const SERVER_URL =
+      "http://13.125.126.246:3000/diaries/" +
+      localStorage.getItem("userID") +
+      "/" +
+      date +
+      "/" +
+      localStorage.getItem("diaryNum") +
+      "?directory=diary";
+
+    const response = await axios.post(SERVER_URL, data);
+  },
+
+  async deletDiary(date) {
     const SERVER_URL =
       "http://13.125.126.246:3000/diaries/" +
       localStorage.getItem("userID") +
       "/" +
       localStorage.getItem("diaryNum");
 
-    const response = await axios.patch(SERVER_URL, data);
-    console.log(":::update:::", response);
+    const response = await axios.delete(SERVER_URL, date);
   },
 };
 
