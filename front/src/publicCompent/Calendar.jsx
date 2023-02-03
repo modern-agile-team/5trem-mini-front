@@ -4,6 +4,7 @@ import dateCalculation from "../component/mainPage/dateCalculation";
 import Diary from "../component/diary/Diary";
 import diaryApi from "../api/diaryApi";
 import ToDoList from "../component/toDoList/ToDoList";
+import toDoListApi from "../api/toDoListApi";
 
 function Calendar({ year, month, reduction, setReduction, diary }) {
   const monthDate = dateCalculation(year, month - 1);
@@ -31,6 +32,10 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
     if (diary) {
       (async () => {
         setWrittenDiaryBtn(await diaryApi.checkDiary(year, month));
+      })();
+    } else {
+      (async () => {
+        await toDoListApi.checkToDoList(year, month);
       })();
     }
   }, [year, month, diary, changeDiaryState]);
