@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MainTop from "./MainTop";
-import useCounter from "./useCounter";
+import useYearCounter from "./useYearCounter";
 import TransfromBtn from "./TransfromBtn";
 import Calendar from "../../publicCompent/Calendar";
 
@@ -9,7 +9,8 @@ function MainPage() {
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
 
-  const [year, increaseYear, decreaseYear, setYear] = useCounter(currentYear);
+  const [year, increaseYear, decreaseYear, setYear] =
+    useYearCounter(currentYear);
   const [month, setMonth] = useState(
     currentMonth >= 10 ? currentMonth : "0" + currentMonth
   );

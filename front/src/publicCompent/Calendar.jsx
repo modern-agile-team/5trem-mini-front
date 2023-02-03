@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import CalenderBtn from "../component/mainPage/CalenderBtn";
+import CalenderBtn from "./CalenderBtn";
 import dateCalculation from "../component/mainPage/dateCalculation";
 import Diary from "../component/diary/Diary";
 import diaryApi from "../api/diaryApi";
+import ToDoList from "../component/toDoList/ToDoList";
 
 function Calendar({ year, month, reduction, setReduction, diary }) {
   const monthDate = dateCalculation(year, month - 1);
@@ -55,6 +56,7 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
             style={{
               display: "flex",
               width: "800px",
+              height: "600px",
               justifyContent: "space-between",
               flexWrap: "wrap",
             }}
@@ -92,7 +94,7 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
                 />
               </>
             ) : (
-              <div>투두리스트 입니다.</div>
+              <ToDoList pushBtn={pushBtn} />
             )}
           </div>
         </div>

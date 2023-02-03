@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import LightContainer from "../../publicCompent/LightContainer";
+import LightContainer from "./LightContainer";
 
 function CalenderBtn({
   date,
@@ -109,8 +109,12 @@ const Btn = styled.button`
   height: ${({ reduction }) => (reduction ? "60" : "70")}px;
   border-radius: ${({ diary }) => (diary ? "50%" : "10px")};
 
-  border: ${({ today, IsItWritten }) =>
-    IsItWritten ? "3px solid #A6B0C6" : today ? "none" : "0.2px solid #ffffff"};
+  border: ${({ today, IsItWritten, diary }) =>
+    diary && IsItWritten
+      ? "3px solid #A6B0C6"
+      : today
+      ? "none"
+      : "0.2px solid #ffffff"};
   background: ${({ today }) =>
     today
       ? "linear-gradient(134deg, #E8EBF2 0%, #B8C0D1 0%, #D9DEEB 100%)"
