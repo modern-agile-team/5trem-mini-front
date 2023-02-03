@@ -1,27 +1,16 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import LightContainer from "../../publicCompent/LightContainer";
+import ToDoItem from "./ToDoItem";
+import Comment from "./Comment";
 import useTodolistCounter from "./useTodolistCounter";
 import { ReactComponent as ShowEnrollmentBtn } from "../../assets/produceImg.svg";
 import { ReactComponent as CloseEnrollmentBtn } from "../../assets/xImg.svg";
 
 function ToDoList({ pushBtn }) {
   // const [count, increaseCount, decreaseCount, setCount] = useTodolistCounter(0);
-  const [lightHeight, setLightHeight] = useState("");
-  const [show, setShow] = useState(false);
 
-  useEffect(() => {
-    if (show) {
-      const container = document.getElementById("container");
-      const observer = new ResizeObserver((entries) => {
-        for (const entry of entries) {
-          const { width, height } = entry.contentRect;
-          setLightHeight(height);
-        }
-      });
-      observer.observe(container);
-    }
-  }, []);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     /*1. 투두리스트 get해와서 투두 계수만큼 setCount 하면됨 
@@ -29,16 +18,18 @@ function ToDoList({ pushBtn }) {
   }, [pushBtn]);
 
   return (
-    <div style={{ width: "600px", marginTop: "20px" }}>
+    <div
+      style={{
+        width: "560px",
+        marginTop: "20px",
+      }}
+    >
+      <ToDoItem></ToDoItem>
       {!show && <ShowEnrollmentBtn onClick={() => setShow(true)} />}
       {show && (
         <LightContainer
           tag={
-            <TodoListEnrollment
-              width={610}
-              height={lightHeight}
-              id={"container"}
-            >
+            <TodoListEnrollment width={550} height={212} id={"container"}>
               <RightSort>
                 <CloseEnrollmentBtn onClick={() => setShow(false)} />
               </RightSort>
@@ -51,6 +42,7 @@ function ToDoList({ pushBtn }) {
           }
         ></LightContainer>
       )}
+      <Comment />
     </div>
   );
 }
@@ -58,7 +50,7 @@ function ToDoList({ pushBtn }) {
 export default ToDoList;
 
 const TodoListEnrollment = styled.div`
-  width: 600px;
+  width: 557px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -70,7 +62,7 @@ const TodoListEnrollment = styled.div`
 `;
 
 const RightSort = styled.div`
-  width: 550px;
+  width: 510px;
   height: 34px;
   display: flex;
   flex-direction: row-reverse;
@@ -91,8 +83,8 @@ const Title = styled.input`
 
 const Content = styled.textarea`
   width: 502px;
-  min-height: 100px;
-  max-height: 363px;
+  height: 80px;
+  margin-top: 10px;
 
   font: 11px/13px SCDream4;
   color: #838383;
@@ -101,7 +93,7 @@ const Content = styled.textarea`
   background: #ffffff 0% 0% no-repeat padding-box;
   border-radius: 10px;
   outline: none;
-  resize: vertical;
+  resize: none;
 `;
 
 const StateBtn = styled.div`
