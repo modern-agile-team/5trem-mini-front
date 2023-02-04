@@ -11,9 +11,12 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
 
   const [push, setPush] = useState(new Array(42).fill(false));
   const [pushBthDay, setPushBthDay] = useState("");
+
   const [writtenDiaryBtn, setWrittenDiaryBtn] = useState("");
   const [existDiary, setExistDiary] = useState(false);
   const [changeDiaryState, setChangeDiaryState] = useState(false);
+
+  const [writtenTodoListBtn, setWrittenTodoListBtn] = useState([]);
 
   const pushBtn = (index, bthDay) => {
     const pushArr = new Array(42).fill(false);
@@ -35,7 +38,7 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
       })();
     } else {
       (async () => {
-        await toDoListApi.checkToDoList(year, month);
+        setWrittenTodoListBtn(await toDoListApi.getToDoListCount(year, month));
       })();
     }
   }, [year, month, diary, changeDiaryState]);
@@ -80,6 +83,7 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
                 diary={diary}
                 writtenDiaryBtn={writtenDiaryBtn}
                 setExistDiary={setExistDiary}
+                writtenTodoListBtn={writtenTodoListBtn}
               />
             ))}
           </div>
@@ -128,6 +132,7 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
                 diary={diary}
                 writtenDiaryBtn={writtenDiaryBtn}
                 setExistDiary={setExistDiary}
+                writtenTodoListBtn={writtenTodoListBtn}
               />
             ))}
           </div>
