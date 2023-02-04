@@ -1,16 +1,40 @@
 import React, { useEffect, useState } from "react";
+import { debounce } from "lodash";
 import styled from "styled-components";
 import { ReactComponent as CheckImg } from "../../assets/todoCheck.svg";
 import { ReactComponent as NoneCheckImg } from "../../assets/todoNoneCheck.svg";
 import { ReactComponent as XImg } from "../../assets/todoXImg.svg";
+import toDoListApi from "../../api/toDoListApi";
 
 function ToDoItem({ todo }) {
-  console.log(todo);
   const [check, setCheck] = useState(false);
+  const [title, setTitle] = useState(todo.title);
+  const [content, setContent] = useState(todo.content);
+  const todoNo = todo.no;
 
   useEffect(() => {
     setCheck(Boolean(todo.is_checked));
   }, []);
+
+  const debounceUpdate = debounce(async (e) => {
+    if (e.target.id === "title") {
+      const data = {
+        todoNo,
+        title: e.target.value,
+        content: content,
+      };
+      setTitle(e.target.value);
+      await toDoListApi.updateToDoList(data);
+    } else {
+      const data = {
+        todoNo,
+        title: title,
+        content: e.target.value,
+      };
+      setContent(e.target.value);
+      await toDoListApi.updateToDoList(data);
+    }
+  }, 500);
 
   return (
     <div style={{ width: "557px", display: "flex", flexWrap: "wrap" }}>
@@ -19,8 +43,18 @@ function ToDoItem({ todo }) {
         {check && <NoneCheckImg onClick={() => setCheck(false)} />}
         <XImg />
       </StateBtn>
-      <Title check={check} defaultValue={todo.content}></Title>
-      <Content check={check} defaultValue={todo.title}></Content>
+      <Title
+        check={check}
+        defaultValue={title}
+        onChange={debounceUpdate}
+        id="title"
+      ></Title>
+      <Content
+        check={check}
+        defaultValue={content}
+        onChange={debounceUpdate}
+        id="content"
+      ></Content>
     </div>
   );
 }
