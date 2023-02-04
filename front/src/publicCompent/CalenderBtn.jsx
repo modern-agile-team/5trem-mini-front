@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import LightContainer from "./LightContainer";
 
@@ -14,6 +14,7 @@ function CalenderBtn({
   diary,
   writtenDiaryBtn,
   setExistDiary,
+  writtenTodoListBtn,
 }) {
   const today = new Date();
   const todayYear = today.getFullYear();
@@ -26,6 +27,17 @@ function CalenderBtn({
     todayDate === date;
 
   const IsItWritten = writtenDiaryBtn.includes(date);
+
+  const [toDoListCnt, setTodoListCnt] = useState(0);
+
+  useEffect(() => {
+    setTodoListCnt(0);
+    writtenTodoListBtn.forEach((writtenTodoList) => {
+      if (Number(writtenTodoList.date) === date) {
+        setTodoListCnt(writtenTodoList.cnt);
+      }
+    });
+  }, [writtenTodoListBtn]);
 
   const openSideWindow = (dayOfTheWeek) => {
     setReduction(true);
@@ -59,7 +71,7 @@ function CalenderBtn({
               {date}
             </PushFont>
             <ToDoCount date={date} diary={diary}>
-              0
+              {toDoListCnt}
             </ToDoCount>
           </PushBtn>
         </div>
@@ -86,7 +98,7 @@ function CalenderBtn({
                 {date}
               </Font>
               <ToDoCount date={date} reduction={reduction} diary={diary}>
-                0
+                {toDoListCnt}
               </ToDoCount>
             </Btn>
           }
