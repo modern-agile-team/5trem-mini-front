@@ -103,7 +103,7 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
                 />
               </>
             ) : (
-              <ToDoList pushBtn={pushBtn} />
+              <ToDoList pushBthDay={pushBthDay} />
             )}
           </div>
         </div>

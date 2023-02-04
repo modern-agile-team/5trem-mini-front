@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as CheckImg } from "../../assets/todoCheck.svg";
 import { ReactComponent as NoneCheckImg } from "../../assets/todoNoneCheck.svg";
 import { ReactComponent as XImg } from "../../assets/todoXImg.svg";
 
-function ToDoItem(props) {
+function ToDoItem({ todo }) {
+  console.log(todo);
   const [check, setCheck] = useState(false);
+
+  useEffect(() => {
+    setCheck(Boolean(todo.is_checked));
+  }, []);
 
   return (
     <div style={{ width: "557px", display: "flex", flexWrap: "wrap" }}>
@@ -14,11 +19,8 @@ function ToDoItem(props) {
         {check && <NoneCheckImg onClick={() => setCheck(false)} />}
         <XImg />
       </StateBtn>
-      <Title check={check} placeholder={"나중에 지워야 합니다(제목)"}></Title>
-      <Content
-        check={check}
-        placeholder={"나중에 지워야 합니다(내용)"}
-      ></Content>
+      <Title check={check} defaultValue={todo.content}></Title>
+      <Content check={check} defaultValue={todo.title}></Content>
     </div>
   );
 }

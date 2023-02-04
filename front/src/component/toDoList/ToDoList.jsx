@@ -3,19 +3,21 @@ import styled from "styled-components";
 import LightContainer from "../../publicCompent/LightContainer";
 import ToDoItem from "./ToDoItem";
 import Comment from "./Comment";
-import useTodolistCounter from "./useTodolistCounter";
+import toDoListApi from "../../api/toDoListApi";
 import { ReactComponent as ShowEnrollmentBtn } from "../../assets/produceImg.svg";
 import { ReactComponent as CloseEnrollmentBtn } from "../../assets/xImg.svg";
 
-function ToDoList({ pushBtn }) {
-  // const [count, increaseCount, decreaseCount, setCount] = useTodolistCounter(0);
-
+function ToDoList({ pushBthDay }) {
   const [show, setShow] = useState(false);
+  const [toDoList, setToDoList] = useState([]);
 
   useEffect(() => {
     /*1. 투두리스트 get해와서 투두 계수만큼 setCount 하면됨 
     2. 아니면 map이용해서 데이터 받아온거 map으로 컴포넌트 제작하면 됨*/
-  }, [pushBtn]);
+    (async () => {
+      setToDoList(await toDoListApi.getToDoList(pushBthDay));
+    })();
+  }, [pushBthDay]);
 
   return (
     <div
@@ -24,7 +26,9 @@ function ToDoList({ pushBtn }) {
         marginTop: "20px",
       }}
     >
-      <ToDoItem></ToDoItem>
+      {toDoList.map((todo) => {
+        return <ToDoItem key={todo.no} todo={todo} />;
+      })}
       {!show && <ShowEnrollmentBtn onClick={() => setShow(true)} />}
       {show && (
         <LightContainer
