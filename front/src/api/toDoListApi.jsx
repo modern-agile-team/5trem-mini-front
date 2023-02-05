@@ -19,26 +19,7 @@ const toDoListApi = {
       "http://13.125.126.246:3000/todo/list/" +
       localStorage.getItem("userID") +
       "/" +
-      day[0] +
-      "-" +
-      (day[1] + 1) +
-      "-" +
-      day[2];
-
-    const response = await axios.get(SERVER_URL);
-    return response.data;
-  },
-
-  async getToDoList(day) {
-    const SERVER_URL =
-      "http://13.125.126.246:3000/todo/list/" +
-      localStorage.getItem("userID") +
-      "/" +
-      day[0] +
-      "-" +
-      (day[1] + 1) +
-      "-" +
-      day[2];
+      day;
 
     const response = await axios.get(SERVER_URL);
     return response.data;
@@ -48,6 +29,13 @@ const toDoListApi = {
     const SERVER_URL = "http://13.125.126.246:3000/todo";
 
     await axios.patch(SERVER_URL, data);
+  },
+
+  async addToDoList(data) {
+    const SERVER_URL = "http://13.125.126.246:3000/todo";
+
+    const response = await axios.post(SERVER_URL, data);
+    return response.data;
   },
 };
 

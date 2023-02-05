@@ -14,7 +14,7 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
 
   const [writtenDiaryBtn, setWrittenDiaryBtn] = useState("");
   const [existDiary, setExistDiary] = useState(false);
-  const [changeDiaryState, setChangeDiaryState] = useState(false);
+  const [changeState, setChangeState] = useState(false);
 
   const [writtenTodoListBtn, setWrittenTodoListBtn] = useState([]);
 
@@ -31,7 +31,6 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
   };
 
   useEffect(() => {
-    pullBtn();
     if (diary) {
       (async () => {
         setWrittenDiaryBtn(await diaryApi.checkDiary(year, month));
@@ -41,7 +40,7 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
         setWrittenTodoListBtn(await toDoListApi.getToDoListCount(year, month));
       })();
     }
-  }, [year, month, diary, changeDiaryState]);
+  }, [year, month, diary, changeState]);
 
   useEffect(() => {
     if (!reduction) {
@@ -98,12 +97,16 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
                   pushBthDay={pushBthDay}
                   existDiary={existDiary}
                   setReduction={setReduction}
-                  setChangeDiaryState={setChangeDiaryState}
-                  changeDiaryState={changeDiaryState}
+                  setChangeState={setChangeState}
+                  changeState={changeState}
                 />
               </>
             ) : (
-              <ToDoList pushBthDay={pushBthDay} />
+              <ToDoList
+                pushBthDay={pushBthDay}
+                changeState={changeState}
+                setChangeState={setChangeState}
+              />
             )}
           </div>
         </div>
