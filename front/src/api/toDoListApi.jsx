@@ -44,6 +44,13 @@ const toDoListApi = {
     const response = await axios.delete(SERVER_URL, { data });
     return response.data.success;
   },
+
+  async checkToDoList(data) {
+    const SERVER_URL = "http://13.125.126.246:3000/todo/checked";
+
+    const response = await axios.patch(SERVER_URL, data);
+    return response.data.success;
+  },
 };
 
 export default toDoListApi;

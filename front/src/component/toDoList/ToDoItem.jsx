@@ -46,11 +46,22 @@ function ToDoItem({ todo, setChangeState, changeState }) {
     }
   };
 
+  const checkChange = async () => {
+    const data = {
+      todoNo,
+      is_checked: check ? 1 : 0,
+    };
+    const success = await toDoListApi.checkToDoList(data);
+    if (success) {
+      setCheck(!check);
+    }
+  };
+
   return (
     <div style={{ width: "557px", display: "flex", flexWrap: "wrap" }}>
       <StateBtn>
-        {!check && <CheckImg onClick={() => setCheck(true)} />}
-        {check && <NoneCheckImg onClick={() => setCheck(false)} />}
+        {!check && <CheckImg onClick={checkChange} />}
+        {check && <NoneCheckImg onClick={checkChange} />}
         <XImg onClick={deleteToDoList} />
       </StateBtn>
       <Title
