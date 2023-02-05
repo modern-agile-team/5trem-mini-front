@@ -18,6 +18,8 @@ function MainPage() {
   const [reduction, setReduction] = useState(false);
   const [diary, setDiary] = useState(false);
 
+  const [friendViewer, setFriendViewer] = useState(false);
+
   return (
     <>
       <MainTop
@@ -27,12 +29,16 @@ function MainPage() {
         increaseYear={increaseYear}
         decreaseYear={decreaseYear}
         setYear={setYear}
+        friendViewer={friendViewer}
+        setFriendViewer={setFriendViewer}
       />
       <TransfromBtn
         reduction={reduction}
         diary={diary}
         setReduction={setReduction}
         setDiary={setDiary}
+        friendViewer={friendViewer}
+        setFriendViewer={setFriendViewer}
       />
       <Calendar
         diary={diary}
@@ -40,6 +46,8 @@ function MainPage() {
         setReduction={setReduction}
         year={year}
         month={month}
+        friendViewer={friendViewer}
+        setFriendViewer={setFriendViewer}
       />
       <div style={{ height: "100px" }} />
     </>

@@ -5,8 +5,17 @@ import Diary from "../component/diary/Diary";
 import diaryApi from "../api/diaryApi";
 import ToDoList from "../component/toDoList/ToDoList";
 import toDoListApi from "../api/toDoListApi";
+import Friend from "../component/mainPage_Friend/Friend";
 
-function Calendar({ year, month, reduction, setReduction, diary }) {
+function Calendar({
+  year,
+  month,
+  reduction,
+  setReduction,
+  diary,
+  friendViewer,
+  setFriendViewer,
+}) {
   const monthDate = dateCalculation(year, month - 1);
 
   const [push, setPush] = useState(new Array(42).fill(false));
@@ -23,6 +32,7 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
     pushArr[index] = true;
     setPush(pushArr);
     setPushBthDay(bthDay);
+    setFriendViewer(false);
   };
 
   const pullBtn = () => {
@@ -57,6 +67,13 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
       pullBtn();
     }
   }, [reduction]);
+
+  useEffect(() => {
+    if (friendViewer) {
+      pullBtn();
+      setReduction(true);
+    }
+  }, [friendViewer]);
 
   return (
     <>
@@ -101,7 +118,9 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
               width: "600px",
             }}
           >
-            {diary ? (
+            {friendViewer ? (
+              <Friend></Friend>
+            ) : diary ? (
               <>
                 <Diary
                   pushBthDay={pushBthDay}

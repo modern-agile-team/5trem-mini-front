@@ -49,7 +49,7 @@ function ToDoItem({ todo, setChangeState, changeState }) {
   const checkChange = async () => {
     const data = {
       todoNo,
-      is_checked: check ? 1 : 0,
+      is_checked: check ? 0 : 1,
     };
     const success = await toDoListApi.checkToDoList(data);
     if (success) {
