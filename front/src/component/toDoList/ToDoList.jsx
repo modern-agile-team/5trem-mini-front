@@ -42,7 +42,14 @@ function ToDoList({ pushBthDay, changeState, setChangeState }) {
       }}
     >
       {toDoList.map((todo) => {
-        return <ToDoItem key={todo.no} todo={todo} />;
+        return (
+          <ToDoItem
+            key={todo.no}
+            todo={todo}
+            changeState={changeState}
+            setChangeState={setChangeState}
+          />
+        );
       })}
       {!show && <ShowEnrollmentBtn onClick={() => setShow(true)} />}
       {show && (

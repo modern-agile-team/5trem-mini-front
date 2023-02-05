@@ -6,7 +6,7 @@ import { ReactComponent as NoneCheckImg } from "../../assets/todoNoneCheck.svg";
 import { ReactComponent as XImg } from "../../assets/todoXImg.svg";
 import toDoListApi from "../../api/toDoListApi";
 
-function ToDoItem({ todo }) {
+function ToDoItem({ todo, setChangeState, changeState }) {
   const [check, setCheck] = useState(false);
   const [title, setTitle] = useState(todo.title);
   const [content, setContent] = useState(todo.content);
@@ -36,12 +36,33 @@ function ToDoItem({ todo }) {
     }
   }, 500);
 
+  const deleteToDoList = async () => {
+    const data = {
+      todoNo,
+    };
+    const success = await toDoListApi.delToDoList(data);
+    if (success) {
+      setChangeState(!changeState);
+    }
+  };
+
+  const checkChange = async () => {
+    const data = {
+      todoNo,
+      is_checked: check ? 0 : 1,
+    };
+    const success = await toDoListApi.checkToDoList(data);
+    if (success) {
+      setCheck(!check);
+    }
+  };
+
   return (
     <div style={{ width: "557px", display: "flex", flexWrap: "wrap" }}>
       <StateBtn>
-        {!check && <CheckImg onClick={() => setCheck(true)} />}
-        {check && <NoneCheckImg onClick={() => setCheck(false)} />}
-        <XImg />
+        {!check && <CheckImg onClick={checkChange} />}
+        {check && <NoneCheckImg onClick={checkChange} />}
+        <XImg onClick={deleteToDoList} />
       </StateBtn>
       <Title
         check={check}

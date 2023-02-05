@@ -146,7 +146,7 @@ const PushBtn = styled.button`
       ? "linear-gradient(134deg, #E8EBF2 0%, #B8C0D1 0%, #D9DEEB 100%)"
       : "linear-gradient(95deg, #e8ebf2 0%, #e8ebf2 0%, #f2f3f7 100%)"};
   box-shadow: ${({ today }) =>
-    today ? "inset -5px -5px 10px #E8EBF2" : "inset -6px -6px 15px #FFFFFFCC"};
+    today ? "inset 6px 6px 12px #0f296b3d" : "inset 6px 6px 10px #0F296B26"};
   border: ${({ today }) => (today ? "none" : "0.2px solid #ffffff")};
 `;
 

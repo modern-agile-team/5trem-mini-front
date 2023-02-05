@@ -2,14 +2,27 @@ import React from "react";
 import LightContainer from "../../publicCompent/LightContainer";
 import StyleBtn from "../../publicCompent/StyleBtn";
 import styled from "styled-components";
+import { ReactComponent as XImg } from "../../assets/xImg.svg";
 
-function TransfromBtn({ reduction, diary, setDiary, setReduction }) {
+function TransfromBtn({
+  reduction,
+  setReduction,
+  diary,
+  setDiary,
+  friendViewer,
+  setFriendViewer,
+}) {
   const transfrom = () => {
     setDiary((prev) => !prev);
     setReduction(false);
     document.querySelector("body").style.backgroundColor = diary
       ? "#f2f3f7"
       : "#E8EBF2";
+  };
+
+  const closeFriendWindow = () => {
+    setReduction(false);
+    setFriendViewer(false);
   };
 
   return (
@@ -30,6 +43,9 @@ function TransfromBtn({ reduction, diary, setDiary, setReduction }) {
               </StyleBtn>
             }
           />
+        </div>
+        <div style={{ marginRight: "40px" }}>
+          {friendViewer && <XImg onClick={closeFriendWindow} />}
         </div>
       </Container>
     </div>

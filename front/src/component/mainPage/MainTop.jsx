@@ -15,6 +15,8 @@ function MainTop({
   month,
   setMonth,
   setYear,
+  friendViewer,
+  setFriendViewer,
 }) {
   const [leftYearBtnHover, setleftYearBtnHover] = useState(false);
   const [rightYearBtnHover, setrightYearBtnHover] = useState(false);
@@ -116,7 +118,10 @@ function MainTop({
             />
           </SelectMonth>
         </div>
-        <MainTopRight />
+        <MainTopRight
+          friendViewer={friendViewer}
+          setFriendViewer={setFriendViewer}
+        />
       </div>
     </div>
   );

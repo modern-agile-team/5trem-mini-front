@@ -9,6 +9,7 @@ function SelectUl({
   selectList,
   setSelectList,
   firend,
+  setFriendViewer,
 }) {
   const [show, setShow] = useState(false);
   const toggleUl = () => {
@@ -36,7 +37,7 @@ function SelectUl({
           {children}
           {show && (
             <SelectList firend={firend}>
-              <ViewMore />
+              <ViewMore setFriendViewer={setFriendViewer} />
               {selectList.map((value, index) => (
                 <SelectItem onClick={conversion} key={index}>
                   <PersonImg src={value[0]} />
@@ -79,7 +80,7 @@ const SelectList = styled.ul`
 
   background: rgb(115 115 115 / 75%);
   box-shadow: inset 5px 5px 20px #000000a3, 7px 7px 15px #0000009e;
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(2px);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   z-index: 99;
