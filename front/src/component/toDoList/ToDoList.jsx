@@ -3,19 +3,36 @@ import styled from "styled-components";
 import LightContainer from "../../publicCompent/LightContainer";
 import ToDoItem from "./ToDoItem";
 import Comment from "./Comment";
-import useTodolistCounter from "./useTodolistCounter";
+import toDoListApi from "../../api/toDoListApi";
 import { ReactComponent as ShowEnrollmentBtn } from "../../assets/produceImg.svg";
 import { ReactComponent as CloseEnrollmentBtn } from "../../assets/xImg.svg";
 
-function ToDoList({ pushBtn }) {
-  // const [count, increaseCount, decreaseCount, setCount] = useTodolistCounter(0);
-
+function ToDoList({ pushBthDay, changeState, setChangeState }) {
+  const BthDay =
+    pushBthDay[0] + "-" + (pushBthDay[1] + 1) + "-" + pushBthDay[2];
   const [show, setShow] = useState(false);
+  const [toDoList, setToDoList] = useState([]);
 
   useEffect(() => {
-    /*1. 투두리스트 get해와서 투두 계수만큼 setCount 하면됨 
-    2. 아니면 map이용해서 데이터 받아온거 map으로 컴포넌트 제작하면 됨*/
-  }, [pushBtn]);
+    (async () => {
+      setToDoList(await toDoListApi.getToDoList(BthDay));
+    })();
+  }, [pushBthDay, changeState]);
+
+  const enrollmentToDoList = async () => {
+    const data = {
+      id: localStorage.getItem("userID"),
+      date: BthDay,
+      title: document.getElementById("addTitle").value,
+      content: document.getElementById("addContent").value,
+    };
+    const success = await toDoListApi.addToDoList(data);
+    if (success) {
+      document.getElementById("addTitle").value = "";
+      document.getElementById("addContent").value = "";
+      setChangeState(!changeState);
+    }
+  };
 
   return (
     <div
@@ -24,7 +41,9 @@ function ToDoList({ pushBtn }) {
         marginTop: "20px",
       }}
     >
-      <ToDoItem></ToDoItem>
+      {toDoList.map((todo) => {
+        return <ToDoItem key={todo.no} todo={todo} />;
+      })}
       {!show && <ShowEnrollmentBtn onClick={() => setShow(true)} />}
       {show && (
         <LightContainer
@@ -33,10 +52,13 @@ function ToDoList({ pushBtn }) {
               <RightSort>
                 <CloseEnrollmentBtn onClick={() => setShow(false)} />
               </RightSort>
-              <Title placeholder={"제목을 입력하세요"}></Title>
-              <Content placeholder={"내용을 입력하세요"}></Content>
+              <Title placeholder={"제목을 입력하세요"} id="addTitle"></Title>
+              <Content
+                placeholder={"내용을 입력하세요"}
+                id="addContent"
+              ></Content>
               <RightSort style={{ margin: "12px 0px 7px 0px" }}>
-                <StateBtn>등록</StateBtn>
+                <StateBtn onClick={enrollmentToDoList}>등록</StateBtn>
               </RightSort>
             </TodoListEnrollment>
           }

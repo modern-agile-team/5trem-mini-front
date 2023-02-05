@@ -9,8 +9,8 @@ function Diary({
   existDiary,
   pushBthDay,
   setReduction,
-  setChangeDiaryState,
-  changeDiaryState,
+  setChangeState,
+  changeState,
 }) {
   const [lightHeight, setLightHeight] = useState("");
   const [previewImg, setPreviewImg] = useState("");
@@ -69,7 +69,7 @@ function Diary({
     fromData.append("title", document.getElementById("enrollmentTitle").value);
     fromData.append("date", date.join("-"));
     await diaryApi.enrollmentDiary(fromData, date.join("-"));
-    setChangeDiaryState(!changeDiaryState);
+    setChangeState(!changeState);
     setReduction(false);
   };
 
@@ -83,7 +83,7 @@ function Diary({
     fromData.append("title", document.getElementById("title").value);
 
     await diaryApi.updateDiary(fromData, date.join("-"));
-    setChangeDiaryState(!changeDiaryState);
+    setChangeState(!changeState);
     setReduction(false);
   };
 
@@ -94,7 +94,7 @@ function Diary({
     if (day < 10) day = "0" + day;
 
     await diaryApi.deletDiary({ date: year + "-" + month + "-" + day });
-    setChangeDiaryState(!changeDiaryState);
+    setChangeState(!changeState);
     setReduction(false);
   };
 
