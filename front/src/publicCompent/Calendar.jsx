@@ -30,7 +30,7 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
     setPush(pushArr);
   };
 
-  useEffect(() => {
+  const lookUp = () => {
     if (diary) {
       (async () => {
         setWrittenDiaryBtn(await diaryApi.checkDiary(year, month));
@@ -40,7 +40,17 @@ function Calendar({ year, month, reduction, setReduction, diary }) {
         setWrittenTodoListBtn(await toDoListApi.getToDoListCount(year, month));
       })();
     }
-  }, [year, month, diary, changeState]);
+  };
+
+  useEffect(() => {
+    pullBtn();
+    lookUp();
+    setReduction(false);
+  }, [year, month, diary]);
+
+  useEffect(() => {
+    lookUp();
+  }, [changeState]);
 
   useEffect(() => {
     if (!reduction) {
