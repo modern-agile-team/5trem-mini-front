@@ -31,6 +31,7 @@ const StateToggleBox = styled.div`
 
   color: #393939;
   text-align: ${({ stateToggle }) => (stateToggle ? "right" : "left")};
+  margin-bottom: 48px;
   padding: 15px 30px 0px 30px;
   font: 20px/23px GmarketSansMedium;
   background: #d0d6e3;
