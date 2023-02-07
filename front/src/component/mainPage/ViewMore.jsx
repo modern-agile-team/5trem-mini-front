@@ -16,7 +16,7 @@ const SelectItem = styled.li`
   display: flex;
   justify-content: center;
   padding-top: 15px;
-  font: 15px Gmarket Sans;
+  font: 15px GmarketSansMedium;
   color: #000000;
   user-select: none;
 `;

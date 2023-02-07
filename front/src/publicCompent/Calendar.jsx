@@ -56,6 +56,7 @@ function Calendar({
     pullBtn();
     lookUp();
     setReduction(false);
+    setFriendViewer(false);
   }, [year, month, diary]);
 
   useEffect(() => {
