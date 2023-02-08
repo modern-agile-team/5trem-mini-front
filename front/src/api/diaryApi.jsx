@@ -50,7 +50,7 @@ const diaryApi = {
       localStorage.getItem("diaryNum") +
       "?directory=diary";
 
-    const response = await axios.post(SERVER_URL, data);
+    const response = await axios.put(SERVER_URL, data);
   },
 
   async deletDiary(date) {

@@ -17,11 +17,6 @@ function MainTop({
   friendViewer,
   setFriendViewer,
 }) {
-  const [leftYearBtnHover, setleftYearBtnHover] = useState(false);
-  const [rightYearBtnHover, setrightYearBtnHover] = useState(false);
-  const [leftclickYearBtn, setleftClickYearBtn] = useState(false);
-  const [rightclickYearBtn, setrightClickYearBtn] = useState(false);
-
   const location = useLocation();
   const url = location.pathname;
 
@@ -55,14 +50,14 @@ function MainTop({
         }}
       >
         <div style={{ display: "flex" }}>
-          <HoverBtn setYear={decreaseYear} left={true} />
+          <HoverBtn set={decreaseYear} left={true} />
           <Year
             style={{ width: "165px", height: "80px", paddingTop: "11px" }}
             onClick={moveYearChange}
           >
             {year}
           </Year>
-          <HoverBtn setYear={increaseYear} />
+          <HoverBtn set={increaseYear} />
           <SelectMonth month={month} setMonth={setMonth}>
             <LightContainer
               tag={

@@ -3,7 +3,7 @@ import { ReactComponent as Arrow } from "../assets/arrow.svg";
 import { ReactComponent as ArrowHover } from "../assets/arrowHover.svg";
 import { ReactComponent as ArrowActive } from "../assets/arrowActive.svg";
 
-function HoverBtn({ setYear, left }) {
+function HoverBtn({ set, left }) {
   const [yearBtnHover, setyearBtnHover] = useState(false);
   const [clickYearBtn, setClickYearBtn] = useState(false);
 
@@ -25,7 +25,7 @@ function HoverBtn({ setYear, left }) {
             onMouseOver={() => setTimeout(() => setClickYearBtn(false), 150)}
           />
         ) : (
-          <ArrowHover onClick={setYear} />
+          <ArrowHover onClick={set} />
         )
       ) : (
         <Arrow />

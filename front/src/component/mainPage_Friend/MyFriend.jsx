@@ -2,23 +2,19 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import useCarousel from "./useCarousel";
+import HoverBtn from "../../publicCompent/HoverBtn";
+import friendApi from "../../api/friendApi";
 
 function MyFriend(props) {
-  const test = [
-    ["이미지", "가"],
-    ["이미지", "나"],
-    ["이미지", "다"],
-    ["이미지", "라"],
-    ["이미지", "마"],
-    ["이미지", "6"],
-    ["이미지", "7"],
-    ["이미지", "8"],
-    ["이미지", "9"],
-    ["이미지", "10"],
-    ["이미지", "사람이름"],
-  ];
+  const [firendList, setFirendList] = useState([]);
 
-  const carousel = useCarousel(test);
+  useEffect(() => {
+    (async () => {
+      setFirendList(await friendApi.getFriendList());
+    })();
+  }, []);
+
+  const carousel = useCarousel(firendList);
   const move = carousel.carouselArr[carousel.carouselIndex];
   return (
     <MyFriendContainer>
@@ -31,13 +27,14 @@ function MyFriend(props) {
       >
         내 친구
       </div>
-
-      <button onClick={carousel.subCarouselIndex}> 왼쪽 </button>
-      <div>{carousel.carouselArr[carousel.carouselIndex]}</div>
-      <button onClick={carousel.addCarouselIndex}> 오른쪽 </button>
-
+      <Absolute left={true}>
+        <HoverBtn set={carousel.subCarouselIndex} left={true} />
+      </Absolute>
+      <Absolute right={true}>
+        <HoverBtn set={carousel.addCarouselIndex} />
+      </Absolute>
       <FriendContainer>
-        {test.map((e, i) => {
+        {firendList.map((firend, i) => {
           return (
             <FriendInfo
               key={i}
@@ -46,8 +43,8 @@ function MyFriend(props) {
                 duration: 0.3,
               }}
             >
-              <FriendImg>{e[0]}</FriendImg>
-              <FriendName>{e[1]}</FriendName>
+              <FriendImg src={firend.image_url}></FriendImg>
+              <FriendName>{firend.nickname}</FriendName>
             </FriendInfo>
           );
         })}
@@ -64,6 +61,7 @@ const MyFriendContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  position: relative;
 
   padding: 40px 0 36px 0;
   margin-top: 39px;
@@ -91,7 +89,7 @@ const FriendInfo = styled(motion.div)`
   transform: ${({ move }) => `translateX(${move}px)`};
 `;
 
-const FriendImg = styled.div`
+const FriendImg = styled.img`
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -103,4 +101,11 @@ const FriendName = styled.div`
   margin-right: 30px;
   font: 12px/14px GmarketSansMedium;
   color: #5d5d5d;
+`;
+
+const Absolute = styled.span`
+  position: absolute;
+  left: ${({ left }) => left && 2}px;
+  right: ${({ right }) => right && 2}px;
+  top: 180px;
 `;

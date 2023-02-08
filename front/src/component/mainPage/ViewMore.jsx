@@ -1,10 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-// import { useNavigate } from "react-router-dom";
-// const navigate = useNavigate();
-// const moveFriend = () => {
-//   navigate("/mainPage/friend");
-// };
 
 function ViewMore({ setFriendViewer }) {
   return (
@@ -13,6 +8,7 @@ function ViewMore({ setFriendViewer }) {
 }
 
 const SelectItem = styled.li`
+  width: 160px;
   display: flex;
   justify-content: center;
   padding-top: 15px;

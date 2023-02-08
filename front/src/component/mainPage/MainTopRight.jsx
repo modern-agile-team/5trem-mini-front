@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import SelectFriend from "./SelectFriend";
+import SelectFriend from "../../component/mainPage_Friend/SelectFriend";
 import { useLocation } from "react-router-dom";
 
 function MainTopRight({ friendViewer, setFriendViewer }) {
