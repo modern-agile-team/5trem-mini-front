@@ -39,9 +39,9 @@ function SelectUl({
             <SelectList firend={firend}>
               <ViewMore setFriendViewer={setFriendViewer} />
               {selectList.map((value, index) => (
-                <SelectItem onClick={conversion} key={index}>
-                  <PersonImg src={value[0]} />
-                  {value[1]}
+                <SelectItem key={index}>
+                  <PersonImg src={value.image_url} />
+                  <NickNameOver>{value.nickname}</NickNameOver>
                 </SelectItem>
               ))}
               <div style={{ paddingBottom: "15px" }}></div>
@@ -75,8 +75,8 @@ const SelectList = styled.ul`
   position: absolute;
   display: flex;
   flex-direction: column;
-  width: 81px;
-  left: ${({ firend }) => (firend ? "-3px" : "-55px")};
+  width: ${({ firend }) => (firend ? "" : "81")}px;
+  left: ${({ firend }) => (firend ? "-45" : "-55")}px;
 
   background: rgb(115 115 115 / 75%);
   box-shadow: inset 5px 5px 20px #000000a3, 7px 7px 15px #0000009e;
@@ -88,11 +88,18 @@ const SelectList = styled.ul`
 
 const SelectItem = styled.li`
   display: flex;
-  justify-content: center;
-  padding-top: 15px;
+  margin: 15px 0 8px 8px;
   font: 15px Gmarket Sans;
   color: #ffffff;
+`;
+
+const NickNameOver = styled.div`
+  width: 121px;
+  height: 20px;
   user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const PersonImg = styled.img`
