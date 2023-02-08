@@ -1,12 +1,11 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import SelectMonth from "./SelectMonth";
 import { ReactComponent as Arrow } from "../../assets/arrow.svg";
-import { ReactComponent as ArrowHover } from "../../assets/arrowHover.svg";
-import { ReactComponent as ArrowActive } from "../../assets/arrowActive.svg";
 import LightContainer from "../../publicCompent/LightContainer";
 import MainTopRight from "./MainTopRight";
 import { useNavigate, useLocation } from "react-router-dom";
+import HoverBtn from "../../publicCompent/HoverBtn";
 
 function MainTop({
   year,
@@ -55,59 +54,15 @@ function MainTop({
           alignItems: "center",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <div
-            onMouseOver={() => setleftYearBtnHover(true)}
-            onMouseOut={() => setleftYearBtnHover(false)}
-            onClick={() => setleftClickYearBtn(true)}
-            style={{
-              transform: "rotate( 90deg )",
-              margin: "0px 15px 0px 13px",
-            }}
-          >
-            {leftYearBtnHover ? (
-              leftclickYearBtn ? (
-                <ArrowActive
-                  onMouseOver={() =>
-                    setTimeout(() => setleftClickYearBtn(false), 150)
-                  }
-                />
-              ) : (
-                <ArrowHover onClick={decreaseYear} />
-              )
-            ) : (
-              <Arrow />
-            )}
-          </div>
+        <div style={{ display: "flex" }}>
+          <HoverBtn setYear={decreaseYear} left={true} />
           <Year
-            style={{ display: "flex", width: "165px", height: "80px" }}
+            style={{ width: "165px", height: "80px", paddingTop: "11px" }}
             onClick={moveYearChange}
           >
             {year}
           </Year>
-          <div
-            onMouseOver={() => setrightYearBtnHover(true)}
-            onMouseOut={() => setrightYearBtnHover(false)}
-            onClick={() => setrightClickYearBtn(true)}
-            style={{
-              transform: "rotate( -90deg )",
-              margin: "0px 13px 0px 15px",
-            }}
-          >
-            {rightYearBtnHover ? (
-              rightclickYearBtn ? (
-                <ArrowActive
-                  onMouseOver={() =>
-                    setTimeout(() => setrightClickYearBtn(false), 150)
-                  }
-                />
-              ) : (
-                <ArrowHover onClick={increaseYear} />
-              )
-            ) : (
-              <Arrow />
-            )}
-          </div>
+          <HoverBtn setYear={increaseYear} />
           <SelectMonth month={month} setMonth={setMonth}>
             <LightContainer
               tag={
