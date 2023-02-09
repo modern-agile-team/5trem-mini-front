@@ -51,6 +51,7 @@ function Friend({ refreshFriend, setrefreshFriend }) {
                       setrefreshFriend={setrefreshFriend}
                       friendUserInfo={friendUserInfo}
                       key={index}
+                      index={index}
                     ></AcceptFriendList>
                   );
                 })}

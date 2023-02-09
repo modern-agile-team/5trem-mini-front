@@ -16,7 +16,7 @@ function MyFriend({ refreshFriend, setrefreshFriend }) {
     setStateHover(arr);
   };
   const noneShowDelete = () => {
-    const arr = new Array(42).fill(false);
+    const arr = new Array(firendList.length).fill(false);
     setStateHover(arr);
   };
 
@@ -164,9 +164,9 @@ const State = styled.div`
   top: -28px;
 
   background: rgb(115 115 115 / 75%);
-  box-shadow: inset 5px 5px 20px #000000a3, 7px 7px 15px #0000009e;
+  box-shadow: inset 5px 5px 20px #222222a2, 7px 7px 15px #0000009e;
   backdrop-filter: blur(2px);
-  border-radius: 10px;
+  border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   z-index: 99;
 
