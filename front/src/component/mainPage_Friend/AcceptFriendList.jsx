@@ -10,7 +10,8 @@ function AcceptFriendList({ refreshFriend, friendUserInfo, setrefreshFriend }) {
   };
 
   const refuse = async (connectionNum) => {
-    if (await friendApi.refusefriend({ no: connectionNum })) {
+    const data = { no: connectionNum };
+    if (await friendApi.refusefriend(data)) {
       setrefreshFriend(!refreshFriend);
     }
   };

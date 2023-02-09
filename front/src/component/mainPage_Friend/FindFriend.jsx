@@ -5,7 +5,7 @@ import { ReactComponent as ReadGlass } from "../../assets/readGlass.svg";
 import { debounce } from "lodash";
 import friendApi from "../../api/friendApi";
 
-function FindFriend(props) {
+function FindFriend({ refreshFriend, setrefreshFriend }) {
   const [show, setShow] = useState(false);
   const [friendInfo, setFriendInfo] = useState("");
 
@@ -15,9 +15,27 @@ function FindFriend(props) {
     setShow(response.success);
   }, 500);
 
-  useEffect(() => {
-    console.log(friendInfo);
-  }, [friendInfo]);
+  const managementFriend = async () => {
+    if (friendInfo.listNo) {
+      const data = { no: friendInfo.listNo };
+      const response = await friendApi.refusefriend(data);
+      if (response.success) {
+        setShow(false);
+        setrefreshFriend(!refreshFriend);
+        document.getElementById("findInput").value = "";
+      }
+    } else {
+      const data = {
+        senderId: localStorage.getItem("userID"),
+        receiverNickname: friendInfo.nickname,
+      };
+      const response = await friendApi.requestfriend(data);
+      if (response.success) {
+        setShow(false);
+        document.getElementById("findInput").value = "";
+      }
+    }
+  };
 
   return (
     <>
@@ -27,6 +45,7 @@ function FindFriend(props) {
             <FindeFriendInput
               onChange={findFriend}
               placeholder={"닉네임을 검색하세요"}
+              id={"findInput"}
             />
             <FindeImg>
               <ReadGlass />
@@ -41,8 +60,12 @@ function FindFriend(props) {
             <FriendName>{friendInfo.nickname}</FriendName>
             <LightContainer
               tag={
-                <AddFriendBtn width={100} height={40}>
-                  친구신청
+                <AddFriendBtn
+                  onClick={managementFriend}
+                  width={100}
+                  height={40}
+                >
+                  {Boolean(friendInfo.listNo) ? "친구삭제" : "친구신청"}
                 </AddFriendBtn>
               }
             ></LightContainer>
