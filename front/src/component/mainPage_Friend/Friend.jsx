@@ -59,7 +59,10 @@ function Friend({ refreshFriend, setrefreshFriend }) {
           }
         ></LightContainer>
       )}
-      <MyFriend refreshFriend={refreshFriend} />
+      <MyFriend
+        refreshFriend={refreshFriend}
+        setrefreshFriend={setrefreshFriend}
+      />
     </div>
   );
 }

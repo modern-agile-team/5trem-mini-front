@@ -18,7 +18,7 @@ function FindFriend({ refreshFriend, setrefreshFriend }) {
   const managementFriend = async () => {
     if (friendInfo.listNo) {
       const data = { no: friendInfo.listNo };
-      const response = await friendApi.refusefriend(data);
+      const response = await friendApi.refuseFriend(data);
       if (response.success) {
         setShow(false);
         setrefreshFriend(!refreshFriend);
@@ -29,7 +29,7 @@ function FindFriend({ refreshFriend, setrefreshFriend }) {
         senderId: localStorage.getItem("userID"),
         receiverNickname: friendInfo.nickname,
       };
-      const response = await friendApi.requestfriend(data);
+      const response = await friendApi.requestFriend(data);
       if (response.success) {
         setShow(false);
         document.getElementById("findInput").value = "";
