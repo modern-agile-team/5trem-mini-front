@@ -60,8 +60,8 @@ function ToDoItem({ todo, setChangeState, changeState }) {
   return (
     <div style={{ width: "557px", display: "flex", flexWrap: "wrap" }}>
       <StateBtn>
-        {!check && <CheckImg onClick={checkChange} />}
-        {check && <NoneCheckImg onClick={checkChange} />}
+        {!check && <NoneCheckImg onClick={checkChange} />}
+        {check && <CheckImg onClick={checkChange} />}
         <XImg onClick={deleteToDoList} />
       </StateBtn>
       <Title
@@ -107,7 +107,7 @@ const Title = styled.input`
 const Content = styled.textarea`
   width: 502px;
   height: 40px;
-  margin: 5px 0 0 27px;
+  margin: 5px 0 15px 27px;
 
   font: 15px/17px SCDream4;
   border: none;

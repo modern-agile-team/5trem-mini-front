@@ -98,9 +98,16 @@ const FriendImg = styled.img`
 `;
 
 const FriendName = styled.div`
+  width: 100px;
   margin-right: 30px;
   font: 12px/14px GmarketSansMedium;
   color: #5d5d5d;
+
+  text-align: center;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const Absolute = styled.span`

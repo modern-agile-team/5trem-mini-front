@@ -1,15 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import LightContainer from "../../publicCompent/LightContainer";
 import { ReactComponent as ReadGlass } from "../../assets/readGlass.svg";
+import { debounce } from "lodash";
+import friendApi from "../../api/friendApi";
 
 function FindFriend(props) {
+  const [show, setShow] = useState(false);
+  const [friendInfo, setFriendInfo] = useState("");
+
+  const findFriend = debounce(async (e) => {
+    const response = await friendApi.getFriendSearch(e.target.value);
+    setFriendInfo(response);
+    setShow(response.success);
+  }, 500);
+
+  useEffect(() => {
+    console.log(friendInfo);
+  }, [friendInfo]);
+
   return (
     <>
       <LightContainer
         tag={
           <div width={456} height={70}>
-            <FindeFriendInput placeholder={"닉네임을 검색하세요"} />
+            <FindeFriendInput
+              onChange={findFriend}
+              placeholder={"닉네임을 검색하세요"}
+            />
             <FindeImg>
               <ReadGlass />
             </FindeImg>
@@ -17,15 +35,19 @@ function FindFriend(props) {
         }
       ></LightContainer>
       <FinedResultContainer>
-        <FriendImg></FriendImg>
-        <FriendName>친구닉네임</FriendName>
-        <LightContainer
-          tag={
-            <AddFriendBtn width={100} height={40}>
-              친구신청
-            </AddFriendBtn>
-          }
-        ></LightContainer>
+        {show && (
+          <>
+            <FriendImg src={friendInfo.image_url}></FriendImg>
+            <FriendName>{friendInfo.nickname}</FriendName>
+            <LightContainer
+              tag={
+                <AddFriendBtn width={100} height={40}>
+                  친구신청
+                </AddFriendBtn>
+              }
+            ></LightContainer>
+          </>
+        )}
       </FinedResultContainer>
     </>
   );
@@ -66,11 +88,10 @@ const FinedResultContainer = styled.div`
   align-items: center;
 `;
 
-const FriendImg = styled.div`
+const FriendImg = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background-color: #b8c0d1;
 `;
 
 const FriendName = styled.div`
