@@ -19,13 +19,15 @@ const friendApi = {
       "waiting";
 
     const response = await axios.get(SERVER_URL);
-    console.log(response);
     return response.data;
   },
 
   async getFriendSearch(nickName) {
     const SERVER_URL =
-      "http://13.125.126.246:3000/friends/" + nickName + "/search";
+      "http://13.125.126.246:3000/friends/" +
+      localStorage.getItem("userID") +
+      "/search/" +
+      nickName;
 
     const response = await axios.get(SERVER_URL);
     return response.data;
@@ -35,14 +37,14 @@ const friendApi = {
     const SERVER_URL = "http://13.125.126.246:3000/friends/request";
 
     const response = await axios.patch(SERVER_URL, connectionNum);
-    console.log(response);
+    return response.data;
   },
 
   async refusefriend(connectionNum) {
     const SERVER_URL = "http://13.125.126.246:3000/friends/request";
 
     const response = await axios.delete(SERVER_URL, connectionNum);
-    console.log(response);
+    return response.data;
   },
 };
 

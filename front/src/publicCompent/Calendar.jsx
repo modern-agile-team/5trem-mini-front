@@ -15,6 +15,8 @@ function Calendar({
   diary,
   friendViewer,
   setFriendViewer,
+  refreshFriend,
+  setrefreshFriend,
 }) {
   const monthDate = dateCalculation(year, month - 1);
 
@@ -120,7 +122,10 @@ function Calendar({
             }}
           >
             {friendViewer ? (
-              <Friend></Friend>
+              <Friend
+                refreshFriend={refreshFriend}
+                setrefreshFriend={setrefreshFriend}
+              />
             ) : diary ? (
               <>
                 <Diary

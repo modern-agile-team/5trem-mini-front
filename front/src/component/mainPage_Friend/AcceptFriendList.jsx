@@ -2,13 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import friendApi from "../../api/friendApi";
 
-function AcceptFriendList({ friendUserInfo }) {
+function AcceptFriendList({ refreshFriend, friendUserInfo, setrefreshFriend }) {
   const accept = async (connectionNum) => {
-    await friendApi.acceptfriend(connectionNum);
+    if (await friendApi.acceptfriend({ no: connectionNum })) {
+      setrefreshFriend(!refreshFriend);
+    }
   };
 
   const refuse = async (connectionNum) => {
-    await friendApi.refusefriend(connectionNum);
+    if (await friendApi.refusefriend({ no: connectionNum })) {
+      setrefreshFriend(!refreshFriend);
+    }
   };
 
   return (

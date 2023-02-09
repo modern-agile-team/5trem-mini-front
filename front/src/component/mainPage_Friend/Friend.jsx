@@ -7,7 +7,7 @@ import MyFriend from "./MyFriend";
 import FindFriend from "./FindFriend";
 import friendApi from "../../api/friendApi";
 
-function Friend() {
+function Friend({ refreshFriend, setrefreshFriend }) {
   const [stateToggle, setStateToggle] = useState(true);
   const [lightHeight, setLightHeight] = useState("");
   const [friendWaitList, setFriendWaitList] = useState([]);
@@ -27,7 +27,7 @@ function Friend() {
         setFriendWaitList(await friendApi.getFriendWaiting());
       })();
     }
-  }, [stateToggle]);
+  }, [stateToggle, refreshFriend]);
 
   return (
     <div
@@ -44,6 +44,8 @@ function Friend() {
                 {friendWaitList.map((friendUserInfo, index) => {
                   return (
                     <AcceptFriendList
+                      refreshFriend={refreshFriend}
+                      setrefreshFriend={setrefreshFriend}
                       friendUserInfo={friendUserInfo}
                       key={index}
                     ></AcceptFriendList>
@@ -54,7 +56,7 @@ function Friend() {
           }
         ></LightContainer>
       )}
-      <MyFriend></MyFriend>
+      <MyFriend refreshFriend={refreshFriend} />
     </div>
   );
 }

@@ -5,14 +5,14 @@ import useCarousel from "./useCarousel";
 import HoverBtn from "../../publicCompent/HoverBtn";
 import friendApi from "../../api/friendApi";
 
-function MyFriend(props) {
+function MyFriend({ refreshFriend }) {
   const [firendList, setFirendList] = useState([]);
 
   useEffect(() => {
     (async () => {
       setFirendList(await friendApi.getFriendList());
     })();
-  }, []);
+  }, [refreshFriend]);
 
   const carousel = useCarousel(firendList);
   const move = carousel.carouselArr[carousel.carouselIndex];
