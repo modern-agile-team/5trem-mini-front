@@ -4,19 +4,35 @@ import { motion } from "framer-motion";
 import useCarousel from "./useCarousel";
 import HoverBtn from "../../publicCompent/HoverBtn";
 import friendApi from "../../api/friendApi";
+import { ReactComponent as ThreeCircles } from "../../assets/smallThreeCircles.svg";
 
-function MyFriend({ refreshFriend }) {
+function MyFriend({ refreshFriend, setrefreshFriend }) {
   const [firendList, setFirendList] = useState([]);
+  const [stateHover, setStateHover] = useState(false);
+
+  const showDelete = (index) => {
+    const arr = new Array(firendList.length).fill(false);
+    arr[index] = true;
+    setStateHover(arr);
+  };
+  const noneShowDelete = () => {
+    const arr = new Array(42).fill(false);
+    setStateHover(arr);
+  };
+
+  const refuseFriend = async (firend) => {
+    const data = { no: firend.friendListNo };
+    const response = await friendApi.refuseFriend(data);
+    if (response.success) {
+      setrefreshFriend(!refreshFriend);
+    }
+  };
 
   useEffect(() => {
     (async () => {
       setFirendList(await friendApi.getFriendList());
     })();
   }, [refreshFriend]);
-
-  useEffect(() => {
-    console.log(firendList);
-  }, [firendList]);
 
   const carousel = useCarousel(firendList);
   const move = carousel.carouselArr[carousel.carouselIndex];
@@ -25,7 +41,7 @@ function MyFriend({ refreshFriend }) {
       <div
         style={{
           width: "200px",
-          height: "118px",
+          height: "30px",
           textAlign: "center",
         }}
       >
@@ -47,6 +63,15 @@ function MyFriend({ refreshFriend }) {
                 duration: 0.3,
               }}
             >
+              <DeleteContainer
+                onMouseOver={() => showDelete(i)}
+                onMouseOut={() => noneShowDelete(i)}
+              >
+                {stateHover[i] && (
+                  <State onClick={() => refuseFriend(firend)}>삭제</State>
+                )}
+                <ThreeCircles />
+              </DeleteContainer>
               <FriendImg src={firend.image_url}></FriendImg>
               <FriendName>{firend.nickname}</FriendName>
             </FriendInfo>
@@ -76,14 +101,15 @@ const MyFriendContainer = styled.div`
 `;
 
 const FriendContainer = styled.div`
-  width: 420px;
-  height: 86px;
+  width: 440px;
+  height: 175px;
   display: flex;
-
+  align-items: flex-end;
   overflow: hidden;
 `;
 
 const FriendInfo = styled(motion.div)`
+  position: relative;
   width: 90px;
   height: 84px;
   display: flex;
@@ -97,13 +123,14 @@ const FriendImg = styled.img`
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  margin-right: 30px;
+
+  margin-right: 20px;
   background-color: white;
 `;
 
 const FriendName = styled.div`
   width: 100px;
-  margin-right: 30px;
+  margin-right: 20px;
   font: 12px/14px GmarketSansMedium;
   color: #5d5d5d;
 
@@ -119,4 +146,34 @@ const Absolute = styled.span`
   left: ${({ left }) => left && 2}px;
   right: ${({ right }) => right && 2}px;
   top: 180px;
+`;
+
+const DeleteContainer = styled.span`
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 0px;
+  top: -9px;
+`;
+
+const State = styled.div`
+  position: absolute;
+  width: 55px;
+  height: 28px;
+  left: 2px;
+  top: -28px;
+
+  background: rgb(115 115 115 / 75%);
+  box-shadow: inset 5px 5px 20px #000000a3, 7px 7px 15px #0000009e;
+  backdrop-filter: blur(2px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  z-index: 99;
+
+  user-select: none;
+  cursor: pointer;
+  text-align: center;
+  padding-top: 6px;
+  color: #ffffff;
+  font: 14px/18px GmarketSansMedium;
 `;

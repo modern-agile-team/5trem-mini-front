@@ -4,14 +4,14 @@ import friendApi from "../../api/friendApi";
 
 function AcceptFriendList({ refreshFriend, friendUserInfo, setrefreshFriend }) {
   const accept = async (connectionNum) => {
-    if (await friendApi.acceptfriend({ no: connectionNum })) {
+    if (await friendApi.acceptFriend({ no: connectionNum })) {
       setrefreshFriend(!refreshFriend);
     }
   };
 
   const refuse = async (connectionNum) => {
     const data = { no: connectionNum };
-    if (await friendApi.refusefriend(data)) {
+    if (await friendApi.refuseFriend(data)) {
       setrefreshFriend(!refreshFriend);
     }
   };
