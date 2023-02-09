@@ -30,6 +30,7 @@ const friendApi = {
       nickName;
 
     const response = await axios.get(SERVER_URL);
+    console.log(response.data);
     return response.data;
   },
 
@@ -40,10 +41,17 @@ const friendApi = {
     return response.data;
   },
 
-  async refusefriend(connectionNum) {
+  async refusefriend(data) {
     const SERVER_URL = "http://13.125.126.246:3000/friends/request";
 
-    const response = await axios.delete(SERVER_URL, connectionNum);
+    const response = await axios.delete(SERVER_URL, { data });
+    return response.data;
+  },
+
+  async requestfriend(data) {
+    const SERVER_URL = "http://13.125.126.246:3000/friends/request";
+
+    const response = await axios.post(SERVER_URL, data);
     return response.data;
   },
 };

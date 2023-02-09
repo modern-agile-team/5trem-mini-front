@@ -35,7 +35,10 @@ function Friend({ refreshFriend, setrefreshFriend }) {
     >
       <StateToggle stateToggle={stateToggle} setStateToggle={setStateToggle} />
       {stateToggle ? (
-        <FindFriend></FindFriend>
+        <FindFriend
+          refreshFriend={refreshFriend}
+          setrefreshFriend={setrefreshFriend}
+        />
       ) : (
         <LightContainer
           tag={

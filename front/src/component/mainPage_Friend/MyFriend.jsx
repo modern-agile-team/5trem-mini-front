@@ -14,6 +14,10 @@ function MyFriend({ refreshFriend }) {
     })();
   }, [refreshFriend]);
 
+  useEffect(() => {
+    console.log(firendList);
+  }, [firendList]);
+
   const carousel = useCarousel(firendList);
   const move = carousel.carouselArr[carousel.carouselIndex];
   return (
