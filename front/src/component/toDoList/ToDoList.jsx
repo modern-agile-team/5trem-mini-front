@@ -115,7 +115,7 @@ const Content = styled.textarea`
   height: 80px;
   margin-top: 10px;
 
-  font: 11px/13px SCDream4;
+  font: 11px/16px SCDream4;
   color: #838383;
   padding: 10px;
   border: none;

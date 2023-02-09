@@ -87,7 +87,7 @@ const StateBtn = styled.span`
 
   width: 40px;
   height: 22px;
-  right: 30px;
+  right: 24px;
   bottom: 17px;
   padding-left: 6px;
   font: 14px/25px GmarketSansMedium;
@@ -129,12 +129,13 @@ const LiftCommentContainer = styled.div`
 `;
 
 const Name = styled.div`
-  width: 40px;
-  margin: 0 8px 0 8px;
+  width: 55px;
+  margin-right: 8px;
   padding-top: 3px;
+  text-align: center;
 
-  font: 12px/14px GmarketSansMedium;
-  color: #5d5d5d;
+  font: 13px/14px GmarketSansMedium;
+  color: #080808;
 `;
 
 const LiftComment = styled.div`
@@ -155,7 +156,7 @@ const StateBtn2 = styled.span`
 
   width: 40px;
   height: 22px;
-  right: 40px;
+  right: 24px;
   top: 30px;
   padding-left: 6px;
   font: 14px/25px GmarketSansMedium;

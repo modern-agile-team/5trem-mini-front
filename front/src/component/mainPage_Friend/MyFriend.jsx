@@ -5,14 +5,14 @@ import useCarousel from "./useCarousel";
 import HoverBtn from "../../publicCompent/HoverBtn";
 import friendApi from "../../api/friendApi";
 
-function MyFriend(props) {
+function MyFriend({ refreshFriend }) {
   const [firendList, setFirendList] = useState([]);
 
   useEffect(() => {
     (async () => {
       setFirendList(await friendApi.getFriendList());
     })();
-  }, []);
+  }, [refreshFriend]);
 
   const carousel = useCarousel(firendList);
   const move = carousel.carouselArr[carousel.carouselIndex];
@@ -98,9 +98,16 @@ const FriendImg = styled.img`
 `;
 
 const FriendName = styled.div`
+  width: 100px;
   margin-right: 30px;
   font: 12px/14px GmarketSansMedium;
   color: #5d5d5d;
+
+  text-align: center;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const Absolute = styled.span`

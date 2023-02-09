@@ -1,16 +1,33 @@
 import React from "react";
 import styled from "styled-components";
+import friendApi from "../../api/friendApi";
 
-function AcceptFriendList(props) {
+function AcceptFriendList({ refreshFriend, friendUserInfo, setrefreshFriend }) {
+  const accept = async (connectionNum) => {
+    if (await friendApi.acceptfriend({ no: connectionNum })) {
+      setrefreshFriend(!refreshFriend);
+    }
+  };
+
+  const refuse = async (connectionNum) => {
+    if (await friendApi.refusefriend({ no: connectionNum })) {
+      setrefreshFriend(!refreshFriend);
+    }
+  };
+
   return (
     <>
       <Container>
-        <FriendNickName> 안녕하세요방가워요</FriendNickName>
+        <FriendNickName> {friendUserInfo.nickname}</FriendNickName>
         <Introduction>님이 친구를 신청했습니다.</Introduction>
       </Container>
       <StateBtnContainer>
-        <AcceptBtn>수락</AcceptBtn>
-        <RefuseBtn>거절</RefuseBtn>
+        <AcceptBtn onClick={() => accept(friendUserInfo.list_no)}>
+          수락
+        </AcceptBtn>
+        <RefuseBtn onClick={() => refuse(friendUserInfo.list_no)}>
+          거절
+        </RefuseBtn>
       </StateBtnContainer>
     </>
   );

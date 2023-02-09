@@ -45,7 +45,10 @@ export default function SignUp() {
     if (checkListALLTrue) {
       setCheck({
         fullAgreement: true,
-        ...checkList,
+        termsOfUse: true,
+        privacy: true,
+        sms: true,
+        email: true,
       });
     } else {
       setCheck((check) => {
@@ -397,7 +400,6 @@ export default function SignUp() {
                 <CheckBox
                   width={40}
                   height={40}
-                  round={true}
                   id={el.id}
                   checked={checkList[el.id]}
                   checkAccount={SingleCheck}

@@ -5,10 +5,12 @@ import StateToggle from "./StateToggle";
 import AcceptFriendList from "./AcceptFriendList";
 import MyFriend from "./MyFriend";
 import FindFriend from "./FindFriend";
+import friendApi from "../../api/friendApi";
 
-function Friend() {
+function Friend({ refreshFriend, setrefreshFriend }) {
   const [stateToggle, setStateToggle] = useState(true);
   const [lightHeight, setLightHeight] = useState("");
+  const [friendWaitList, setFriendWaitList] = useState([]);
 
   useEffect(() => {
     if (!stateToggle) {
@@ -20,8 +22,12 @@ function Friend() {
         }
       });
       observer.observe(container);
+
+      (async () => {
+        setFriendWaitList(await friendApi.getFriendWaiting());
+      })();
     }
-  }, [stateToggle]);
+  }, [stateToggle, refreshFriend]);
 
   return (
     <div
@@ -35,14 +41,22 @@ function Friend() {
           tag={
             <div width={456} height={lightHeight} id={"container"}>
               <AcceptFriend>
-                {/* map이용해서 애들 나오게  */}
-                <AcceptFriendList></AcceptFriendList>
+                {friendWaitList.map((friendUserInfo, index) => {
+                  return (
+                    <AcceptFriendList
+                      refreshFriend={refreshFriend}
+                      setrefreshFriend={setrefreshFriend}
+                      friendUserInfo={friendUserInfo}
+                      key={index}
+                    ></AcceptFriendList>
+                  );
+                })}
               </AcceptFriend>
             </div>
           }
         ></LightContainer>
       )}
-      <MyFriend></MyFriend>
+      <MyFriend refreshFriend={refreshFriend} />
     </div>
   );
 }

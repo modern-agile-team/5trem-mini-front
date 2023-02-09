@@ -3,14 +3,17 @@ import styled from "styled-components";
 import SelectFriend from "../../component/mainPage_Friend/SelectFriend";
 import { useLocation } from "react-router-dom";
 
-function MainTopRight({ friendViewer, setFriendViewer }) {
+function MainTopRight({ friendViewer, setFriendViewer, refreshFriend }) {
   const location = useLocation();
   const moveFirend = location.pathname === "/mainPage/friend";
   const moveMyPage = false; /* 수정 예정 */
 
   return (
     <div style={{ display: "flex", height: "80px", alignItems: "flex-end" }}>
-      <SelectFriend setFriendViewer={setFriendViewer}>
+      <SelectFriend
+        setFriendViewer={setFriendViewer}
+        refreshFriend={refreshFriend}
+      >
         <StyleTextBtn movePage={moveFirend} friendViewer={friendViewer}>
           친구
         </StyleTextBtn>

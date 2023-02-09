@@ -14,6 +14,7 @@ function MainTop({
   month,
   setMonth,
   setYear,
+  refreshFriend,
   friendViewer,
   setFriendViewer,
 }) {
@@ -71,6 +72,7 @@ function MainTop({
         <MainTopRight
           friendViewer={friendViewer}
           setFriendViewer={setFriendViewer}
+          refreshFriend={refreshFriend}
         />
       </div>
     </div>

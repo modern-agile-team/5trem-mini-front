@@ -18,6 +18,7 @@ function MainPage() {
   const [reduction, setReduction] = useState(false);
   const [diary, setDiary] = useState(false);
 
+  const [refreshFriend, setrefreshFriend] = useState(false);
   const [friendViewer, setFriendViewer] = useState(false);
 
   return (
@@ -28,6 +29,7 @@ function MainPage() {
         setMonth={setMonth}
         increaseYear={increaseYear}
         decreaseYear={decreaseYear}
+        refreshFriend={refreshFriend}
         setYear={setYear}
         friendViewer={friendViewer}
         setFriendViewer={setFriendViewer}
@@ -48,6 +50,8 @@ function MainPage() {
         month={month}
         friendViewer={friendViewer}
         setFriendViewer={setFriendViewer}
+        refreshFriend={refreshFriend}
+        setrefreshFriend={setrefreshFriend}
       />
       <div style={{ height: "100px" }} />
     </>

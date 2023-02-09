@@ -239,7 +239,7 @@ const MainText = styled.textarea`
   min-height: 100px;
   max-height: 363px;
 
-  font: 12px/13px GmarketSansMedium;
+  font: 12px/16px GmarketSansMedium;
   color: #838383;
   padding: 10px;
   border: none;
@@ -259,7 +259,7 @@ const MainTextTransfrom = styled.textarea`
   padding: 10px;
 
   color: #838383;
-  font: 12px/13px SCDream4;
+  font: 12px/16px SCDream4;
   background-color: transparent;
   border: none;
   outline: none;
@@ -270,7 +270,7 @@ const MainTextTransfrom = styled.textarea`
     min-height: 100px;
     max-height: 215px;
 
-    font: 12px/13px SCDream4;
+    font: 12px/16px SCDream4;
     color: #838383;
     padding: 10px;
     border: none;
@@ -309,8 +309,8 @@ const TitleTransfrom = styled.input`
 `;
 
 const UploadImg = styled.img`
-  width: ${({ presenceOrAbsence }) => (presenceOrAbsence ? "500" : "50")}px;
-  height: ${({ presenceOrAbsence }) => (presenceOrAbsence ? "200" : "50")}px;
+  width: ${({ presenceOrAbsence }) => (presenceOrAbsence ? "500" : "35")}px;
+  height: ${({ presenceOrAbsence }) => (presenceOrAbsence ? "200" : "35")}px;
 `;
 
 const StateBtn = styled.div`

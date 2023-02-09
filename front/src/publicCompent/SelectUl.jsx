@@ -88,7 +88,8 @@ const SelectList = styled.ul`
 
 const SelectItem = styled.li`
   display: flex;
-  margin: 15px 0 8px 8px;
+  justify-content: center;
+  margin-top: 15px;
   font: 15px Gmarket Sans;
   color: #ffffff;
 `;
