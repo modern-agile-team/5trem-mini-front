@@ -4,6 +4,7 @@ import LightContainer from "../../publicCompent/LightContainer";
 import ToDoItem from "./ToDoItem";
 import Comment from "./Comment";
 import toDoListApi from "../../api/toDoListApi";
+import commentApi from "../../api/commentApi";
 import { ReactComponent as ShowEnrollmentBtn } from "../../assets/produceImg.svg";
 import { ReactComponent as CloseEnrollmentBtn } from "../../assets/xImg.svg";
 
@@ -13,9 +14,15 @@ function ToDoList({ pushBthDay, changeState, setChangeState, friend }) {
   const [show, setShow] = useState(false);
   const [toDoList, setToDoList] = useState([]);
 
+  const [haveComment, setHaveComment] = useState(false);
+  const [comment, setComment] = useState([]);
+
   useEffect(() => {
     (async () => {
       setToDoList(await toDoListApi.getToDoList(BthDay));
+      const response = await commentApi.getToDoListComment(BthDay);
+      setHaveComment(response.length !== 0);
+      setComment(response);
     })();
   }, [pushBthDay, changeState]);
 
@@ -72,7 +79,7 @@ function ToDoList({ pushBthDay, changeState, setChangeState, friend }) {
           }
         ></LightContainer>
       )}
-      <Comment />
+      <Comment haveComment={haveComment} comment={comment} />
     </div>
   );
 }
