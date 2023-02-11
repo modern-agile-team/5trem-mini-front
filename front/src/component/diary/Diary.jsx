@@ -11,6 +11,7 @@ function Diary({
   setReduction,
   setChangeState,
   changeState,
+  friend,
 }) {
   const [lightHeight, setLightHeight] = useState("");
   const [previewImg, setPreviewImg] = useState("");
@@ -120,10 +121,12 @@ function Diary({
                   <CloseImg />
                 </CloseSideWindow>
                 <TitleTransfrom
+                  readOnly={friend}
                   placeholder={"제목을 입력하세요"}
                   id={"title"}
                 ></TitleTransfrom>
                 <MainTextTransfrom
+                  readOnly={friend}
                   placeholder={"내용을 입력하세요"}
                   id={"content"}
                 ></MainTextTransfrom>
@@ -133,14 +136,7 @@ function Diary({
                   style={{ display: "none" }}
                   onChange={readImg}
                 />
-                <div
-                  style={{
-                    width: "502px",
-                    marginTop: "13px",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
+                <ImgContainer friend={friend}>
                   <label htmlFor="uploadImg">
                     <UploadImg
                       id="img"
@@ -148,23 +144,22 @@ function Diary({
                       src={previewImg}
                     ></UploadImg>
                   </label>
-                </div>
-                <div
-                  style={{
-                    width: "502px",
-                    height: "30px",
-                    marginTop: "10px",
-                    display: "flex",
-                    flexDirection: "row-reverse",
-                  }}
-                >
-                  <StateBtn onClick={delet} delet={true}>
-                    삭제
-                  </StateBtn>
-                  <StateBtn onClick={update} style={{ marginRight: "20px" }}>
-                    수정
-                  </StateBtn>
-                </div>
+                </ImgContainer>
+                <StateBtnContainer>
+                  {!friend && (
+                    <>
+                      <StateBtn onClick={delet} delet={true}>
+                        삭제
+                      </StateBtn>
+                      <StateBtn
+                        onClick={update}
+                        style={{ marginRight: "20px" }}
+                      >
+                        수정
+                      </StateBtn>
+                    </>
+                  )}
+                </StateBtnContainer>
               </Container>
             }
           ></LightContainer>
@@ -211,7 +206,7 @@ function Diary({
                     flexDirection: "row-reverse",
                   }}
                 >
-                  <StateBtn onClick={enrollment}>등록</StateBtn>
+                  {!friend && <StateBtn onClick={enrollment}>등록</StateBtn>}
                 </div>
               </Container>
             }
@@ -222,6 +217,23 @@ function Diary({
   );
 }
 export default Diary;
+
+const ImgContainer = styled.div`
+  width: 502px;
+  margin-top: 13px;
+  display: flex;
+  justify-content: center;
+
+  pointer-events: ${({ friend }) => friend && "none"};
+`;
+
+const StateBtnContainer = styled.div`
+  width: 502px;
+  height: 30px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row-reverse;
+`;
 
 const Container = styled.div`
   display: flex;

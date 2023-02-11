@@ -2,7 +2,12 @@ import { useState, useEffect } from "react";
 import SelectUl from "../../publicCompent/SelectUl";
 import friendApi from "../../api/friendApi";
 
-function SelectFriend({ children, setFriendViewer, refreshFriend }) {
+function SelectFriend({
+  children,
+  setFriendViewer,
+  refreshFriend,
+  setMoveFriend,
+}) {
   const [friendList, setFriendList] = useState([]);
 
   useEffect(() => {
@@ -16,6 +21,7 @@ function SelectFriend({ children, setFriendViewer, refreshFriend }) {
       setFriendViewer={setFriendViewer}
       selectList={friendList}
       setSelectList={setFriendList}
+      setMoveFriend={setMoveFriend}
       firend={true}
     >
       {children}

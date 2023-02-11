@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import friendApi from "../../api/friendApi";
 
-function AcceptFriendList({ refreshFriend, friendUserInfo, setrefreshFriend }) {
+function AcceptFriendList({
+  refreshFriend,
+  friendUserInfo,
+  setrefreshFriend,
+  index,
+}) {
+  const [show, setShow] = useState(false);
+  const [hover, setHover] = useState(false);
+
   const accept = async (connectionNum) => {
     if (await friendApi.acceptFriend({ no: connectionNum })) {
       setrefreshFriend(!refreshFriend);
@@ -16,10 +24,23 @@ function AcceptFriendList({ refreshFriend, friendUserInfo, setrefreshFriend }) {
     }
   };
 
+  useEffect(() => {
+    if (document.getElementById(index + "NickName").offsetWidth >= 115) {
+      setShow(true);
+    }
+  }, []);
+
   return (
     <>
       <Container>
-        <FriendNickName> {friendUserInfo.nickname}</FriendNickName>
+        <FriendNickName
+          id={index + "NickName"}
+          onMouseOver={() => setHover(true)}
+          onMouseOut={() => setHover(false)}
+        >
+          {show && hover && <State> {friendUserInfo.nickname}</State>}
+          {friendUserInfo.nickname}
+        </FriendNickName>
         <Introduction>님이 친구를 신청했습니다.</Introduction>
       </Container>
       <StateBtnContainer>
@@ -36,6 +57,7 @@ function AcceptFriendList({ refreshFriend, friendUserInfo, setrefreshFriend }) {
 export default AcceptFriendList;
 
 const Container = styled.div`
+  position: relative;
   width: 320px;
   height: 20px;
   display: flex;
@@ -86,4 +108,23 @@ const RefuseBtn = styled.div`
   background: #bec5d5;
   border-radius: 4px;
   padding-left: 8px;
+`;
+
+const State = styled.div`
+  position: absolute;
+  height: 39px;
+  left: -125px;
+  top: -35px;
+
+  background: rgb(115 115 115 / 75%);
+  box-shadow: inset 5px 5px 20px #222222a2, 7px 7px 15px #0000009e;
+  backdrop-filter: blur(2px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  z-index: 99;
+
+  text-align: center;
+  padding: 11px 15px 13px 15px;
+  color: #ffffff;
+  font: 15px/18px GmarketSansMedium;
 `;

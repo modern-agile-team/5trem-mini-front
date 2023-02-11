@@ -7,7 +7,7 @@ import MyFriend from "./MyFriend";
 import FindFriend from "./FindFriend";
 import friendApi from "../../api/friendApi";
 
-function Friend({ refreshFriend, setrefreshFriend }) {
+function Friend({ refreshFriend, setrefreshFriend, setMoveFriend }) {
   const [stateToggle, setStateToggle] = useState(true);
   const [lightHeight, setLightHeight] = useState("");
   const [friendWaitList, setFriendWaitList] = useState([]);
@@ -51,6 +51,7 @@ function Friend({ refreshFriend, setrefreshFriend }) {
                       setrefreshFriend={setrefreshFriend}
                       friendUserInfo={friendUserInfo}
                       key={index}
+                      index={index}
                     ></AcceptFriendList>
                   );
                 })}
@@ -62,6 +63,7 @@ function Friend({ refreshFriend, setrefreshFriend }) {
       <MyFriend
         refreshFriend={refreshFriend}
         setrefreshFriend={setrefreshFriend}
+        setMoveFriend={setMoveFriend}
       />
     </div>
   );

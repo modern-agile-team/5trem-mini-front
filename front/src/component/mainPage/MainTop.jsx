@@ -17,14 +17,28 @@ function MainTop({
   refreshFriend,
   friendViewer,
   setFriendViewer,
+  moveFriend,
+  setMoveFriend,
 }) {
   const location = useLocation();
   const url = location.pathname;
+  const [hover, setHover] = useState(false);
+  const [show, setShow] = useState(false);
+
+  const moveMyPage = () => {
+    setMoveFriend({
+      friendNickName: "",
+      friendVisit: false,
+    });
+  };
 
   useEffect(() => {
     if (location.state !== null) {
       const yearChange = Number(location.state.year);
       setYear(yearChange);
+    }
+    if (moveFriend.friendVisit) {
+      setShow(document.getElementById("friendNickName").offsetWidth >= 271);
     }
   }, []);
 
@@ -48,6 +62,7 @@ function MainTop({
           margin: "50px auto 0",
           justifyContent: "space-between",
           alignItems: "center",
+          position: "relative",
         }}
       >
         <div style={{ display: "flex" }}>
@@ -69,10 +84,25 @@ function MainTop({
             />
           </SelectMonth>
         </div>
+        {show && hover && <State>{moveFriend.friendNickName}</State>}
+        {moveFriend.friendVisit && (
+          <FriendPageContainer>
+            <FriendNickName
+              id="friendNickName"
+              onMouseOver={() => setHover(true)}
+              onMouseOut={() => setHover(false)}
+            >
+              {moveFriend.friendNickName}
+            </FriendNickName>
+            <FriendGreetings>님의 페이지입니다.</FriendGreetings>
+            <div onClick={moveMyPage}> 내 페이지로 돌아가기</div>
+          </FriendPageContainer>
+        )}
         <MainTopRight
           friendViewer={friendViewer}
           setFriendViewer={setFriendViewer}
           refreshFriend={refreshFriend}
+          setMoveFriend={setMoveFriend}
         />
       </div>
     </div>
@@ -95,6 +125,52 @@ const Year = styled.div`
   color: #393939;
   user-select: none;
   cursor: pointer;
+`;
+
+const FriendPageContainer = styled.div`
+  height: 50px;
+  margin-top: 30px;
+  display: flex;
+  right: 430px;
+  position: absolute;
+`;
+
+const FriendNickName = styled.div`
+  max-width: 271px;
+  height: 80px;
+  font: 30px/18px GmarketSansBold;
+  color: #707070;
+  padding-top: 17px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+`;
+
+const FriendGreetings = styled.div`
+  font: 15px/18px GmarketSansMedium;
+  color: #707070;
+  margin: 21px 0 0 3px;
+  user-select: none;
+`;
+
+const State = styled.div`
+  position: absolute;
+  height: 39px;
+  right: 600px;
+  top: -8px;
+
+  background: rgb(115 115 115 / 75%);
+  box-shadow: inset 5px 5px 20px #222222a2, 7px 7px 15px #0000009e;
+  backdrop-filter: blur(2px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  z-index: 99;
+
+  text-align: center;
+  padding: 11px 15px 13px 15px;
+  color: #ffffff;
+  font: 15px/18px GmarketSansMedium;
 `;
 
 export default MainTop;

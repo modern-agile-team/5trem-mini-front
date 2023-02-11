@@ -26,7 +26,7 @@ function FindFriend({ refreshFriend, setrefreshFriend }) {
       }
     } else {
       const data = {
-        senderId: localStorage.getItem("userID"),
+        senderId: localStorage.getItem("myID"),
         receiverNickname: friendInfo.nickname,
       };
       const response = await friendApi.requestFriend(data);

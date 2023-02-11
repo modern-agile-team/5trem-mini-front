@@ -4,7 +4,7 @@ const friendApi = {
   async getFriendList() {
     const SERVER_URL =
       "http://13.125.126.246:3000/friends/" +
-      localStorage.getItem("userID") +
+      localStorage.getItem("myID") +
       "/getlist";
 
     const response = await axios.get(SERVER_URL);
@@ -14,7 +14,7 @@ const friendApi = {
   async getFriendWaiting() {
     const SERVER_URL =
       "http://13.125.126.246:3000/friends/" +
-      localStorage.getItem("userID") +
+      localStorage.getItem("myID") +
       "/" +
       "waiting";
 
@@ -25,7 +25,7 @@ const friendApi = {
   async getFriendSearch(nickName) {
     const SERVER_URL =
       "http://13.125.126.246:3000/friends/" +
-      localStorage.getItem("userID") +
+      localStorage.getItem("myID") +
       "/search/" +
       nickName;
 

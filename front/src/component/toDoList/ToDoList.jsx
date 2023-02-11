@@ -7,7 +7,7 @@ import toDoListApi from "../../api/toDoListApi";
 import { ReactComponent as ShowEnrollmentBtn } from "../../assets/produceImg.svg";
 import { ReactComponent as CloseEnrollmentBtn } from "../../assets/xImg.svg";
 
-function ToDoList({ pushBthDay, changeState, setChangeState }) {
+function ToDoList({ pushBthDay, changeState, setChangeState, friend }) {
   const BthDay =
     pushBthDay[0] + "-" + (pushBthDay[1] + 1) + "-" + pushBthDay[2];
   const [show, setShow] = useState(false);
@@ -48,10 +48,11 @@ function ToDoList({ pushBthDay, changeState, setChangeState }) {
             todo={todo}
             changeState={changeState}
             setChangeState={setChangeState}
+            friend={friend}
           />
         );
       })}
-      {!show && <ShowEnrollmentBtn onClick={() => setShow(true)} />}
+      {!friend && !show && <ShowEnrollmentBtn onClick={() => setShow(true)} />}
       {show && (
         <LightContainer
           tag={
