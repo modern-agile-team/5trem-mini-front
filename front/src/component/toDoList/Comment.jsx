@@ -4,13 +4,11 @@ import { ReactComponent as CirclesImg } from "../../assets/circles.svg";
 import { ReactComponent as SettingImg } from "../../assets/threeCircles.svg";
 import LightContainer from "../../publicCompent/LightContainer";
 
-function Comment(props) {
-  const [testShow, setTestShow] = useState(true);
-
+function Comment({ haveComment, comment }) {
   const [lightHeight, setLightHeight] = useState("");
 
   useEffect(() => {
-    if (testShow) {
+    if (haveComment) {
       const container = document.getElementById("container");
       const observer = new ResizeObserver((entries) => {
         for (const entry of entries) {
@@ -24,29 +22,24 @@ function Comment(props) {
 
   return (
     <div style={{ marginTop: "70px" }}>
-      {testShow ? (
+      {haveComment ? (
         <LightContainer
           tag={
             <CommentContainer width={567} height={lightHeight} id={"container"}>
               <CommentInput2 placeholder={"댓글을 입력하세요"}></CommentInput2>
               <StateBtn2>등록</StateBtn2>
-              <LiftCommentContainer>
-                <span style={{ position: "relative" }}>
-                  <Setting>
-                    <SettingImg />
-                  </Setting>
-                  <CirclesImg />
-                </span>
-                <Name>홍길동</Name>
-                <LiftComment>
-                  모던애자일 화이팅. 모던애자일 화이팅. 모던애자일 화이팅.
-                  모던애자일 화이팅. 모던애자일 화이팅. 모던애자일 화이팅.
-                  모던애자일 화이팅. 모던애자일 화이팅. 모던애자일 화이팅.
-                  모던애자일 화이팅. 모던애자일 화이팅. 모던애자일 화이팅.
-                  모던애자일 화이팅. 모던애자일 화이팅. 모던애자일 화이팅.
-                  모던애자일 화이팅.
-                </LiftComment>
-              </LiftCommentContainer>
+              {comment.map((value, index) => {
+                return (
+                  <LiftCommentContainer key={index}>
+                    <Setting>
+                      <SettingImg />
+                    </Setting>
+                    <CirclesImg />
+                    <Name>{value.writer}</Name>
+                    <LiftComment>{value.writer}</LiftComment>
+                  </LiftCommentContainer>
+                );
+              })}
             </CommentContainer>
           }
         />
@@ -126,6 +119,7 @@ const LiftCommentContainer = styled.div`
   width: 480px;
   display: flex;
   margin: 10px 0 10px 0;
+  position: relative;
 `;
 
 const Name = styled.div`
@@ -147,8 +141,8 @@ const LiftComment = styled.div`
 
 const Setting = styled.div`
   position: absolute;
-  right: 25px;
-  bottom: 54px;
+  left: -15px;
+  top: -4px;
 `;
 
 const StateBtn2 = styled.span`

@@ -17,7 +17,7 @@ function SelectUl({
       friendNickName: friend.nickname,
       friendVisit: true,
     });
-    localStorage.setItem("userID", firend.id);
+    localStorage.setItem("userID", friend.id);
   };
 
   const [show, setShow] = useState(false);
