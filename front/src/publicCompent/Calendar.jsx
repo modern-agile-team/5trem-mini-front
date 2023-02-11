@@ -17,6 +17,8 @@ function Calendar({
   setFriendViewer,
   refreshFriend,
   setrefreshFriend,
+  setMoveFriend,
+  moveFriend,
 }) {
   const monthDate = dateCalculation(year, month - 1);
 
@@ -59,7 +61,7 @@ function Calendar({
     lookUp();
     setReduction(false);
     setFriendViewer(false);
-  }, [year, month, diary]);
+  }, [year, month, diary, moveFriend]);
 
   useEffect(() => {
     lookUp();
@@ -125,6 +127,7 @@ function Calendar({
               <Friend
                 refreshFriend={refreshFriend}
                 setrefreshFriend={setrefreshFriend}
+                setMoveFriend={setMoveFriend}
               />
             ) : diary ? (
               <>
@@ -134,6 +137,7 @@ function Calendar({
                   setReduction={setReduction}
                   setChangeState={setChangeState}
                   changeState={changeState}
+                  friend={moveFriend.friendVisit}
                 />
               </>
             ) : (
@@ -141,6 +145,7 @@ function Calendar({
                 pushBthDay={pushBthDay}
                 changeState={changeState}
                 setChangeState={setChangeState}
+                friend={moveFriend.friendVisit}
               />
             )}
           </div>

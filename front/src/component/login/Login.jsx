@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import LightContainer from "../../publicCompent/LightContainer";
@@ -9,6 +9,8 @@ import BackGround from "../../publicCompent/BackGround";
 import loginApi from "../../api/loginApi";
 
 function Login() {
+  window.localStorage.setItem("userID", "");
+
   const [userInfo, setUserInfo] = useState({
     id: "",
     password: "",
@@ -18,6 +20,7 @@ function Login() {
     if (await loginApi(userInfo)) {
       navigate("/mainPage");
       window.localStorage.setItem("userID", userInfo.id);
+      window.localStorage.setItem("myID", userInfo.id);
     } else {
       alert(`아이디 또는 비밀번호를 잘못 입력했습니다.
       입력하신 내용을 다시 확인해주세요.`);

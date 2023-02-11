@@ -10,7 +10,16 @@ function SelectUl({
   setSelectList,
   firend,
   setFriendViewer,
+  setMoveFriend,
 }) {
+  const movefriend = (friend) => {
+    setMoveFriend({
+      friendNickName: friend.nickname,
+      friendVisit: true,
+    });
+    localStorage.setItem("userID", firend.id);
+  };
+
   const [show, setShow] = useState(false);
   const toggleUl = () => {
     setShow((prev) => !prev);
@@ -38,10 +47,10 @@ function SelectUl({
           {show && (
             <SelectList firend={firend}>
               <ViewMore setFriendViewer={setFriendViewer} />
-              {selectList.map((value, index) => (
-                <SelectItem key={index}>
-                  <PersonImg src={value.image_url} />
-                  <NickNameOver>{value.nickname}</NickNameOver>
+              {selectList.map((friend, index) => (
+                <SelectItem key={index} onClick={() => movefriend(friend)}>
+                  <PersonImg src={friend.image_url} />
+                  <NickNameOver>{friend.nickname}</NickNameOver>
                 </SelectItem>
               ))}
               <div style={{ paddingBottom: "15px" }}></div>

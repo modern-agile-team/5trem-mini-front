@@ -6,7 +6,7 @@ import { ReactComponent as NoneCheckImg } from "../../assets/todoNoneCheck.svg";
 import { ReactComponent as XImg } from "../../assets/todoXImg.svg";
 import toDoListApi from "../../api/toDoListApi";
 
-function ToDoItem({ todo, setChangeState, changeState }) {
+function ToDoItem({ todo, setChangeState, changeState, friend }) {
   const [check, setCheck] = useState(false);
   const [title, setTitle] = useState(todo.title);
   const [content, setContent] = useState(todo.content);
@@ -58,8 +58,8 @@ function ToDoItem({ todo, setChangeState, changeState }) {
   };
 
   return (
-    <div style={{ width: "557px", display: "flex", flexWrap: "wrap" }}>
-      <StateBtn>
+    <ToDoItemContainer>
+      <StateBtn friend={friend}>
         {!check && <NoneCheckImg onClick={checkChange} />}
         {check && <CheckImg onClick={checkChange} />}
         <XImg onClick={deleteToDoList} />
@@ -69,18 +69,26 @@ function ToDoItem({ todo, setChangeState, changeState }) {
         defaultValue={title}
         onChange={debounceUpdate}
         id="title"
+        readOnly={friend}
       ></Title>
       <Content
         check={check}
         defaultValue={content}
         onChange={debounceUpdate}
         id="content"
+        readOnly={friend}
       ></Content>
-    </div>
+    </ToDoItemContainer>
   );
 }
 
 export default ToDoItem;
+
+const ToDoItemContainer = styled.div`
+  width: 557px;
+  display: flex;
+  flex-wrap: wrap;
+`;
 
 const StateBtn = styled.div`
   width: 20px;
@@ -89,6 +97,8 @@ const StateBtn = styled.div`
   flex-wrap: wrap;
   justify-content: row;
   align-items: center;
+
+  pointer-events: ${({ friend }) => friend && "none"};
 `;
 
 const Title = styled.input`

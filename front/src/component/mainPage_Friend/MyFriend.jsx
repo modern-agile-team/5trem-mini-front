@@ -6,22 +6,30 @@ import HoverBtn from "../../publicCompent/HoverBtn";
 import friendApi from "../../api/friendApi";
 import { ReactComponent as ThreeCircles } from "../../assets/smallThreeCircles.svg";
 
-function MyFriend({ refreshFriend, setrefreshFriend }) {
-  const [firendList, setFirendList] = useState([]);
+function MyFriend({ refreshFriend, setrefreshFriend, setMoveFriend }) {
+  const [friendList, setFriendList] = useState([]);
   const [stateHover, setStateHover] = useState(false);
 
+  const movefriend = (friend) => {
+    setMoveFriend({
+      friendNickName: friend.nickname,
+      friendVisit: true,
+    });
+    localStorage.setItem("userID", friend.id);
+  };
+
   const showDelete = (index) => {
-    const arr = new Array(firendList.length).fill(false);
+    const arr = new Array(friendList.length).fill(false);
     arr[index] = true;
     setStateHover(arr);
   };
   const noneShowDelete = () => {
-    const arr = new Array(firendList.length).fill(false);
+    const arr = new Array(friendList.length).fill(false);
     setStateHover(arr);
   };
 
-  const refuseFriend = async (firend) => {
-    const data = { no: firend.friendListNo };
+  const refuseFriend = async (friend) => {
+    const data = { no: friend.friendListNo };
     const response = await friendApi.refuseFriend(data);
     if (response.success) {
       setrefreshFriend(!refreshFriend);
@@ -30,11 +38,11 @@ function MyFriend({ refreshFriend, setrefreshFriend }) {
 
   useEffect(() => {
     (async () => {
-      setFirendList(await friendApi.getFriendList());
+      setFriendList(await friendApi.getFriendList());
     })();
   }, [refreshFriend]);
 
-  const carousel = useCarousel(firendList);
+  const carousel = useCarousel(friendList);
   const move = carousel.carouselArr[carousel.carouselIndex];
   return (
     <MyFriendContainer>
@@ -54,7 +62,7 @@ function MyFriend({ refreshFriend, setrefreshFriend }) {
         <HoverBtn set={carousel.addCarouselIndex} />
       </Absolute>
       <FriendContainer>
-        {firendList.map((firend, i) => {
+        {friendList.map((friend, i) => {
           return (
             <FriendInfo
               key={i}
@@ -62,18 +70,19 @@ function MyFriend({ refreshFriend, setrefreshFriend }) {
               transition={{
                 duration: 0.3,
               }}
+              onClick={() => movefriend(friend)}
             >
               <DeleteContainer
                 onMouseOver={() => showDelete(i)}
                 onMouseOut={() => noneShowDelete(i)}
               >
                 {stateHover[i] && (
-                  <State onClick={() => refuseFriend(firend)}>삭제</State>
+                  <State onClick={() => refuseFriend(friend)}>삭제</State>
                 )}
                 <ThreeCircles />
               </DeleteContainer>
-              <FriendImg src={firend.image_url}></FriendImg>
-              <FriendName>{firend.nickname}</FriendName>
+              <FriendImg src={friend.image_url}></FriendImg>
+              <FriendName>{friend.nickname}</FriendName>
             </FriendInfo>
           );
         })}

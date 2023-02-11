@@ -123,7 +123,6 @@ const State = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.18);
   z-index: 99;
 
-  user-select: none;
   text-align: center;
   padding: 11px 15px 13px 15px;
   color: #ffffff;

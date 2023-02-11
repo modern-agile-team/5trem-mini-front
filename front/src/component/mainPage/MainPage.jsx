@@ -20,6 +20,14 @@ function MainPage() {
 
   const [refreshFriend, setrefreshFriend] = useState(false);
   const [friendViewer, setFriendViewer] = useState(false);
+  const [moveFriend, setMoveFriend] = useState({
+    friendNickName: "",
+    friendVisit: false,
+  });
+
+  if (!moveFriend.friendVisit) {
+    localStorage.setItem("userID", localStorage.getItem("myID"));
+  }
 
   return (
     <>
@@ -33,6 +41,8 @@ function MainPage() {
         setYear={setYear}
         friendViewer={friendViewer}
         setFriendViewer={setFriendViewer}
+        moveFriend={moveFriend}
+        setMoveFriend={setMoveFriend}
       />
       <TransfromBtn
         reduction={reduction}
@@ -52,6 +62,8 @@ function MainPage() {
         setFriendViewer={setFriendViewer}
         refreshFriend={refreshFriend}
         setrefreshFriend={setrefreshFriend}
+        moveFriend={moveFriend}
+        setMoveFriend={setMoveFriend}
       />
       <div style={{ height: "100px" }} />
     </>
