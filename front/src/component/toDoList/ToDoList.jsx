@@ -97,6 +97,8 @@ function ToDoList({ pushBthDay, changeState, setChangeState, friend }) {
         haveComment={haveComment}
         comment={comment}
         enrollmentComment={enrollmentComment}
+        setChangeState={setChangeState}
+        changeState={changeState}
       />
     </div>
   );
