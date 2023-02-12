@@ -9,8 +9,8 @@ function CommentList({
   index,
   update,
   showUpdate,
-  setChangeState,
-  changeState,
+  setChangeComment,
+  changeComment,
 }) {
   const [hover, setHover] = useState(false);
 
@@ -27,7 +27,7 @@ function CommentList({
     const succes = await commentApi.updateToDoListComment(data);
     if (succes) {
       showUpdate();
-      setChangeState(!changeState);
+      setChangeComment(!changeComment);
     }
   };
 
@@ -37,7 +37,7 @@ function CommentList({
     };
     const succes = await commentApi.deleteToDoListComment(data);
     if (succes) {
-      setChangeState(!changeState);
+      setChangeComment(!changeComment);
     }
   };
 

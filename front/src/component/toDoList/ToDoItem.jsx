@@ -12,11 +12,14 @@ function ToDoItem({ todo, setChangeState, changeState, friend }) {
   const [check, setCheck] = useState(false);
   const [title, setTitle] = useState(todo.title);
   const [content, setContent] = useState(todo.content);
-  const [hasLike, setHasLike] = useState(Boolean(todo.likeCnt));
+  const [hasLike, setHasLike] = useState(false);
+  const [likeCheck, setLikeCheck] = useState(false);
   const todoNo = todo.no;
 
   useEffect(() => {
     setCheck(Boolean(todo.is_checked));
+    setHasLike(Boolean(todo.likesCnt));
+    setLikeCheck(todo.likeChecked);
   }, []);
 
   const debounceUpdate = debounce(async (e) => {
@@ -60,14 +63,50 @@ function ToDoItem({ todo, setChangeState, changeState, friend }) {
     }
   };
 
+  const addLike = async () => {
+    const data = {
+      todo_no: todo.no,
+      id: localStorage.getItem("myID"),
+    };
+    const success = await toDoListApi.addToDoLike(data);
+    if (success) {
+      setChangeState(!changeState);
+      setHasLike(true);
+      setLikeCheck(true);
+    }
+  };
+
+  const subLike = async () => {
+    const data = {
+      todo_no: todo.no,
+      id: localStorage.getItem("myID"),
+    };
+    const success = await toDoListApi.subToDoLike(data);
+    if (success) {
+      setChangeState(!changeState);
+      setLikeCheck(false);
+      if (todo.likesCnt === 1) {
+        setHasLike(false);
+      }
+    }
+  };
+
   return (
     <div>
       <StateBtn>
         {!friend && !check && <NoneCheckImg onClick={checkChange} />}
         {!friend && check && <CheckImg onClick={checkChange} />}
         {!friend && <XImg onClick={deleteToDoList} />}
-        {hasLike ? <FilledLike /> : <Like />}
-        {hasLike && <div>{todo.likeCnt}</div>}
+        {hasLike ? (
+          likeCheck ? (
+            <FilledLike onClick={subLike} />
+          ) : (
+            <FilledLike onClick={addLike} />
+          )
+        ) : (
+          <Like onClick={addLike} />
+        )}
+        {hasLike && <LikeCnt>{todo.likesCnt}</LikeCnt>}
       </StateBtn>
       <ToDoItemContainer>
         <Title
@@ -100,7 +139,7 @@ const ToDoItemContainer = styled.div`
 
 const StateBtn = styled.div`
   width: 20px;
-  height: 50px;
+  height: 60px;
 
   position: absolute;
   display: flex;
@@ -132,4 +171,13 @@ const Content = styled.textarea`
   resize: none;
   color: ${({ check }) => (check ? "#838383" : "#393939")};
   text-decoration: ${({ check }) => check && "line-through"};
+`;
+
+const LikeCnt = styled.span`
+  width: 13px;
+  height: 8px;
+  font: 9px/10px GmarketSansMedium;
+  color: #393939;
+  text-align: center;
+  user-select: none;
 `;

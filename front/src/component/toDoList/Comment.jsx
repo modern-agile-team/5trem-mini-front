@@ -7,8 +7,8 @@ function Comment({
   haveComment,
   comment,
   enrollmentComment,
-  setChangeState,
-  changeState,
+  changeComment,
+  setChangeComment,
 }) {
   const [lightHeight, setLightHeight] = useState("");
 
@@ -52,8 +52,8 @@ function Comment({
                     key={value.no}
                     update={update}
                     showUpdate={showUpdate}
-                    setChangeState={setChangeState}
-                    changeState={changeState}
+                    setChangeComment={setChangeComment}
+                    changeComment={changeComment}
                   />
                 );
               })}

@@ -16,10 +16,12 @@ const toDoListApi = {
 
   async getToDoList(day) {
     const SERVER_URL =
-      "http://13.125.126.246:3000/todo/list/" +
+      "http://13.125.126.246:3000/todo/friend/" +
       localStorage.getItem("userID") +
       "/" +
-      day;
+      day +
+      "/" +
+      localStorage.getItem("myID");
 
     const response = await axios.get(SERVER_URL);
     return response.data;
@@ -49,6 +51,20 @@ const toDoListApi = {
     const SERVER_URL = "http://13.125.126.246:3000/todo/checked";
 
     const response = await axios.patch(SERVER_URL, data);
+    return response.data.success;
+  },
+
+  async addToDoLike(data) {
+    const SERVER_URL = "http://13.125.126.246:3000/todoLike";
+    const response = await axios.post(SERVER_URL, data);
+
+    return response.data.success;
+  },
+
+  async subToDoLike(data) {
+    const SERVER_URL = "http://13.125.126.246:3000/todoLike";
+    const response = await axios.delete(SERVER_URL, { data });
+
     return response.data.success;
   },
 };

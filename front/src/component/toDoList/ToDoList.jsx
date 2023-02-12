@@ -13,18 +13,25 @@ function ToDoList({ pushBthDay, changeState, setChangeState, friend }) {
     pushBthDay[0] + "-" + (pushBthDay[1] + 1) + "-" + pushBthDay[2];
   const [show, setShow] = useState(false);
   const [toDoList, setToDoList] = useState([]);
+  const [toDoLike, setToDoLike] = useState(0);
 
   const [haveComment, setHaveComment] = useState(false);
   const [comment, setComment] = useState([]);
+  const [changeComment, setChangeComment] = useState(false);
 
   useEffect(() => {
     (async () => {
       setToDoList(await toDoListApi.getToDoList(BthDay));
+    })();
+  }, [pushBthDay, changeState]);
+
+  useEffect(() => {
+    (async () => {
       const response = await commentApi.getToDoListComment(BthDay);
       setHaveComment(response.length !== 0);
       setComment(response);
     })();
-  }, [pushBthDay, changeState]);
+  }, [pushBthDay, changeComment]);
 
   const enrollmentToDoList = async () => {
     const data = {
@@ -51,7 +58,7 @@ function ToDoList({ pushBthDay, changeState, setChangeState, friend }) {
     const success = await commentApi.addToDoListComment(data);
     if (success) {
       document.getElementById("comment").value = "";
-      setChangeState(!changeState);
+      setChangeComment(!changeComment);
     }
   };
 
@@ -97,8 +104,8 @@ function ToDoList({ pushBthDay, changeState, setChangeState, friend }) {
         haveComment={haveComment}
         comment={comment}
         enrollmentComment={enrollmentComment}
-        setChangeState={setChangeState}
-        changeState={changeState}
+        setChangeComment={setChangeComment}
+        changeComment={changeComment}
       />
     </div>
   );
