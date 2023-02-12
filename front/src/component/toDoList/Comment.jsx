@@ -4,7 +4,7 @@ import { ReactComponent as CirclesImg } from "../../assets/circles.svg";
 import { ReactComponent as SettingImg } from "../../assets/threeCircles.svg";
 import LightContainer from "../../publicCompent/LightContainer";
 
-function Comment({ haveComment, comment }) {
+function Comment({ haveComment, comment, enrollmentComment }) {
   const [lightHeight, setLightHeight] = useState("");
 
   useEffect(() => {
@@ -26,17 +26,21 @@ function Comment({ haveComment, comment }) {
         <LightContainer
           tag={
             <CommentContainer width={567} height={lightHeight} id={"container"}>
-              <CommentInput2 placeholder={"댓글을 입력하세요"}></CommentInput2>
-              <StateBtn2>등록</StateBtn2>
+              <CommentInput2
+                id="comment"
+                placeholder={"댓글을 입력하세요"}
+              ></CommentInput2>
+              <StateBtn2 onClick={enrollmentComment}>등록</StateBtn2>
               {comment.map((value, index) => {
                 return (
                   <LiftCommentContainer key={index}>
+                    {/* {localStorage.getItem("myID") === value.writer_id && ()} */}
                     <Setting>
                       <SettingImg />
                     </Setting>
                     <CirclesImg />
                     <Name>{value.writer}</Name>
-                    <LiftComment>{value.writer}</LiftComment>
+                    <LiftComment>{value.content}</LiftComment>
                   </LiftCommentContainer>
                 );
               })}
@@ -47,8 +51,11 @@ function Comment({ haveComment, comment }) {
         <LightContainer
           tag={
             <div width={567} height={70}>
-              <CommentInput placeholder={"댓글을 입력하세요"}></CommentInput>
-              <StateBtn>등록</StateBtn>
+              <CommentInput
+                id="comment"
+                placeholder={"댓글을 입력하세요"}
+              ></CommentInput>
+              <StateBtn onClick={enrollmentComment}>등록</StateBtn>
             </div>
           }
         />

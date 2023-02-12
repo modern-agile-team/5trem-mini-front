@@ -41,6 +41,20 @@ function ToDoList({ pushBthDay, changeState, setChangeState, friend }) {
     }
   };
 
+  const enrollmentComment = async () => {
+    const data = {
+      user_id: localStorage.getItem("userID"),
+      writer_id: localStorage.getItem("myID"),
+      date: BthDay,
+      content: document.getElementById("comment").value,
+    };
+    const success = await commentApi.addToDoListComment(data);
+    if (success) {
+      document.getElementById("comment").value = "";
+      setChangeState(!changeState);
+    }
+  };
+
   return (
     <div
       style={{
@@ -79,7 +93,11 @@ function ToDoList({ pushBthDay, changeState, setChangeState, friend }) {
           }
         ></LightContainer>
       )}
-      <Comment haveComment={haveComment} comment={comment} />
+      <Comment
+        haveComment={haveComment}
+        comment={comment}
+        enrollmentComment={enrollmentComment}
+      />
     </div>
   );
 }

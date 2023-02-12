@@ -9,7 +9,12 @@ const commentApi = {
       day;
 
     const response = await axios.get(SERVER_URL);
-    console.log(response.data);
+    return response.data;
+  },
+  async addToDoListComment(data) {
+    const SERVER_URL = "http://13.125.126.246:3000/todoComment/";
+
+    const response = await axios.post(SERVER_URL, data);
     return response.data;
   },
 };
