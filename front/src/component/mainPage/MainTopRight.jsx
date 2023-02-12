@@ -7,6 +7,8 @@ function MainTopRight({
   setFriendViewer,
   refreshFriend,
   setMoveFriend,
+  myPageViewer,
+  setMyPageViewer,
 }) {
   return (
     <div style={{ display: "flex", height: "80px", alignItems: "flex-end" }}>
@@ -15,9 +17,11 @@ function MainTopRight({
         refreshFriend={refreshFriend}
         setMoveFriend={setMoveFriend}
       >
-        <StyleTextBtn friendViewer={friendViewer}>친구</StyleTextBtn>
+        <StyleTextBtn viewer={friendViewer}>친구</StyleTextBtn>
       </SelectFriend>
-      <StyleTextBtn>마이페이지</StyleTextBtn>
+      <StyleTextBtn viewer={myPageViewer} onClick={() => setMyPageViewer(true)}>
+        마이페이지
+      </StyleTextBtn>
       <StyleTextBtn>로그아웃</StyleTextBtn>
     </div>
   );
@@ -27,8 +31,8 @@ export default MainTopRight;
 
 const StyleTextBtn = styled.div`
   letter-spacing: 0px;
-  font-family: ${({ movePage, friendViewer }) =>
-    friendViewer ? "GmarketSansBold" : "GmarketSansMedium"};
+  font-family: ${({ viewer }) =>
+    viewer ? "GmarketSansBold" : "GmarketSansMedium"};
   padding: 10px 21px;
   font-size: 25px;
   color: #707070;

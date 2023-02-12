@@ -25,6 +25,8 @@ function MainPage() {
     friendVisit: false,
   });
 
+  const [myPageViewer, setMyPageViewer] = useState(false);
+
   if (!moveFriend.friendVisit) {
     localStorage.setItem("userID", localStorage.getItem("myID"));
   }
@@ -41,6 +43,8 @@ function MainPage() {
         setYear={setYear}
         friendViewer={friendViewer}
         setFriendViewer={setFriendViewer}
+        myPageViewer={myPageViewer}
+        setMyPageViewer={setMyPageViewer}
         moveFriend={moveFriend}
         setMoveFriend={setMoveFriend}
       />
@@ -51,6 +55,8 @@ function MainPage() {
         setDiary={setDiary}
         friendViewer={friendViewer}
         setFriendViewer={setFriendViewer}
+        myPageViewer={myPageViewer}
+        setMyPageViewer={setMyPageViewer}
       />
       <Calendar
         diary={diary}
@@ -64,6 +70,8 @@ function MainPage() {
         setrefreshFriend={setrefreshFriend}
         moveFriend={moveFriend}
         setMoveFriend={setMoveFriend}
+        myPageViewer={myPageViewer}
+        setMyPageViewer={setMyPageViewer}
       />
       <div style={{ height: "100px" }} />
     </>

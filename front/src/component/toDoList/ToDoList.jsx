@@ -13,7 +13,6 @@ function ToDoList({ pushBthDay, changeState, setChangeState, friend }) {
     pushBthDay[0] + "-" + (pushBthDay[1] + 1) + "-" + pushBthDay[2];
   const [show, setShow] = useState(false);
   const [toDoList, setToDoList] = useState([]);
-  const [toDoLike, setToDoLike] = useState(0);
 
   const [haveComment, setHaveComment] = useState(false);
   const [comment, setComment] = useState([]);

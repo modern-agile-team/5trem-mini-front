@@ -19,6 +19,8 @@ function MainTop({
   setFriendViewer,
   moveFriend,
   setMoveFriend,
+  myPageViewer,
+  setMyPageViewer,
 }) {
   const location = useLocation();
   const url = location.pathname;
@@ -103,6 +105,8 @@ function MainTop({
           setFriendViewer={setFriendViewer}
           refreshFriend={refreshFriend}
           setMoveFriend={setMoveFriend}
+          myPageViewer={myPageViewer}
+          setMyPageViewer={setMyPageViewer}
         />
       </div>
     </div>
