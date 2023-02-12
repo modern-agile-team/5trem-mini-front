@@ -49,7 +49,7 @@ function Comment({
                   <CommentList
                     comment={value}
                     index={index}
-                    key={index}
+                    key={value.no}
                     update={update}
                     showUpdate={showUpdate}
                     setChangeState={setChangeState}

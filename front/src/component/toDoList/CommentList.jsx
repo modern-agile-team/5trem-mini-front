@@ -31,6 +31,16 @@ function CommentList({
     }
   };
 
+  const deleteComment = async () => {
+    const data = {
+      cmtNo: comment.no,
+    };
+    const succes = await commentApi.deleteToDoListComment(data);
+    if (succes) {
+      setChangeState(!changeState);
+    }
+  };
+
   return (
     <LiftCommentContainer>
       {localStorage.getItem("myID") === comment.writer_id && (
@@ -41,7 +51,7 @@ function CommentList({
           {hover && (
             <StateHover>
               <State onClick={openUpdateBtn}>수정</State>
-              <State>삭제</State>
+              <State onClick={deleteComment}>삭제</State>
             </StateHover>
           )}
           <SettingImg />
