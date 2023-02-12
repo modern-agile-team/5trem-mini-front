@@ -4,12 +4,15 @@ import styled from "styled-components";
 import { ReactComponent as CheckImg } from "../../assets/todoCheck.svg";
 import { ReactComponent as NoneCheckImg } from "../../assets/todoNoneCheck.svg";
 import { ReactComponent as XImg } from "../../assets/todoXImg.svg";
+import { ReactComponent as Like } from "../../assets/heart.svg";
+import { ReactComponent as FilledLike } from "../../assets/filledheart.svg";
 import toDoListApi from "../../api/toDoListApi";
 
 function ToDoItem({ todo, setChangeState, changeState, friend }) {
   const [check, setCheck] = useState(false);
   const [title, setTitle] = useState(todo.title);
   const [content, setContent] = useState(todo.content);
+  const [hasLike, setHasLike] = useState(Boolean(todo.likeCnt));
   const todoNo = todo.no;
 
   useEffect(() => {
@@ -58,52 +61,55 @@ function ToDoItem({ todo, setChangeState, changeState, friend }) {
   };
 
   return (
-    <ToDoItemContainer>
-      <StateBtn friend={friend}>
-        {!check && <NoneCheckImg onClick={checkChange} />}
-        {check && <CheckImg onClick={checkChange} />}
-        <XImg onClick={deleteToDoList} />
+    <div>
+      <StateBtn>
+        {!friend && !check && <NoneCheckImg onClick={checkChange} />}
+        {!friend && check && <CheckImg onClick={checkChange} />}
+        {!friend && <XImg onClick={deleteToDoList} />}
+        {hasLike ? <FilledLike /> : <Like />}
+        {hasLike && <div>{todo.likeCnt}</div>}
       </StateBtn>
-      <Title
-        check={check}
-        defaultValue={title}
-        onChange={debounceUpdate}
-        id="title"
-        readOnly={friend}
-      ></Title>
-      <Content
-        check={check}
-        defaultValue={content}
-        onChange={debounceUpdate}
-        id="content"
-        readOnly={friend}
-      ></Content>
-    </ToDoItemContainer>
+      <ToDoItemContainer>
+        <Title
+          check={check}
+          defaultValue={title}
+          onChange={debounceUpdate}
+          id="title"
+          readOnly={friend}
+        ></Title>
+        <Content
+          check={check}
+          defaultValue={content}
+          onChange={debounceUpdate}
+          id="content"
+          readOnly={friend}
+        ></Content>
+      </ToDoItemContainer>
+    </div>
   );
 }
 
 export default ToDoItem;
 
 const ToDoItemContainer = styled.div`
-  width: 557px;
+  width: 537px;
+  margin-left: 20px;
   display: flex;
   flex-wrap: wrap;
 `;
 
 const StateBtn = styled.div`
   width: 20px;
-  height: 35px;
+  height: 50px;
+
+  position: absolute;
   display: flex;
   flex-wrap: wrap;
-  justify-content: row;
-  align-items: center;
-
-  pointer-events: ${({ friend }) => friend && "none"};
+  justify-content: space-between;
 `;
 
 const Title = styled.input`
   width: 502px;
-  height: 35px;
 
   padding-left: 6px;
   font: 30px/35px GmarketSansMedium;
@@ -117,7 +123,7 @@ const Title = styled.input`
 const Content = styled.textarea`
   width: 502px;
   height: 40px;
-  margin: 5px 0 15px 27px;
+  margin: 5px 0 5px 6px;
 
   font: 15px/17px SCDream4;
   border: none;
