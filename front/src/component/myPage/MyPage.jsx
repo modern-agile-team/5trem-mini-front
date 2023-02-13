@@ -1,35 +1,79 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import LightContainer from "../../publicCompent/LightContainer";
+import myPageApi from "../../api/myPageApi";
+import changePhone from "./changePhone";
 
 function MyPage(props) {
-  const userArr = [
-    { InfoTitle: "ID", content: "아이디" },
-    { InfoTitle: "PW", content: "비밀번호" },
-    { InfoTitle: "이름", content: "홍길동" },
-    { InfoTitle: "휴대전화", content: "010xxxxxxxx" },
-    { InfoTitle: "닉네임", content: "니이익네에에임" },
-    { InfoTitle: "이메일", content: "ghdrlfehd@gmail.com" },
-  ];
+  const [myInfo, setMyInfo] = useState([]);
+  const [previewImg, setPreviewImg] = useState("");
+  const [imgData, setImgData] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const response = await myPageApi.getMyInfo();
+      setMyInfo([
+        { InfoTitle: "ID", content: response.id },
+        { InfoTitle: "PW", content: response.password },
+        { InfoTitle: "이름", content: response.name },
+        { InfoTitle: "휴대전화", content: response.phone },
+        { InfoTitle: "닉네임", content: response.nickname },
+        { InfoTitle: "이메일", content: response.email },
+      ]);
+      setPreviewImg(response.image);
+    })();
+  }, []);
+
+  const readImg = (e) => {
+    const fileReader = new FileReader();
+    const data = e.target;
+    fileReader.onload = function () {
+      const dataURL = fileReader.result;
+      setPreviewImg(dataURL);
+    };
+    fileReader.readAsDataURL(data.files[0]);
+    setImgData(data.files[0]);
+  };
 
   return (
     <MyPageContainer>
       <GreetingsContainer>
-        <NickName>냠냠펀치</NickName>
+        {myInfo.length > 0 && <NickName>{myInfo[4].content}</NickName>}
         <Greetings>님 안녕하세요!</Greetings>
       </GreetingsContainer>
       <ImgContainer>
-        <input type={"file"} id={"uploadImg"} style={{ display: "none" }} />
+        <input
+          type={"file"}
+          id={"uploadImg"}
+          onChange={readImg}
+          style={{ display: "none" }}
+        />
         <label htmlFor="uploadImg">
-          <LightContainer tag={<Img width={210} height={210} round={true} />} />
+          <LightContainer
+            tag={<Img width={210} height={210} round={true} src={previewImg} />}
+          />
         </label>
       </ImgContainer>
       <UserInfoContainer>
-        {userArr.map((value) => {
+        {myInfo.map((value) => {
           return (
             <React.Fragment key={value.InfoTitle}>
               <UserInfoTitle>{value.InfoTitle}</UserInfoTitle>
-              <UserInfo defaultValue={value.content}></UserInfo>
+              <UserInfo
+                onBlur={
+                  value.InfoTitle === "휴대전화"
+                    ? changePhone.phoneNumberBlur
+                    : null
+                }
+                onChange={
+                  value.InfoTitle === "휴대전화"
+                    ? changePhone.phoneNumberChange
+                    : null
+                }
+                defaultValue={value.content}
+                readOnly={value.InfoTitle === "ID"}
+                type={value.InfoTitle === "PW" ? "password" : null}
+              ></UserInfo>
             </React.Fragment>
           );
         })}

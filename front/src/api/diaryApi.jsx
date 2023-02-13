@@ -49,7 +49,6 @@ const diaryApi = {
       "/" +
       localStorage.getItem("diaryNum") +
       "?directory=diary";
-
     const response = await axios.put(SERVER_URL, data);
   },
 

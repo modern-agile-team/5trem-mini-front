@@ -51,6 +51,7 @@ const friendApi = {
     const SERVER_URL = "http://13.125.126.246:3000/friends/request";
 
     const response = await axios.post(SERVER_URL, data);
+    console.log(response);
     return response.data;
   },
 };

@@ -77,6 +77,7 @@ function Diary({
   const update = async () => {
     const date = pushBthDay;
     date[1] += 1;
+    console.log(imgData);
 
     const fromData = new FormData();
     fromData.append("image", imgData);

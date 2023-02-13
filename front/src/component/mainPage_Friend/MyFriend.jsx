@@ -70,7 +70,6 @@ function MyFriend({ refreshFriend, setrefreshFriend, setMoveFriend }) {
               transition={{
                 duration: 0.3,
               }}
-              onClick={() => movefriend(friend)}
             >
               <DeleteContainer
                 onMouseOver={() => showDelete(i)}
@@ -81,8 +80,13 @@ function MyFriend({ refreshFriend, setrefreshFriend, setMoveFriend }) {
                 )}
                 <ThreeCircles />
               </DeleteContainer>
-              <FriendImg src={friend.image_url}></FriendImg>
-              <FriendName>{friend.nickname}</FriendName>
+              <FriendImg
+                src={friend.image_url}
+                onClick={() => movefriend(friend)}
+              ></FriendImg>
+              <FriendName onClick={() => movefriend(friend)}>
+                {friend.nickname}
+              </FriendName>
             </FriendInfo>
           );
         })}
