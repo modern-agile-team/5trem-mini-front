@@ -4,6 +4,7 @@ import LightContainer from "../../publicCompent/LightContainer";
 import diaryApi from "../../api/diaryApi";
 import { ReactComponent as CloseImg } from "../../assets/xImg.svg";
 import defaultImg from "../../assets/defaultImg.svg";
+import { ReactComponent as CirclesSvg } from "../../assets/smallThreeCircles.svg";
 
 function Diary({
   existDiary,
@@ -18,6 +19,7 @@ function Diary({
   const [imgData, setImgData] = useState("");
   const [presenceOrAbsence, setpresenceOrAbsence] = useState("");
   const [isImg, setIsImg] = useState(false);
+  const [showDeleteImg, setShowDeleteImg] = useState(false);
 
   const onclick = () => {
     setReduction(false);
@@ -111,6 +113,13 @@ function Diary({
     fileReader.readAsDataURL(data.files[0]);
     setImgData(data.files[0]);
     setIsImg(true);
+    setpresenceOrAbsence(true);
+  };
+
+  const deleteImg = () => {
+    setIsImg(true);
+    setPreviewImg(defaultImg);
+    setpresenceOrAbsence(false);
   };
 
   return (
@@ -139,6 +148,17 @@ function Diary({
                   style={{ display: "none" }}
                   onChange={readImg}
                 />
+                {presenceOrAbsence && (
+                  <ThreeCircles
+                    onMouseOver={() => setShowDeleteImg(true)}
+                    onMouseOut={() => setShowDeleteImg(false)}
+                  >
+                    <CirclesSvg />
+                    {showDeleteImg && (
+                      <State onClick={deleteImg}>이미지 삭제</State>
+                    )}
+                  </ThreeCircles>
+                )}
                 <ImgContainer friend={friend}>
                   <label htmlFor="uploadImg">
                     <UploadImg
@@ -345,4 +365,34 @@ const CloseSideWindow = styled.div`
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
+`;
+
+const ThreeCircles = styled.span`
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  z-index: 9;
+  left: 45px;
+  top: 46%;
+`;
+
+const State = styled.span`
+  position: absolute;
+  width: 110px;
+  height: 28px;
+  left: -40px;
+  top: -28px;
+
+  background: rgb(115 115 115 / 75%);
+  box-shadow: inset 5px 5px 20px #222222a2, 7px 7px 15px #0000009e;
+  backdrop-filter: blur(2px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  user-select: none;
+  cursor: pointer;
+  text-align: center;
+  padding-top: 6px;
+  color: #ffffff;
+  font: 14px/18px GmarketSansMedium;
 `;

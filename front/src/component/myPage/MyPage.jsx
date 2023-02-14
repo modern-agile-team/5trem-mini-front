@@ -94,6 +94,7 @@ function MyPage(props) {
       document.getElementById("nickName").focus();
     }
     setUpdateInfo(!updateInfo);
+    alert("내 정보가 수정됐습니다.");
   };
 
   return (
