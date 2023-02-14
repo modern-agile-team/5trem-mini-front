@@ -5,6 +5,7 @@ import myPageApi from "../../api/myPageApi";
 import changePhone from "./changePhone";
 import defaultImg from "../../assets/default.jpg";
 import { ReactComponent as CirclesSvg } from "../../assets/smallThreeCircles.svg";
+import isValid from "./isValid";
 
 function MyPage(props) {
   const [myInfo, setMyInfo] = useState([]);
@@ -23,7 +24,7 @@ function MyPage(props) {
         { id: "password", InfoTitle: "PW", content: response.password },
         { id: "name", InfoTitle: "이름", content: response.name },
         { id: "phone", InfoTitle: "휴대전화", content: response.phone },
-        { id: "nickname", InfoTitle: "닉네임", content: response.nickname },
+        { id: "nickName", InfoTitle: "닉네임", content: response.nickname },
         { id: "email", InfoTitle: "이메일", content: response.email },
       ]);
       setPreviewImg(
@@ -36,7 +37,6 @@ function MyPage(props) {
 
   useEffect(() => {
     setIsImg(false);
-    console.log(isImg);
   }, []);
 
   useEffect(() => {
@@ -60,19 +60,38 @@ function MyPage(props) {
   };
 
   const update = async () => {
-    const fromData = new FormData();
-    fromData.append("image", imgData);
-    fromData.append("password", document.getElementById("password").value);
-    fromData.append("name", document.getElementById("name").value);
-    fromData.append("phone", document.getElementById("phone").value);
-    fromData.append("nickName", document.getElementById("nickname").value);
-    fromData.append("email", document.getElementById("email").value);
-    fromData.append("isImage", isImg);
-    console.log("imgData::::::::", imgData);
-    const response = await myPageApi.updateMyInfo(fromData);
+    const formData = new FormData();
+    const elements = [
+      {
+        id: "phone",
+        validator: isValid.PhoneNum,
+        message: "휴대전화 번호를 확인해 주세요",
+      },
+      {
+        id: "email",
+        validator: isValid.Email,
+        message: "이메일 양식을 확인해 주세요",
+      },
+      { id: "password" },
+      { id: "name" },
+      { id: "nickName" },
+    ];
+
+    for (const element of elements) {
+      const value = document.getElementById(element.id).value;
+      if (element.validator && !element.validator(value)) {
+        document.getElementById(element.id).focus();
+        return alert(element.message);
+      }
+      formData.append(element.id, value);
+    }
+
+    formData.append("image", imgData);
+    formData.append("isImage", isImg);
+    const response = await myPageApi.updateMyInfo(formData);
     if (!response.success) {
       alert(response.error);
-      document.getElementById("nickname").focus();
+      document.getElementById("nickName").focus();
     }
     setUpdateInfo(!updateInfo);
   };
@@ -120,6 +139,7 @@ function MyPage(props) {
                     ? changePhone.phoneNumberChange
                     : null
                 }
+                maxLength={value.InfoTitle === "닉네임" ? 20 : null}
                 defaultValue={value.content}
                 readOnly={value.InfoTitle === "ID"}
                 type={value.InfoTitle === "PW" ? "password" : null}

@@ -17,6 +17,7 @@ function Diary({
   const [previewImg, setPreviewImg] = useState("");
   const [imgData, setImgData] = useState("");
   const [presenceOrAbsence, setpresenceOrAbsence] = useState("");
+  const [isImg, setIsImg] = useState(false);
 
   const onclick = () => {
     setReduction(false);
@@ -77,12 +78,12 @@ function Diary({
   const update = async () => {
     const date = pushBthDay;
     date[1] += 1;
-    console.log(imgData);
 
     const fromData = new FormData();
     fromData.append("image", imgData);
     fromData.append("content", document.getElementById("content").value);
     fromData.append("title", document.getElementById("title").value);
+    fromData.append("isImage", isImg);
 
     await diaryApi.updateDiary(fromData, date.join("-"));
     setChangeState(!changeState);
@@ -109,6 +110,7 @@ function Diary({
     };
     fileReader.readAsDataURL(data.files[0]);
     setImgData(data.files[0]);
+    setIsImg(true);
   };
 
   return (
