@@ -8,21 +8,26 @@ function MyPage(props) {
   const [myInfo, setMyInfo] = useState([]);
   const [previewImg, setPreviewImg] = useState("");
   const [imgData, setImgData] = useState("");
+  const [isImg, setIsImg] = useState(false);
 
   useEffect(() => {
     (async () => {
       const response = await myPageApi.getMyInfo();
       setMyInfo([
-        { InfoTitle: "ID", content: response.id },
-        { InfoTitle: "PW", content: response.password },
-        { InfoTitle: "이름", content: response.name },
-        { InfoTitle: "휴대전화", content: response.phone },
-        { InfoTitle: "닉네임", content: response.nickname },
-        { InfoTitle: "이메일", content: response.email },
+        { id: "userID", InfoTitle: "ID", content: response.id },
+        { id: "password", InfoTitle: "PW", content: response.password },
+        { id: "name", InfoTitle: "이름", content: response.name },
+        { id: "phone", InfoTitle: "휴대전화", content: response.phone },
+        { id: "nickname", InfoTitle: "닉네임", content: response.nickname },
+        { id: "email", InfoTitle: "이메일", content: response.email },
       ]);
       setPreviewImg(response.image);
     })();
   }, []);
+
+  useEffect(() => {
+    setIsImg(true);
+  }, [imgData]);
 
   const readImg = (e) => {
     const fileReader = new FileReader();
@@ -33,6 +38,20 @@ function MyPage(props) {
     };
     fileReader.readAsDataURL(data.files[0]);
     setImgData(data.files[0]);
+  };
+
+  const update = async () => {
+    const fromData = new FormData();
+    fromData.append("image", imgData);
+    fromData.append("password", document.getElementById("password").value);
+    fromData.append("name", document.getElementById("name").value);
+    fromData.append("phone", document.getElementById("phone").value);
+    fromData.append("nickname", document.getElementById("nickname").value);
+    fromData.append("email", document.getElementById("email").value);
+    fromData.append("isImage", isImg);
+    await myPageApi.updateMyInfo(fromData);
+    // setChangeState(!changeState);
+    // setReduction(false);
   };
 
   return (
@@ -57,9 +76,10 @@ function MyPage(props) {
       <UserInfoContainer>
         {myInfo.map((value) => {
           return (
-            <React.Fragment key={value.InfoTitle}>
+            <React.Fragment key={value.id}>
               <UserInfoTitle>{value.InfoTitle}</UserInfoTitle>
               <UserInfo
+                id={value.id}
                 onBlur={
                   value.InfoTitle === "휴대전화"
                     ? changePhone.phoneNumberBlur
@@ -81,7 +101,7 @@ function MyPage(props) {
       <SortRight>
         <LightContainer
           tag={
-            <UpdateBtn width={67} height={40}>
+            <UpdateBtn width={67} height={40} onClick={update}>
               수정
             </UpdateBtn>
           }

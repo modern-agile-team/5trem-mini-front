@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import SelectFriend from "../../component/mainPage_Friend/SelectFriend";
+import { useNavigate } from "react-router-dom";
 
 function MainTopRight({
   friendViewer,
@@ -10,6 +11,15 @@ function MainTopRight({
   myPageViewer,
   setMyPageViewer,
 }) {
+  const navigate = useNavigate();
+
+  const logOut = () => {
+    localStorage.setItem("userID", "");
+    localStorage.setItem("myID", "");
+
+    navigate("/login");
+  };
+
   return (
     <div style={{ display: "flex", height: "80px", alignItems: "flex-end" }}>
       <SelectFriend
@@ -22,7 +32,7 @@ function MainTopRight({
       <StyleTextBtn viewer={myPageViewer} onClick={() => setMyPageViewer(true)}>
         마이페이지
       </StyleTextBtn>
-      <StyleTextBtn>로그아웃</StyleTextBtn>
+      <StyleTextBtn onClick={logOut}>로그아웃</StyleTextBtn>
     </div>
   );
 }

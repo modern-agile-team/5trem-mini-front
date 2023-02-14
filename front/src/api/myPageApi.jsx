@@ -8,6 +8,17 @@ const myPageApi = {
     const response = await axios.get(SERVER_URL);
     return response.data;
   },
+
+  async updateMyInfo(fromData) {
+    const SERVER_URL =
+      "http://13.125.126.246:3000/profiles/" +
+      localStorage.getItem("myID") +
+      "?directory=user";
+
+    const response = await axios.put(SERVER_URL, fromData);
+    console.log(response);
+    return response.data;
+  },
 };
 
 export default myPageApi;
