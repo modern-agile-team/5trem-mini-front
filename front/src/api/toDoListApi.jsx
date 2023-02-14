@@ -16,7 +16,7 @@ const toDoListApi = {
 
   async getToDoList(day) {
     const SERVER_URL =
-      "http://13.125.126.246:3000/todo/friend/" +
+      "http://13.125.126.246:3000/todo/friendList/" +
       localStorage.getItem("userID") +
       "/" +
       day +

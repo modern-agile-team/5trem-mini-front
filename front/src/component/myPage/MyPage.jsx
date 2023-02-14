@@ -3,12 +3,17 @@ import styled from "styled-components";
 import LightContainer from "../../publicCompent/LightContainer";
 import myPageApi from "../../api/myPageApi";
 import changePhone from "./changePhone";
+import defaultImg from "../../assets/default.jpg";
+import { ReactComponent as CirclesSvg } from "../../assets/smallThreeCircles.svg";
 
 function MyPage(props) {
   const [myInfo, setMyInfo] = useState([]);
   const [previewImg, setPreviewImg] = useState("");
   const [imgData, setImgData] = useState("");
   const [isImg, setIsImg] = useState(false);
+
+  const [updateInfo, setUpdateInfo] = useState(false);
+  const [showDeleteImg, setShowDeleteImg] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -21,8 +26,17 @@ function MyPage(props) {
         { id: "nickname", InfoTitle: "닉네임", content: response.nickname },
         { id: "email", InfoTitle: "이메일", content: response.email },
       ]);
-      setPreviewImg(response.image);
+      setPreviewImg(
+        response.image
+          ? response.image + `?time=${new Date().getTime()}`
+          : defaultImg
+      );
     })();
+  }, [updateInfo]);
+
+  useEffect(() => {
+    setIsImg(false);
+    console.log(isImg);
   }, []);
 
   useEffect(() => {
@@ -40,18 +54,27 @@ function MyPage(props) {
     setImgData(data.files[0]);
   };
 
+  const deleteImg = () => {
+    setIsImg(true);
+    setPreviewImg(defaultImg);
+  };
+
   const update = async () => {
     const fromData = new FormData();
     fromData.append("image", imgData);
     fromData.append("password", document.getElementById("password").value);
     fromData.append("name", document.getElementById("name").value);
     fromData.append("phone", document.getElementById("phone").value);
-    fromData.append("nickname", document.getElementById("nickname").value);
+    fromData.append("nickName", document.getElementById("nickname").value);
     fromData.append("email", document.getElementById("email").value);
     fromData.append("isImage", isImg);
-    await myPageApi.updateMyInfo(fromData);
-    // setChangeState(!changeState);
-    // setReduction(false);
+    console.log("imgData::::::::", imgData);
+    const response = await myPageApi.updateMyInfo(fromData);
+    if (!response.success) {
+      alert(response.error);
+      document.getElementById("nickname").focus();
+    }
+    setUpdateInfo(!updateInfo);
   };
 
   return (
@@ -61,6 +84,13 @@ function MyPage(props) {
         <Greetings>님 안녕하세요!</Greetings>
       </GreetingsContainer>
       <ImgContainer>
+        <ThreeCircles
+          onMouseOver={() => setShowDeleteImg(true)}
+          onMouseOut={() => setShowDeleteImg(false)}
+        >
+          <CirclesSvg />
+          {showDeleteImg && <State onClick={deleteImg}>이미지 삭제</State>}
+        </ThreeCircles>
         <input
           type={"file"}
           id={"uploadImg"}
@@ -199,4 +229,32 @@ const SortRight = styled.div`
   width: 558px;
   display: flex;
   justify-content: center;
+`;
+
+const ThreeCircles = styled.span`
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  z-index: 9;
+`;
+
+const State = styled.span`
+  position: absolute;
+  width: 110px;
+  height: 28px;
+  left: -40px;
+  top: -28px;
+
+  background: rgb(115 115 115 / 75%);
+  box-shadow: inset 5px 5px 20px #222222a2, 7px 7px 15px #0000009e;
+  backdrop-filter: blur(2px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  user-select: none;
+  cursor: pointer;
+  text-align: center;
+  padding-top: 6px;
+  color: #ffffff;
+  font: 14px/18px GmarketSansMedium;
 `;
