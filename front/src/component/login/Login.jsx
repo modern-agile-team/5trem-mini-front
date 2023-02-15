@@ -42,6 +42,10 @@ function Login() {
     navigate("/find-id");
   };
 
+  const moveFindPW = () => {
+    navigate("/find-password");
+  };
+
   return (
     <BackGround>
       <StyleHeader>로그인</StyleHeader>
@@ -83,7 +87,7 @@ function Login() {
       >
         <div>
           <StyleTextBtn onClick={moveFindId}>아이디 찾기</StyleTextBtn>
-          <StyleTextBtn>비밀번호 찾기</StyleTextBtn>
+          <StyleTextBtn onClick={moveFindPW}>비밀번호 찾기</StyleTextBtn>
           <StyleTextBtn right={true} onClick={moveSignUp}>
             회원가입
           </StyleTextBtn>
