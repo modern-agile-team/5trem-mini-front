@@ -5,6 +5,7 @@ import Login from "./component/login/Login";
 import SignUp from "./component/signUp/SignUp";
 import MainPage from "./component/mainPage/MainPage";
 import YearChange from "./component/yearChange/YearChange";
+import FindInfo from "./component/find_Info/FindID";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/mainPage" element={<MainPage />} />
       <Route path="/yearChange" element={<YearChange />} />
+      <Route path="/find-id" element={<FindInfo />} />
     </Routes>
   );
 }

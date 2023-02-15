@@ -10,6 +10,7 @@ import loginApi from "../../api/loginApi";
 
 function Login() {
   window.localStorage.setItem("userID", "");
+  const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useState({
     id: "",
@@ -33,9 +34,12 @@ function Login() {
     });
   };
 
-  const navigate = useNavigate();
   const moveSignUp = () => {
     navigate("/signUp");
+  };
+
+  const moveFindId = () => {
+    navigate("/find-id");
   };
 
   return (
@@ -78,7 +82,7 @@ function Login() {
         }}
       >
         <div>
-          <StyleTextBtn>아이디 찾기</StyleTextBtn>
+          <StyleTextBtn onClick={moveFindId}>아이디 찾기</StyleTextBtn>
           <StyleTextBtn>비밀번호 찾기</StyleTextBtn>
           <StyleTextBtn right={true} onClick={moveSignUp}>
             회원가입
