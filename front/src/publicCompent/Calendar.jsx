@@ -6,6 +6,7 @@ import diaryApi from "../api/diaryApi";
 import ToDoList from "../component/toDoList/ToDoList";
 import toDoListApi from "../api/toDoListApi";
 import Friend from "../component/mainPage_Friend/Friend";
+import MyPage from "../component/myPage/MyPage";
 
 function Calendar({
   year,
@@ -19,6 +20,8 @@ function Calendar({
   setrefreshFriend,
   setMoveFriend,
   moveFriend,
+  myPageViewer,
+  setMyPageViewer,
 }) {
   const monthDate = dateCalculation(year, month - 1);
 
@@ -37,6 +40,7 @@ function Calendar({
     setPush(pushArr);
     setPushBthDay(bthDay);
     setFriendViewer(false);
+    setMyPageViewer(false);
   };
 
   const pullBtn = () => {
@@ -61,6 +65,7 @@ function Calendar({
     lookUp();
     setReduction(false);
     setFriendViewer(false);
+    setMyPageViewer(false);
   }, [year, month, diary, moveFriend]);
 
   useEffect(() => {
@@ -77,8 +82,17 @@ function Calendar({
     if (friendViewer) {
       pullBtn();
       setReduction(true);
+      setMyPageViewer(false);
     }
   }, [friendViewer]);
+
+  useEffect(() => {
+    if (myPageViewer) {
+      pullBtn();
+      setReduction(true);
+      setFriendViewer(false);
+    }
+  }, [myPageViewer]);
 
   return (
     <>
@@ -129,6 +143,8 @@ function Calendar({
                 setrefreshFriend={setrefreshFriend}
                 setMoveFriend={setMoveFriend}
               />
+            ) : myPageViewer ? (
+              <MyPage></MyPage>
             ) : diary ? (
               <>
                 <Diary

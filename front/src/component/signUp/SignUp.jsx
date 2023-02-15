@@ -88,7 +88,7 @@ export default function SignUp() {
         };
       });
     }
-  }, 500);
+  }, 250);
   const [passwordCheck, passwordText] = overlap.passwordCheck(
     userInfo.password,
     userInfo.checkPassword

@@ -11,6 +11,8 @@ function TransfromBtn({
   setDiary,
   friendViewer,
   setFriendViewer,
+  myPageViewer,
+  setMyPageViewer,
 }) {
   const transfrom = () => {
     setDiary((prev) => !prev);
@@ -23,6 +25,7 @@ function TransfromBtn({
   const closeFriendWindow = () => {
     setReduction(false);
     setFriendViewer(false);
+    setMyPageViewer(false);
   };
 
   return (
@@ -45,7 +48,9 @@ function TransfromBtn({
           />
         </div>
         <div style={{ marginRight: "40px" }}>
-          {friendViewer && <XImg onClick={closeFriendWindow} />}
+          {(friendViewer || myPageViewer) && (
+            <XImg onClick={closeFriendWindow} />
+          )}
         </div>
       </Container>
     </div>

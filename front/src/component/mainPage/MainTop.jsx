@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import SelectMonth from "./SelectMonth";
 import { ReactComponent as Arrow } from "../../assets/arrow.svg";
+import { ReactComponent as Home } from "../../assets/home.svg";
 import LightContainer from "../../publicCompent/LightContainer";
 import MainTopRight from "./MainTopRight";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -19,6 +20,8 @@ function MainTop({
   setFriendViewer,
   moveFriend,
   setMoveFriend,
+  myPageViewer,
+  setMyPageViewer,
 }) {
   const location = useLocation();
   const url = location.pathname;
@@ -38,7 +41,7 @@ function MainTop({
       setYear(yearChange);
     }
     if (moveFriend.friendVisit) {
-      setShow(document.getElementById("friendNickName").offsetWidth >= 271);
+      setShow(document.getElementById("friendNickName").offsetWidth >= 270);
     }
   }, []);
 
@@ -95,7 +98,7 @@ function MainTop({
               {moveFriend.friendNickName}
             </FriendNickName>
             <FriendGreetings>님의 페이지입니다.</FriendGreetings>
-            <div onClick={moveMyPage}> 내 페이지로 돌아가기</div>
+            <Home onClick={moveMyPage} />
           </FriendPageContainer>
         )}
         <MainTopRight
@@ -103,6 +106,8 @@ function MainTop({
           setFriendViewer={setFriendViewer}
           refreshFriend={refreshFriend}
           setMoveFriend={setMoveFriend}
+          myPageViewer={myPageViewer}
+          setMyPageViewer={setMyPageViewer}
         />
       </div>
     </div>

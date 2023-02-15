@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { ReactComponent as CirclesImg } from "../../assets/circles.svg";
-import { ReactComponent as SettingImg } from "../../assets/threeCircles.svg";
 import LightContainer from "../../publicCompent/LightContainer";
+import CommentList from "./CommentList";
 
-function Comment({ haveComment, comment, enrollmentComment }) {
+function Comment({
+  haveComment,
+  comment,
+  enrollmentComment,
+  changeComment,
+  setChangeComment,
+}) {
   const [lightHeight, setLightHeight] = useState("");
+
+  const [update, setUpdate] = useState(false);
+  const showUpdate = (index) => {
+    const arr = new Array(comment.length).fill(false);
+    arr[index] = true;
+    setUpdate(arr);
+  };
 
   useEffect(() => {
     if (haveComment) {
@@ -18,6 +30,7 @@ function Comment({ haveComment, comment, enrollmentComment }) {
       });
       observer.observe(container);
     }
+    setUpdate(new Array(comment.length).fill(false));
   }, []);
 
   return (
@@ -33,15 +46,15 @@ function Comment({ haveComment, comment, enrollmentComment }) {
               <StateBtn2 onClick={enrollmentComment}>등록</StateBtn2>
               {comment.map((value, index) => {
                 return (
-                  <LiftCommentContainer key={index}>
-                    {/* {localStorage.getItem("myID") === value.writer_id && ()} */}
-                    <Setting>
-                      <SettingImg />
-                    </Setting>
-                    <CirclesImg />
-                    <Name>{value.writer}</Name>
-                    <LiftComment>{value.content}</LiftComment>
-                  </LiftCommentContainer>
+                  <CommentList
+                    comment={value}
+                    index={index}
+                    key={value.no}
+                    update={update}
+                    showUpdate={showUpdate}
+                    setChangeComment={setChangeComment}
+                    changeComment={changeComment}
+                  />
                 );
               })}
             </CommentContainer>
@@ -120,36 +133,6 @@ const CommentInput2 = styled.input`
   background: transparent;
   color: #838383;
   outline: none;
-`;
-
-const LiftCommentContainer = styled.div`
-  width: 480px;
-  display: flex;
-  margin: 10px 0 10px 0;
-  position: relative;
-`;
-
-const Name = styled.div`
-  width: 55px;
-  margin-right: 8px;
-  padding-top: 3px;
-  text-align: center;
-
-  font: 13px/14px GmarketSansMedium;
-  color: #080808;
-`;
-
-const LiftComment = styled.div`
-  width: 420px;
-  padding-top: 3px;
-  font: 12px/14px GmarketSansMedium;
-  color: #838383;
-`;
-
-const Setting = styled.div`
-  position: absolute;
-  left: -15px;
-  top: -4px;
 `;
 
 const StateBtn2 = styled.span`

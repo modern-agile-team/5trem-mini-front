@@ -16,15 +16,21 @@ function ToDoList({ pushBthDay, changeState, setChangeState, friend }) {
 
   const [haveComment, setHaveComment] = useState(false);
   const [comment, setComment] = useState([]);
+  const [changeComment, setChangeComment] = useState(false);
 
   useEffect(() => {
     (async () => {
       setToDoList(await toDoListApi.getToDoList(BthDay));
+    })();
+  }, [pushBthDay, changeState]);
+
+  useEffect(() => {
+    (async () => {
       const response = await commentApi.getToDoListComment(BthDay);
       setHaveComment(response.length !== 0);
       setComment(response);
     })();
-  }, [pushBthDay, changeState]);
+  }, [pushBthDay, changeComment]);
 
   const enrollmentToDoList = async () => {
     const data = {
@@ -51,7 +57,7 @@ function ToDoList({ pushBthDay, changeState, setChangeState, friend }) {
     const success = await commentApi.addToDoListComment(data);
     if (success) {
       document.getElementById("comment").value = "";
-      setChangeState(!changeState);
+      setChangeComment(!changeComment);
     }
   };
 
@@ -97,6 +103,8 @@ function ToDoList({ pushBthDay, changeState, setChangeState, friend }) {
         haveComment={haveComment}
         comment={comment}
         enrollmentComment={enrollmentComment}
+        setChangeComment={setChangeComment}
+        changeComment={changeComment}
       />
     </div>
   );
