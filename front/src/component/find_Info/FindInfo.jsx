@@ -5,7 +5,7 @@ import LightContainer from "../../publicCompent/LightContainer";
 import StyleBtn from "../../publicCompent/StyleBtn";
 import FindInputEmail from "./FindInput";
 
-function FindInfo({ sentMail, findId, checkCode, isFindId }) {
+function FindInfo({ sentMail, find, checkCode, isFindId }) {
   return (
     <>
       <CustomSelect>
@@ -45,7 +45,7 @@ function FindInfo({ sentMail, findId, checkCode, isFindId }) {
           <StyleBtn
             width={400}
             height={90}
-            onClick={sentMail ? checkCode : findId}
+            onClick={sentMail ? checkCode : find}
           >
             {sentMail ? "확인" : isFindId ? "아이디 찾기" : "비밀번호 찾기"}
           </StyleBtn>
@@ -68,7 +68,7 @@ const CustomSelect = styled.div`
 
 const CheckCodeContainer = styled.div`
   width: 655px;
-  height: 300px;
+  height: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;

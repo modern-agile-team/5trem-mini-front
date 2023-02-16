@@ -26,18 +26,34 @@ function FindMain() {
     return regex.test(email);
   };
 
-  const findId = async () => {
+  const find = async () => {
     const inputEmail =
       document.getElementById("firstEmail").value +
       document.getElementById("secondEmail").value;
     if (validEmail(inputEmail)) {
-      const response = await findUserInfoApi.getMyId({ email: inputEmail });
-      if (response.success) {
-        setSentMail(true);
-        setCode(response.authenticationNumber);
-        setUserInfo(response.id);
+      if (isFindId) {
+        const response = await findUserInfoApi.getMyId({ email: inputEmail });
+        if (response.success) {
+          setSentMail(true);
+          setCode(response.authenticationNumber);
+          setUserInfo(response.id);
+        } else {
+          alert(response.msg);
+        }
       } else {
-        alert(response.msg);
+        const id = document.getElementById("checkId").value;
+        const data = {
+          email: inputEmail,
+          id,
+        };
+        const response = await findUserInfoApi.getMyPw(data);
+        if (response.success) {
+          setSentMail(true);
+          setCode(response.authenticationNumber);
+          setUserInfo(response.password);
+        } else {
+          alert(response.msg);
+        }
       }
     } else {
       alert("작성한 내용을 다시 확인해 주세요.");
@@ -59,7 +75,7 @@ function FindMain() {
         <FindInfo
           sentMail={sentMail}
           isFindId={isFindId}
-          findId={findId}
+          find={find}
           checkCode={checkCode}
         />
       )}

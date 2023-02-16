@@ -13,6 +13,7 @@ function FindSuccess({ userInfo, isFindId }) {
 
   const moveFindPw = () => {
     navigate("/find-password");
+    window.location.reload();
   };
 
   return (

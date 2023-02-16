@@ -27,6 +27,7 @@ function MyPage(props) {
         { id: "nickName", InfoTitle: "닉네임", content: response.nickname },
         { id: "email", InfoTitle: "이메일", content: response.email },
       ]);
+      console.log("response:::", response.image);
       setPreviewImg(
         response.image
           ? response.image + `?time=${new Date().getTime()}`
@@ -35,15 +36,8 @@ function MyPage(props) {
     })();
   }, [updateInfo]);
 
-  useEffect(() => {
-    setIsImg(false);
-  }, []);
-
-  useEffect(() => {
-    setIsImg(true);
-  }, [imgData]);
-
   const readImg = (e) => {
+    setIsImg(true);
     const fileReader = new FileReader();
     const data = e.target;
     fileReader.onload = function () {
@@ -88,6 +82,8 @@ function MyPage(props) {
 
     formData.append("image", imgData);
     formData.append("isImage", isImg);
+    console.log(imgData);
+    console.log(typeof isImg);
     const response = await myPageApi.updateMyInfo(formData);
     if (!response.success) {
       alert(response.error);
