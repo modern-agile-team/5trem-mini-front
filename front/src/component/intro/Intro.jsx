@@ -3,7 +3,14 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 function Intro(props) {
-  const [showBtn, setShowBtn] = useState(false);
+  const [showLoginBtn, setShowLoginBtn] = useState(false);
+  const [showSkipBtn, setShowSkipBtn] = useState(true);
+
+  const hideSkipBtn = () => {
+    setTimeout(() => {
+      setShowSkipBtn(false);
+    }, 6700);
+  };
 
   const navigate = useNavigate();
 
@@ -13,16 +20,17 @@ function Intro(props) {
 
   return (
     <IntroWrapper>
-      {showBtn && <LoginBtn onClick={() => moveLogin()} />}
+      {showLoginBtn && <LoginBtn onClick={() => moveLogin()} />}
       <SkipContainer>
-        <SkipBtn onClick={() => moveLogin()}></SkipBtn>
+        {showSkipBtn && <SkipBtn onClick={() => moveLogin()}></SkipBtn>}
       </SkipContainer>
       <IntroVideo
-        src="/video/intro(white).mp4"
+        src="/video/intro.mp4"
         autoPlay
         muted
         pointer-events="none"
-        onEnded={() => setShowBtn(true)}
+        onPlaying={hideSkipBtn}
+        onEnded={() => setShowLoginBtn(true)}
       />
     </IntroWrapper>
   );
@@ -45,7 +53,6 @@ const IntroVideo = styled.video`
 `;
 
 const LoginBtn = styled.span`
-  background-color: blue;
   position: absolute;
   width: 445px;
   height: 168px;
@@ -58,15 +65,14 @@ const SkipContainer = styled.div`
   display: flex;
   flex-direction: row-reverse;
   width: 1600px;
-  bottom: 30%;
+  bottom: 23%;
 `;
 
 const SkipBtn = styled.div`
-  background-color: red;
   position: absolute;
-  margin-right: 180px;
-  width: 180px;
-  height: 50px;
+  margin-right: 155px;
+  width: 145px;
+  height: 40px;
 
   cursor: pointer;
   z-index: 99;
