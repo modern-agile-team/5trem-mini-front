@@ -5,8 +5,8 @@ import ToDoItem from "./ToDoItem";
 import Comment from "./Comment";
 import toDoListApi from "../../api/toDoListApi";
 import commentApi from "../../api/commentApi";
-import { ReactComponent as ShowEnrollmentBtn } from "../../assets/produceImg.svg";
-import { ReactComponent as CloseEnrollmentBtn } from "../../assets/xImg.svg";
+import { ReactComponent as ShowImg } from "../../assets/produceImg.svg";
+import { ReactComponent as CloseImg } from "../../assets/xImg.svg";
 
 function ToDoList({ pushBthDay, changeState, setChangeState, friend }) {
   const BthDay =
@@ -167,4 +167,14 @@ const StateBtn = styled.div`
   color: #393939;
   background: #cbd2e0;
   border-radius: 4px;
+  user-select: none;
+  cursor: pointer;
+`;
+
+const ShowEnrollmentBtn = styled(ShowImg)`
+  cursor: pointer;
+`;
+
+const CloseEnrollmentBtn = styled(CloseImg)`
+  cursor: pointer;
 `;

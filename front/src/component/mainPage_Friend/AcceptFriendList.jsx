@@ -98,6 +98,8 @@ const AcceptBtn = styled.div`
   background: #717e9b;
   border-radius: 4px;
   padding-left: 8px;
+  user-select: none;
+  cursor: pointer;
 `;
 
 const RefuseBtn = styled.div`
@@ -108,6 +110,8 @@ const RefuseBtn = styled.div`
   background: #bec5d5;
   border-radius: 4px;
   padding-left: 8px;
+  user-select: none;
+  cursor: pointer;
 `;
 
 const State = styled.div`

@@ -133,6 +133,8 @@ const Btn = styled.button`
       : "linear-gradient(95deg, #e8ebf2 0%, #e8ebf2 0%, #f2f3f7 100%)"};
   box-shadow: ${({ today }) =>
     today ? "5px 5px 30px #0F296B66" : "5px 5px 20px #0f296b33"};
+  user-select: none;
+  cursor: pointer;
 `;
 
 const PushBtn = styled.button`
@@ -148,6 +150,8 @@ const PushBtn = styled.button`
   box-shadow: ${({ today }) =>
     today ? "inset 6px 6px 12px #0f296b3d" : "inset 6px 6px 10px #0F296B26"};
   border: ${({ today }) => (today ? "none" : "0.2px solid #ffffff")};
+  user-select: none;
+  cursor: pointer;
 `;
 
 const Font = styled.div`

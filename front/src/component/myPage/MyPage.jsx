@@ -180,6 +180,7 @@ const Img = styled.img`
   border-radius: 50%;
   box-shadow: 5px 5px 20px #0f296b26;
   background-color: #b8c0d1;
+  cursor: pointer;
 `;
 
 const GreetingsContainer = styled.div`
@@ -240,6 +241,9 @@ const UpdateBtn = styled.div`
 
   font: 15px/18px GmarketSansMedium;
   color: #393939;
+
+  user-select: none;
+  cursor: pointer;
 `;
 
 const SortRight = styled.div`

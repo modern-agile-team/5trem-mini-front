@@ -107,6 +107,8 @@ const StateBtn = styled.span`
   color: #393939;
   background: #cbd2e0;
   border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
 `;
 
 const CommentContainer = styled.div`
@@ -147,4 +149,6 @@ const StateBtn2 = styled.span`
   color: #393939;
   background: #cbd2e0;
   border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
 `;

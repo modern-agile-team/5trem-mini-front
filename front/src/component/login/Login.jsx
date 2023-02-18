@@ -46,6 +46,12 @@ function Login() {
     navigate("/find-password");
   };
 
+  const enterkey = (e) => {
+    if (e.keyCode === 13) {
+      moveMainPage();
+    }
+  };
+
   return (
     <BackGround>
       <StyleHeader>로그인</StyleHeader>
@@ -59,6 +65,7 @@ function Login() {
               placeholder="아이디"
               onChange={onChangeAccount}
               id="userID"
+              onKeyUp={enterkey}
             />
           }
         />
@@ -73,6 +80,7 @@ function Login() {
               type="password"
               placeholder="비밀번호"
               onChange={onChangeAccount}
+              onKeyUp={enterkey}
             />
           }
         />
@@ -113,6 +121,8 @@ const StyleTextBtn = styled.span`
   font-family: GmarketSansMedium;
   padding: 4px 8px;
   color: #707070;
+  user-select: none;
+  cursor: pointer;
 `;
 
 export default Login;

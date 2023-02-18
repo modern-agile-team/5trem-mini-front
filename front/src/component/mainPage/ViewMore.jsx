@@ -15,6 +15,7 @@ const SelectItem = styled.li`
   font: 15px GmarketSansMedium;
   color: #000000;
   user-select: none;
+  cursor: pointer;
 `;
 
 export default ViewMore;

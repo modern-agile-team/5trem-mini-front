@@ -49,7 +49,7 @@ function TransfromBtn({
         </div>
         <div style={{ marginRight: "40px" }}>
           {(friendViewer || myPageViewer) && (
-            <XImg onClick={closeFriendWindow} />
+            <Close onClick={closeFriendWindow} />
           )}
         </div>
       </Container>
@@ -65,4 +65,8 @@ const Container = styled.div`
   width: ${({ reduction }) => (reduction ? "1450" : "1000")}px;
   margin: 30px auto 0;
   align-items: center;
+`;
+
+const Close = styled(XImg)`
+  cursor: pointer;
 `;

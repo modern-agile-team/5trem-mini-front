@@ -133,4 +133,6 @@ const AddFriendBtn = styled.button`
   box-shadow: 5px 5px 10px #0f296b66;
   border: none;
   border-radius: 7px;
+  user-select: none;
+  cursor: pointer;
 `;

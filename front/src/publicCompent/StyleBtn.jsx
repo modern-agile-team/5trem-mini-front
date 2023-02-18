@@ -25,6 +25,8 @@ const StyleBtn = styled.button`
   font-size: ${({ transfrom }) => (transfrom ? "15" : "40")}px;
   font-family: ${({ transfrom }) =>
     transfrom ? "GmarketSansMedium" : "GmarketSansBold"};
+  user-select: none;
+  cursor: pointer;
 `;
 
 export default StyleBtn;
