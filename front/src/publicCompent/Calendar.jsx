@@ -7,6 +7,7 @@ import ToDoList from "../component/toDoList/ToDoList";
 import toDoListApi from "../api/toDoListApi";
 import Friend from "../component/mainPage_Friend/Friend";
 import MyPage from "../component/myPage/MyPage";
+import holidayApi from "../api/holidayApi";
 
 function Calendar({
   year,
@@ -24,6 +25,8 @@ function Calendar({
   setMyPageViewer,
 }) {
   const monthDate = dateCalculation(year, month - 1);
+
+  const [holiday, setHoliday] = useState([]);
 
   const [push, setPush] = useState(new Array(42).fill(false));
   const [pushBthDay, setPushBthDay] = useState("");
@@ -59,6 +62,12 @@ function Calendar({
       })();
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      setHoliday(await holidayApi.getHoliday(year, month));
+    })();
+  }, [year, month]);
 
   useEffect(() => {
     pullBtn();
@@ -129,6 +138,7 @@ function Calendar({
                 writtenDiaryBtn={writtenDiaryBtn}
                 setExistDiary={setExistDiary}
                 writtenTodoListBtn={writtenTodoListBtn}
+                holiday={holiday}
               />
             ))}
           </div>
@@ -192,6 +202,7 @@ function Calendar({
                 writtenDiaryBtn={writtenDiaryBtn}
                 setExistDiary={setExistDiary}
                 writtenTodoListBtn={writtenTodoListBtn}
+                holiday={holiday}
               />
             ))}
           </div>

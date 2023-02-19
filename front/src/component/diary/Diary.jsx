@@ -130,7 +130,7 @@ function Diary({
             tag={
               <Container width={567} height={lightHeight} id={"container"}>
                 <CloseSideWindow onClick={onclick}>
-                  <CloseImg />
+                  <Close />
                 </CloseSideWindow>
                 <TitleTransfrom
                   readOnly={friend}
@@ -153,7 +153,7 @@ function Diary({
                     onMouseOver={() => setShowDeleteImg(true)}
                     onMouseOut={() => setShowDeleteImg(false)}
                   >
-                    <CirclesSvg />
+                    <Circles />
                     {showDeleteImg && (
                       <State onClick={deleteImg}>이미지 삭제</State>
                     )}
@@ -193,7 +193,7 @@ function Diary({
             tag={
               <Container width={567} height={lightHeight} id={"container"}>
                 <CloseSideWindow onClick={onclick}>
-                  <CloseImg />
+                  <Close />
                 </CloseSideWindow>
                 <Title
                   placeholder={"제목을 입력하세요"}
@@ -346,6 +346,7 @@ const TitleTransfrom = styled.input`
 const UploadImg = styled.img`
   width: ${({ presenceOrAbsence }) => (presenceOrAbsence ? "500" : "35")}px;
   height: ${({ presenceOrAbsence }) => (presenceOrAbsence ? "200" : "35")}px;
+  cursor: pointer;
 `;
 
 const StateBtn = styled.div`
@@ -356,6 +357,8 @@ const StateBtn = styled.div`
   color: ${({ delet }) => (delet ? "#FFFFFF" : "#393939")};
   background: ${({ delet }) => (delet ? "#717E9B" : "#cbd2e0")};
   border-radius: 4px;
+  user-select: none;
+  cursor: pointer;
 `;
 
 const CloseSideWindow = styled.div`
@@ -395,4 +398,12 @@ const State = styled.span`
   padding-top: 6px;
   color: #ffffff;
   font: 14px/18px GmarketSansMedium;
+`;
+
+const Close = styled(CloseImg)`
+  cursor: pointer;
+`;
+
+const Circles = styled(CirclesSvg)`
+  cursor: pointer;
 `;

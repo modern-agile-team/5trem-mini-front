@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import SelectMonth from "./SelectMonth";
 import { ReactComponent as Arrow } from "../../assets/arrow.svg";
-import { ReactComponent as Home } from "../../assets/home.svg";
+import { ReactComponent as HomeImg } from "../../assets/home.svg";
 import LightContainer from "../../publicCompent/LightContainer";
 import MainTopRight from "./MainTopRight";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -40,10 +40,13 @@ function MainTop({
       const yearChange = Number(location.state.year);
       setYear(yearChange);
     }
-    if (moveFriend.friendVisit) {
-      setShow(document.getElementById("friendNickName").offsetWidth >= 270);
-    }
   }, []);
+
+  useEffect(() => {
+    if (moveFriend.friendVisit) {
+      setShow(document.getElementById("friendNickName").offsetWidth >= 271);
+    }
+  }, [moveFriend]);
 
   const navigate = useNavigate();
   const moveYearChange = () => {
@@ -122,6 +125,7 @@ const MonthBtn = styled.button`
   box-shadow: 3px 3px 10px #0f296b33;
   border: 0.20000000298023224px solid #ffffff;
   border-radius: 5px;
+  cursor: pointer;
 `;
 
 const Year = styled.div`
@@ -176,6 +180,11 @@ const State = styled.div`
   padding: 11px 15px 13px 15px;
   color: #ffffff;
   font: 15px/18px GmarketSansMedium;
+`;
+
+const Home = styled(HomeImg)`
+  margin-top: 3px;
+  cursor: pointer;
 `;
 
 export default MainTop;

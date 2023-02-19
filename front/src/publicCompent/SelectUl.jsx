@@ -40,8 +40,8 @@ function SelectUl({
     <div>
       {firend ? (
         <SelectBtn
-          onMouseOver={() => toggleUl(true)}
-          onMouseOut={() => toggleUl(false)}
+          onMouseOver={() => setShow(true)}
+          onMouseOut={() => setShow(false)}
         >
           {children}
           {show && (
@@ -58,12 +58,16 @@ function SelectUl({
           )}
         </SelectBtn>
       ) : (
-        <SelectBtn onClick={toggleUl}>
+        <SelectBtn onClick={toggleUl} onBlur={() => setShow(false)}>
           {children}
           {show && (
             <SelectList firend={firend}>
               {selectList.map((value, index) => (
-                <SelectItem onClick={conversion} key={index}>
+                <SelectItem
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={conversion}
+                  key={index}
+                >
                   {value}
                 </SelectItem>
               ))}
@@ -101,6 +105,8 @@ const SelectItem = styled.li`
   margin-top: 15px;
   font: 15px Gmarket Sans;
   color: #ffffff;
+  user-select: none;
+  cursor: pointer;
 `;
 
 const NickNameOver = styled.div`

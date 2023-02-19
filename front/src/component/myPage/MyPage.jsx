@@ -27,7 +27,6 @@ function MyPage(props) {
         { id: "nickName", InfoTitle: "닉네임", content: response.nickname },
         { id: "email", InfoTitle: "이메일", content: response.email },
       ]);
-      console.log("response:::", response.image);
       setPreviewImg(
         response.image
           ? response.image + `?time=${new Date().getTime()}`
@@ -79,11 +78,8 @@ function MyPage(props) {
       }
       formData.append(element.id, value);
     }
-
     formData.append("image", imgData);
     formData.append("isImage", isImg);
-    console.log(imgData);
-    console.log(typeof isImg);
     const response = await myPageApi.updateMyInfo(formData);
     if (!response.success) {
       alert(response.error);
@@ -180,6 +176,7 @@ const Img = styled.img`
   border-radius: 50%;
   box-shadow: 5px 5px 20px #0f296b26;
   background-color: #b8c0d1;
+  cursor: pointer;
 `;
 
 const GreetingsContainer = styled.div`
@@ -240,6 +237,9 @@ const UpdateBtn = styled.div`
 
   font: 15px/18px GmarketSansMedium;
   color: #393939;
+
+  user-select: none;
+  cursor: pointer;
 `;
 
 const SortRight = styled.div`

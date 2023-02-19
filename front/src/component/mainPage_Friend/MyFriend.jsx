@@ -130,6 +130,8 @@ const FriendInfo = styled(motion.div)`
   flex-wrap: wrap;
 
   transform: ${({ move }) => `translateX(${move}px)`};
+  user-select: none;
+  cursor: pointer;
 `;
 
 const FriendImg = styled.img`

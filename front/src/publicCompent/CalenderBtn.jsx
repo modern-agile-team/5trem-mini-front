@@ -15,11 +15,19 @@ function CalenderBtn({
   writtenDiaryBtn,
   setExistDiary,
   writtenTodoListBtn,
+  holiday,
 }) {
   const today = new Date();
   const todayYear = today.getFullYear();
   const todayMonth = today.getMonth();
   const todayDate = today.getDate();
+
+  const formattedDate = `${calendarDate.join("")}${
+    date < 10 ? "0" + date : date
+  }`;
+  const isHoliday = holiday.some(
+    (day) => day.locdate === Number(formattedDate)
+  );
 
   const IsItToday =
     todayYear === calendarDate[0] &&
@@ -67,7 +75,12 @@ function CalenderBtn({
           }}
         >
           <PushBtn today={IsItToday} onClick={closeSideWindow} diary={diary}>
-            <PushFont today={IsItToday} date={date} dayOfTheWeek={dayOfTheWeek}>
+            <PushFont
+              today={IsItToday}
+              date={date}
+              dayOfTheWeek={dayOfTheWeek}
+              isHoliday={isHoliday}
+            >
               {date}
             </PushFont>
             <ToDoCount date={date} diary={diary}>
@@ -94,6 +107,7 @@ function CalenderBtn({
                 date={date}
                 dayOfTheWeek={dayOfTheWeek}
                 reduction={reduction}
+                isHoliday={isHoliday}
               >
                 {date}
               </Font>
@@ -133,6 +147,8 @@ const Btn = styled.button`
       : "linear-gradient(95deg, #e8ebf2 0%, #e8ebf2 0%, #f2f3f7 100%)"};
   box-shadow: ${({ today }) =>
     today ? "5px 5px 30px #0F296B66" : "5px 5px 20px #0f296b33"};
+  user-select: none;
+  cursor: pointer;
 `;
 
 const PushBtn = styled.button`
@@ -148,11 +164,13 @@ const PushBtn = styled.button`
   box-shadow: ${({ today }) =>
     today ? "inset 6px 6px 12px #0f296b3d" : "inset 6px 6px 10px #0F296B26"};
   border: ${({ today }) => (today ? "none" : "0.2px solid #ffffff")};
+  user-select: none;
+  cursor: pointer;
 `;
 
 const Font = styled.div`
-  color: ${({ dayOfTheWeek }) =>
-    dayOfTheWeek === 0 || dayOfTheWeek % 7 === 0
+  color: ${({ dayOfTheWeek, isHoliday }) =>
+    dayOfTheWeek === 0 || dayOfTheWeek % 7 === 0 || isHoliday
       ? "red"
       : (dayOfTheWeek + 1) % 7 === 0
       ? "blue"
@@ -164,8 +182,8 @@ const Font = styled.div`
 `;
 
 const PushFont = styled.div`
-  color: ${({ dayOfTheWeek, today }) =>
-    dayOfTheWeek === 0 || dayOfTheWeek % 7 === 0
+  color: ${({ dayOfTheWeek, today, isHoliday }) =>
+    dayOfTheWeek === 0 || dayOfTheWeek % 7 === 0 || isHoliday
       ? "red"
       : (dayOfTheWeek + 1) % 7 === 0
       ? "blue"

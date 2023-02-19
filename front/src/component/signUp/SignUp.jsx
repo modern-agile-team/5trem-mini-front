@@ -116,13 +116,13 @@ export default function SignUp() {
     },
     {
       id: "privacy",
-      description: "이용약관에 동의 하십니까?",
+      description: "개인정보 수집 및 이용에 동의하십니까?",
       isRequired: true,
     },
-    { id: "sms", description: "이용약관에 동의 하십니까?", isRequired: false },
+    { id: "sms", description: "SMS 수신을 동의 하십니까?", isRequired: false },
     {
       id: "email",
-      description: "이용약관에 동의 하십니까?",
+      description: "이메일 수신을 동의 하십니까?",
       isRequired: false,
     },
   ];

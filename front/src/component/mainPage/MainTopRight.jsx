@@ -27,7 +27,9 @@ function MainTopRight({
         refreshFriend={refreshFriend}
         setMoveFriend={setMoveFriend}
       >
-        <StyleTextBtn viewer={friendViewer}>친구</StyleTextBtn>
+        <StyleTextBtn viewer={friendViewer} noClick={true}>
+          친구
+        </StyleTextBtn>
       </SelectFriend>
       <StyleTextBtn viewer={myPageViewer} onClick={() => setMyPageViewer(true)}>
         마이페이지
@@ -47,4 +49,5 @@ const StyleTextBtn = styled.div`
   font-size: 25px;
   color: #707070;
   user-select: none;
+  cursor: ${({ noClick }) => (noClick ? null : "pointer")};
 `;

@@ -4,8 +4,8 @@ import styled from "styled-components";
 import { ReactComponent as CheckImg } from "../../assets/todoCheck.svg";
 import { ReactComponent as NoneCheckImg } from "../../assets/todoNoneCheck.svg";
 import { ReactComponent as XImg } from "../../assets/todoXImg.svg";
-import { ReactComponent as Like } from "../../assets/heart.svg";
-import { ReactComponent as FilledLike } from "../../assets/filledheart.svg";
+import { ReactComponent as LikeImg } from "../../assets/heart.svg";
+import { ReactComponent as FilledLikeImg } from "../../assets/filledheart.svg";
 import toDoListApi from "../../api/toDoListApi";
 
 function ToDoItem({ todo, setChangeState, changeState, friend }) {
@@ -94,9 +94,9 @@ function ToDoItem({ todo, setChangeState, changeState, friend }) {
   return (
     <div>
       <StateBtn>
-        {!friend && !check && <NoneCheckImg onClick={checkChange} />}
-        {!friend && check && <CheckImg onClick={checkChange} />}
-        {!friend && <XImg onClick={deleteToDoList} />}
+        {!friend && !check && <NoneCheck onClick={checkChange} />}
+        {!friend && check && <Check onClick={checkChange} />}
+        {!friend && <Delete onClick={deleteToDoList} />}
         {hasLike ? (
           likeCheck ? (
             <FilledLike onClick={subLike} />
@@ -180,4 +180,21 @@ const LikeCnt = styled.span`
   color: #393939;
   text-align: center;
   user-select: none;
+`;
+
+const Check = styled(CheckImg)`
+  cursor: pointer;
+`;
+
+const NoneCheck = styled(NoneCheckImg)`
+  cursor: pointer;
+`;
+const Delete = styled(XImg)`
+  cursor: pointer;
+`;
+const Like = styled(LikeImg)`
+  cursor: pointer;
+`;
+const FilledLike = styled(FilledLikeImg)`
+  cursor: pointer;
 `;
