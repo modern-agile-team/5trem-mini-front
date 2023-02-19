@@ -40,10 +40,13 @@ function MainTop({
       const yearChange = Number(location.state.year);
       setYear(yearChange);
     }
+  }, []);
+
+  useEffect(() => {
     if (moveFriend.friendVisit) {
       setShow(document.getElementById("friendNickName").offsetWidth >= 271);
     }
-  }, []);
+  }, [moveFriend]);
 
   const navigate = useNavigate();
   const moveYearChange = () => {
